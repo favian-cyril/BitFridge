@@ -23,13 +23,13 @@ This app is also ideal for all college students who have limited ingredients for
 Project Goals
 ---------
 
-#### Goals
+### Goals
 
 
-#### User Target
+### User Target
 For people who do not shop often and prefer to use whatever ingredients they have. 
 
-#### Expected Outcome
+### Expected Outcome
 By the end of the semester, **BitFridge** is expected to be able to take a set of
 ingredients provided by the user and return with a list of recipes that contain said
 ingredients. **BitFridge** will also come with supporting features to help user find the
