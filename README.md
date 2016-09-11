@@ -1,6 +1,6 @@
 BitFridge
 =========
-**Group C**
+### Group C
   - 1406546185 - Farras Apsari Putri
   - 1406546134 - Irsyad Nabil
   - 1406546153 - Meta Andrini Utari
