@@ -23,8 +23,6 @@ This app is also ideal for all college students who have limited ingredients for
 Project Goals
 ---------
 
-The goal of BitFridge is to provide user with new ways to make the ingredients they already have to eat.
-
 #### Goals
 
 
