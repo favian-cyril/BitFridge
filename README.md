@@ -25,6 +25,7 @@ Project Goals
 
 ### Goals
 
+**BitFridge** is made to be able to assist the needs of people who want to maximize their ingredients that they have available in their loot. With the help of **BitFridge**, their ingredients can be made into a more meaningful recipe and menu that they are able to make out of it. The essence of **BitFridge** is important, because it will create a sense of awareness and creativity from the user in what to acquire in an efficient manner to perform a good cook in a more proper meal. By having **BitFridge**, one could acquire a sense of beneficiary and habit in their way they go about their cooking. Whether preparing a simple brew or making the most out of a scallop or braise, a **BitFridge** user will have day-to-day cooking as a fun and innovative experience. This will also allow them to have a measured expense on a mere routine basis, with having a stable expenditure on what to buy in order to have a delightful cooking experience.
 
 ### User Target
 For people who do not shop often and prefer to use whatever ingredients they have. 
