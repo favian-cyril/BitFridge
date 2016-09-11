@@ -32,6 +32,10 @@ The goal of BitFridge is to provide user with new ways to make the ingredients t
 For people who do not shop often and prefer to use whatever ingredients they have. 
 
 #### Expected Outcome
+By the end of the semester, **BitFridge** is expected to be able to take a set of
+ingredients provided by the user and return with a list of recipes that contain said
+ingredients. **BitFridge** will also come with supporting features to help user find the
+right recipe for them, ranging from recommended recipes to search filters.
 
 
 Project Vision
