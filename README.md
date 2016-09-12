@@ -39,7 +39,7 @@ right recipe for them, ranging from recommended recipes to search filters.
 
 Project Vision
 ---------
-
+The vision of this project is to encourage people to eat healthy by cooking with fresh ingredients, also it encourages people to shop for fresh raw ingredients rather than factory made frozen food.
 SCRUM Core Team
 ---------
 
