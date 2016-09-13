@@ -30,8 +30,7 @@ Project Goals
 ### User Target
 1. **University Students** who have limited ingredients to work with, yet plan to cook
 innovative meals that they otherwise would not have made.
-2. **Young Professionals** who have little time to shop for groceries and prefer to use
-whatever ingredients they have.
+2. **Dieters** who are seeking to make their own meals that adhere to their diets.
 
 ### Expected Outcome
 By the end of the semester, **BitFridge** is expected to be able to take a set of
