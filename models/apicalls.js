@@ -33,6 +33,21 @@ function _get (url, params, cb) {
   request
     .get(options, function (err, res, body) {
       if (!err && res.statusCode == 200)
+        cb(null, res, JSON.parse(body))
+    })
+    .on('error', function (err) {
+      cb(err)
+    })
+}
+
+/**
+ * Wrapper POST function using 'request' library
+ * Callback receives (err, res, body)
+ */
+function _post (options, cb) {
+  request
+    .get(options, function (err, res, body) {
+      if (!err && res.statusCode == 200)
         cb(null, res, body)
     })
     .on('error', function (err) {
