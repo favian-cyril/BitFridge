@@ -1,7 +1,5 @@
-var request = require('request')
-var append = require('append-query')
-
-require('dotenv').config()
+import request from 'request'
+import append from 'append-query'
 
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
 
@@ -55,4 +53,4 @@ function _post (options, cb) {
     })
 }
 
-module.exports = searchIngredients
+export default searchIngredients
