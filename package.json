@@ -1,0 +1,28 @@
+{
+  "name": "bitfridge",
+  "version": "1.0.0",
+  "description": "BitFridge ========= ### Group C   - 1406546185 - Farras Apsari Putri   - 1406546134 - Irsyad Nabil   - 1406546153 - Meta Andrini Utari   - 1406641621 - Favian Cyrilvarick Amrullah   - 1406546140 - Abdurrahman Faris Agianda",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "react": "~1.11.0",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/favian-cyril/BitFridge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/favian-cyril/BitFridge/issues"
+  },
+  "homepage": "https://github.com/favian-cyril/BitFridge#readme"
+}
