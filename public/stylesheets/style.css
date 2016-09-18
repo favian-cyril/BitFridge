@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+.media.ingredient {
+  padding: 5px;
+  margin-top: 0;
+}
+
+.media.ingredient:hover {
+  background-color: #DADADA;
+}
+
+h4.media-heading {
+  text-transform: capitalize;
+}
