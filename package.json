@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "build": "gulp bundle",
-    "dev": "watchify ./bin/www -t babelify -p livereactload -o ./public/index_bundle.js"
+    "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js"
   },
   "dependencies": {
     "append-query": "1.1.0",
