@@ -9,6 +9,11 @@ export default function (props) {
       <div className='media-body'>
         <h4 className='media-heading'>{props.title}</h4>
       </div>
+      <div className='media-right media-middle'>
+        <button className='btn btn-default btn-lg'>
+          <span className="glyphicon glyphicon-plus"> </span>
+        </button>
+      </div>
     </li>
   )
 }
