@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www",
-    "build": "node ./scripts/build_bundle.js"
+    "build": "gulp bundle",
+    "dev": "watchify ./bin/www -t babelify -p livereactload -o ./public/index_bundle.js"
   },
   "dependencies": {
     "append-query": "1.1.0",
