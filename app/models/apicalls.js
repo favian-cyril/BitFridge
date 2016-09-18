@@ -1,7 +1,7 @@
-import request from 'request'
-import append from 'append-query'
+var request = require('request')
+var append = require ('append-query')
 
-const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
+var SPOONACULAR_API_KEY = 'glMwvNQWGMmsh9O1FUmZDPp6sJ67p1aNuApjsn8FLnNij2cDCx'
 
 /**
  * Performs ingredient search with ingredient metadata.
@@ -28,6 +28,7 @@ function _get (url, params, cb) {
     url: append(url, params),
     headers: { 'X-Mashape-Key': SPOONACULAR_API_KEY }
   }
+  console.log(options)
   request
     .get(options, function (err, res, body) {
       if (!err && res.statusCode == 200)
@@ -53,4 +54,4 @@ function _post (options, cb) {
     })
 }
 
-export default searchIngredients
+module.exports = searchIngredients

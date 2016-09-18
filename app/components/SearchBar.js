@@ -6,20 +6,29 @@ export default class SearchBar extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(event) {
-    this.props.onInput(event.target.value)
+  handleChange() {
+    this.props.onInput(
+      this.refs.searchInput.value
+    )
   }
 
   render() {
     return (
-      <form>
+      <div className="input-group input-group-lg col-lg-8 col-lg-offset-2">
         <input
+          className="form-control"
           type="text"
+          ref="searchInput"
           placeholder="Search for ingredients..."
           value={this.props.text}
           onChange={this.handleChange}
         />
-      </form>
+        <span className="input-group-btn">
+          <button className="btn btn-default" type="button">
+            <span className="glyphicon glyphicon-search"> </span>
+          </button>
+        </span>
+      </div>
     )
   }
 }

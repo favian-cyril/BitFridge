@@ -1,12 +1,22 @@
 import React from 'react'
 import searchIngredients from '../models/apicalls'
+import classnames from 'classnames'
+import IngredientSuggestion from './IngredientSuggestion'
 
-export default class SuggestionsList extends React.Component {
+var onClickOutside = require('react-onclickoutside')
+
+class SuggestionsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      results: []
+      results: '',
+      hidden: false
     }
+    this.handleClickOutside = this.handleClickOutside.bind(this)
+  }
+
+  handleClickOutside(e) {
+    this.setState({ hidden: true })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -15,14 +25,34 @@ export default class SuggestionsList extends React.Component {
       if (err)
         throw err
       else if (!err && res.statusCode === 200) {
-        this.state.results = body
+        this.setState({ results: body, hidden: false })
       }
     })
   }
 
   render() {
+    var imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
+    var status = this.state.hidden ? '' : 'open'
+    var resultsList = this.state.results
+      ? <ul className='media-list dropdown-menu'>
+        {
+          this.state.results.map((item, i) => {
+            return (
+              <IngredientSuggestion
+                src={ imgBaseURL + item.image }
+                title={ item.name }
+                key={ i }/>
+            )
+          })
+        }
+      </ul>
+      : <span> </span>
     return (
-      <p>{this.state.results}</p>
+      <div className={ classnames('col-lg-8 col-lg-offset-2 dropdown clearfix', status) }>
+        {resultsList}
+      </div>
     )
   }
 }
+
+export default onClickOutside(SuggestionsList)

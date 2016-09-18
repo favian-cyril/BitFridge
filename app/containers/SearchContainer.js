@@ -12,7 +12,7 @@ export default class SearchContainer extends React.Component {
   }
 
   handleInput(input) {
-    this.state.text = input
+    this.setState({text: input})
   }
 
   render() {
