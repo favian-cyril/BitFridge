@@ -8,12 +8,13 @@ a {
 }
 
 .media.ingredient {
-  padding: 5px;
+  padding: 5px 10px;
   margin-top: 0;
 }
 
 .media.ingredient:hover {
-  background-color: #DADADA;
+  background-color: #dd4400;
+  color: #fff;
 }
 
 h4.media-heading {
