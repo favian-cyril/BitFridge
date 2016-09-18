@@ -28,7 +28,6 @@ function _get (url, params, cb) {
     url: append(url, params),
     headers: { 'X-Mashape-Key': SPOONACULAR_API_KEY }
   }
-  console.log(options)
   request
     .get(options, function (err, res, body) {
       if (!err && res.statusCode == 200)
