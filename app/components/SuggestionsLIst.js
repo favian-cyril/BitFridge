@@ -3,38 +3,32 @@ import searchIngredients from '../models/apicalls'
 import classnames from 'classnames'
 import IngredientSuggestion from './IngredientSuggestion'
 
-var onClickOutside = require('react-onclickoutside')
 
-class SuggestionsList extends React.Component {
+export default class SuggestionsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       results: '',
-      hidden: false
+      loading: false
     }
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-  }
-
-  handleClickOutside(e) {
-    this.setState({ hidden: true })
+    this.processResults = this.processResults.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
-    var searchText = nextProps.searchText
-    searchIngredients(searchText, true, (err, res, body) => {
-      if (err)
-        throw err
+    this.setState({ results: '', loading: true })
+    searchIngredients(nextProps.searchText, true, (err, res, body) => {
+      if (err) throw err
       else if (!err && res.statusCode === 200) {
-        this.setState({ results: body, hidden: false })
+        this.setState({ results: body })
       }
     })
+    this.setState({ loading: false })
   }
-
-  render() {
+  
+  processResults() {
     var imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
-    var status = this.state.hidden ? '' : 'open'
-    var resultsList = this.state.results
-      ? <ul className='media-list dropdown-menu'>
+    return (
+      <ul className='media-list dropdown-menu'>
         {
           this.state.results.map((item, i) => {
             return (
@@ -46,13 +40,18 @@ class SuggestionsList extends React.Component {
           })
         }
       </ul>
-      : <span> </span>
+    )
+  }
+
+  render() {
+    var results = (this.state.results.length && this.props.isFocused && this.props.searchText.length)
+      ? this.processResults() 
+      : null
+    var status = this.state.hidden ? '' : 'open'
     return (
       <div className={ classnames('col-lg-8 col-lg-offset-2 dropdown clearfix', status) }>
-        {resultsList}
+        {results}
       </div>
     )
   }
 }
-
-export default onClickOutside(SuggestionsList)

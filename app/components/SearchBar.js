@@ -4,12 +4,22 @@ export default class SearchBar extends React.Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
   }
 
   handleChange() {
     this.props.onInput(
       this.refs.searchInput.value
     )
+  }
+
+  handleFocus() {
+    this.props.setFocus(true)
+  }
+
+  handleBlur() {
+    this.props.setFocus(false)
   }
 
   render() {
@@ -22,6 +32,8 @@ export default class SearchBar extends React.Component {
           placeholder="Search for ingredients..."
           value={this.props.text}
           onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
         />
         <span className="input-group-btn">
           <button className="btn btn-default" type="button">
