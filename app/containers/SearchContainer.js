@@ -19,7 +19,6 @@ export default class SearchContainer extends React.Component {
   
   handleFocus(focus) {
     this.setState({ isFocused: focus })
-    console.log('this.state.isFocused: ' + focus)
   }
 
   render() {
