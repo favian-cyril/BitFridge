@@ -10,9 +10,8 @@ export default class SearchBar extends React.Component {
   }
 
   handleChange() {
-    this.props.onInput(
-      this.refs.searchInput.value
-    )
+    var searchQuery = this.refs.searchInput.value
+    this.props.onInput(searchQuery)
   }
 
   handleFocus() {

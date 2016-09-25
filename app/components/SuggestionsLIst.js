@@ -15,14 +15,22 @@ export default class SuggestionsList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ results: '', loading: true })
-    searchIngredients(nextProps.searchText, true, (err, res, body) => {
-      if (err) throw err
-      else if (!err && res.statusCode === 200) {
-        this.setState({ results: body })
-      }
-    })
-    this.setState({ loading: false })
+    var searchText = nextProps.searchText.trim()
+
+    if (searchText.length > 1) {
+      // Clear results, set loading to true for anims
+      this.setState({ results: '', loading: true })
+
+      // Fetch results
+      searchIngredients(searchText, true, (err, res, body) => {
+        if (err) throw err
+        else if (!err && res.statusCode === 200) {
+          this.setState({ results: body })
+        }
+        // Clear loading anims
+        this.setState({ loading: false })
+      })
+    }
   }
   
   processResults() {
