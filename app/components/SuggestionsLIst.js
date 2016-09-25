@@ -40,9 +40,7 @@ export default class SuggestionsList extends React.Component {
               this.setState({ results: body })
             else
               this.setState({ errtype: 'notfound'})
-        } else {
-            console.log(res)
-          }
+        }
         // Clear loading anims
         this.setState({ loading: false })
       })
@@ -69,11 +67,11 @@ export default class SuggestionsList extends React.Component {
 
   render() {
     var results, status = null
-    if (this.props.searchText.length > 1) {
-      status = ' open'
+    if (this.props.isFocused && this.props.searchText.length > 1) {
+      status = 'open'
       if (this.state.loading) {
         results = <Preloader/>
-      } else if(this.state.errtype == 'offline') {
+      } else if (this.state.errtype == 'offline') {
         results = <ErrorMsg msg='No connection' desc='Check your internet connection.' img='err-noconnection.png'/>
       } else if (this.state.errtype == 'notfound') {
         results = <ErrorMsg msg='No results' desc='Your search did not return any results.' img='err-noresults.png'/>
@@ -82,7 +80,7 @@ export default class SuggestionsList extends React.Component {
       }
     }
     return (
-      <div className={'dropdown clearfix' + status}>
+      <div className={'dropdown clearfix ' + status}>
         {results}
       </div>
     )
