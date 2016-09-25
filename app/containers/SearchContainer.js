@@ -1,6 +1,7 @@
 import React from 'react'
 import SearchBar from '../components/SearchBar'
 import SuggestionsList from '../components/SuggestionsList'
+import { Debounce } from 'react-throttle'
 
 export default class SearchContainer extends React.Component {
   constructor(props) {
@@ -24,11 +25,12 @@ export default class SearchContainer extends React.Component {
   render() {
     return (
       <div>
-        <SearchBar
-          text={this.state.text}
-          onInput={this.handleInput}
-          setFocus={this.handleFocus}
-        />
+        <Debounce time='400' handler='onInput'>
+          <SearchBar
+            onInput={this.handleInput}
+            setFocus={this.handleFocus}
+          />
+        </Debounce>
         <SuggestionsList
           searchText={this.state.text}
           isFocused={this.state.isFocused}

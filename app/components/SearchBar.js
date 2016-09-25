@@ -30,7 +30,6 @@ export default class SearchBar extends React.Component {
           type="text"
           ref="searchInput"
           placeholder="Search for ingredients..."
-          value={this.props.text}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

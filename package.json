@@ -22,6 +22,7 @@
     "react-dom": "15.2.1",
     "react-onclickoutside": "5.7.0",
     "react-router": "2.5.2",
+    "react-throttle": "0.3.0",
     "request": "2.74.0",
     "serve-favicon": "~2.3.0"
   },
