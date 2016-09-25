@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "build": "gulp bundle",
-    "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js"
+    "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js",
+    "test": "mocha test/**/*-test.js"
   },
   "dependencies": {
     "append-query": "1.1.0",
@@ -30,9 +31,12 @@
     "babel-preset-react": "6.11.1",
     "babelify": "7.3.0",
     "browserify": "13.1.0",
+    "enzyme": "^2.4.1",
     "gulp": "3.9.1",
     "livereactload": "3.0.0",
+    "mocha": "^3.0.2",
     "react-proxy": "1.1.8",
+    "simple-mock": "^0.7.0",
     "vinyl-source-stream": "1.1.0",
     "watchify": "3.7.0"
   },
