@@ -24,17 +24,19 @@ export default class SearchContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <Debounce time='400' handler='onInput'>
-          <SearchBar
-            onInput={this.handleInput}
-            setFocus={this.handleFocus}
+      <div className='container'>
+        <div className='col-lg-8 col-md-10 col-sm-12 col-xs-12 centered'>
+          <Debounce time='400' handler='onInput'>
+            <SearchBar
+              onInput={this.handleInput}
+              setFocus={this.handleFocus}
+            />
+          </Debounce>
+          <SuggestionsList
+            searchText={this.state.text}
+            isFocused={this.state.isFocused}
           />
-        </Debounce>
-        <SuggestionsList
-          searchText={this.state.text}
-          isFocused={this.state.isFocused}
-        />
+        </div>
       </div>
     )
   }

@@ -20,3 +20,27 @@ a {
 h4.media-heading {
   text-transform: capitalize;
 }
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+div.search-error {
+  color: rgba(0, 0, 0, 0.4);
+  padding: 0 10px 10px 10px;
+  width: 100%;
+}
+
+div.search-error > h3 {
+  margin-top: 0;
+}
+
+div.preloader {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.centered{
+  float: none;
+  margin: 0 auto;
+}
