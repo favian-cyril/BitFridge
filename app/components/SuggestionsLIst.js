@@ -30,10 +30,8 @@ export default class SuggestionsList extends React.Component {
       searchIngredients(searchText, (err, res, body) => {
         if (err) throw err
         else if (!err && res.statusCode === 200) {
-          if (lastTimestamp === this.state.timestamp) {
+          if (lastTimestamp === this.state.timestamp)
             this.setState({ results: body })
-          } else {
-          }
         }
         // Clear loading anims
         this.setState({ loading: false })
