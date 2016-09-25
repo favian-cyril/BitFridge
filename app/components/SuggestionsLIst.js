@@ -28,7 +28,7 @@ export default class SuggestionsList extends React.Component {
 
       // Fetch results
       searchIngredients(searchText, (err, res, body) => {
-        if (err) throw err
+        if (err) console.log(err.name)
         else if (!err && res.statusCode === 200) {
           if (lastTimestamp === this.state.timestamp)
             this.setState({ results: body })
