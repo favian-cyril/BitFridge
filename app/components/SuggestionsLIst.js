@@ -9,7 +9,8 @@ export default class SuggestionsList extends React.Component {
     super(props)
     this.state = {
       results: '',
-      loading: false
+      loading: false,
+      timestamp: null
     }
     this.processResults = this.processResults.bind(this)
   }
@@ -21,11 +22,21 @@ export default class SuggestionsList extends React.Component {
       // Clear results, set loading to true for anims
       this.setState({ results: '', loading: true })
 
+      // Create timestamp
+      const lastTimestamp = (new Date).getTime()
+      this.setState({ timestamp: lastTimestamp })
+      console.log('created timestamp: ', lastTimestamp, searchText)
+
       // Fetch results
-      searchIngredients(searchText, true, (err, res, body) => {
+      searchIngredients(searchText, (err, res, body) => {
         if (err) throw err
         else if (!err && res.statusCode === 200) {
-          this.setState({ results: body })
+          if (lastTimestamp === this.state.timestamp) {
+            console.log('accepted timestamp: ', lastTimestamp, ' current ts: ', this.state.timestamp, searchText)
+            this.setState({ results: body })
+          } else {
+            console.log('rejected timestamp: ', lastTimestamp, ' current ts: ', this.state.timestamp, searchText)
+          }
         }
         // Clear loading anims
         this.setState({ loading: false })
