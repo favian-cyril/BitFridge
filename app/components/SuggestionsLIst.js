@@ -25,17 +25,14 @@ export default class SuggestionsList extends React.Component {
       // Create timestamp
       const lastTimestamp = (new Date).getTime()
       this.setState({ timestamp: lastTimestamp })
-      console.log('created timestamp: ', lastTimestamp, searchText)
 
       // Fetch results
       searchIngredients(searchText, (err, res, body) => {
         if (err) throw err
         else if (!err && res.statusCode === 200) {
           if (lastTimestamp === this.state.timestamp) {
-            console.log('accepted timestamp: ', lastTimestamp, ' current ts: ', this.state.timestamp, searchText)
             this.setState({ results: body })
           } else {
-            console.log('rejected timestamp: ', lastTimestamp, ' current ts: ', this.state.timestamp, searchText)
           }
         }
         // Clear loading anims
