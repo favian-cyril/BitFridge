@@ -10,7 +10,8 @@ export default class SuggestionsList extends React.Component {
     this.state = {
       results: '',
       loading: false,
-      timestamp: null
+      timestamp: null,
+      errtype: '' // offline or notfound
     }
     this.processResults = this.processResults.bind(this)
   }
@@ -28,7 +29,12 @@ export default class SuggestionsList extends React.Component {
 
       // Fetch results
       searchIngredients(searchText, (err, res, body) => {
-        if (err) throw err
+        if (err)
+          if (res.name == 'TypeError') {
+            this.setState({ errtype: 'offline'})
+          } elif (body.length == 0) {
+            this.setState({ errtype: 'notfound'})
+          }
         else if (!err && res.statusCode === 200) {
           if (lastTimestamp === this.state.timestamp) {
             this.setState({ results: body })
@@ -40,7 +46,7 @@ export default class SuggestionsList extends React.Component {
       })
     }
   }
-  
+
   processResults() {
     var imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
     return (
@@ -58,10 +64,16 @@ export default class SuggestionsList extends React.Component {
       </ul>
     )
   }
-
+if (this.state.loading === true) {
+  render() {
+    <Preloader>
+      <ErrorMsg/>
+    </Preloader>
+  }
+} else {
   render() {
     var results = (this.state.results.length && this.props.isFocused && this.props.searchText.length)
-      ? this.processResults() 
+      ? this.processResults()
       : null
     var status = this.state.hidden ? '' : 'open'
     return (
