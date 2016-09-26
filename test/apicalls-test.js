@@ -8,8 +8,8 @@ describe('searchIngredients()', function() {
   afterEach(function () {
   simple.restore()
 })
-  it('should call _get', function() {
-    simple.mock(searchIngredients, '_get')
+  it('should call get', function() {
+    simple.mock(searchIngredients, 'get')
     searchIngredients('foo', true, function(err, res, body) {
       if (err) return done(err)
 
@@ -17,7 +17,7 @@ describe('searchIngredients()', function() {
     })
   })
   it('should return json data', function() {
-    simple.mock(requeststub, 'get').callbackWith(null, 200, 'foo')
+    simple.mock(requests, 'get').callbackWith(null, 200, 'foo')
 
     searchIngredients('foo', true, function(err, res, body) {
       if (err) return done(err)
