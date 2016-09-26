@@ -1,6 +1,7 @@
 install:
   - npm install
-before_script:
-  - npm build
 script:
   - npm test
+language: node_js
+node_js:
+  - "node"
