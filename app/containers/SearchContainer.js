@@ -17,7 +17,7 @@ export default class SearchContainer extends React.Component {
   handleInput(input) {
     this.setState({ text: input })
   }
-  
+
   handleFocus(focus) {
     this.setState({ isFocused: focus })
   }

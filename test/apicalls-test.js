@@ -13,16 +13,23 @@ describe('searchIngredients()', function() {
     searchIngredients('foo', true, function(err, res, body) {
       if (err) return done(err)
 
-      assert.equal(apicalls._get.called, true)
+      assert.equal(apicalls.get.called, true)
     })
   })
-  it('should return json data', function() {
-    simple.mock(requests, 'get').callbackWith(null, 200, 'foo')
+  it('should return data', function() {
+    simple.mock(request, 'get').callbackWith(null, 200, 'foo')
 
     searchIngredients('foo', true, function(err, res, body) {
       if (err) return done(err)
 
-      assert.equal(JSON.stringify(body), 'foo')
+      assert.equal(body, 'foo')
+    })
+  })
+  it('should catch error', function() {
+    simple.mock(request, 'get').callbackWith('error', 200, 'foo')
+
+    searchIngredients('foo', true, function(err, res, body) {
+      assert.equal(err, 'error')
     })
   })
 })
