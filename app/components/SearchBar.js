@@ -24,7 +24,7 @@ export default class SearchBar extends React.Component {
 
   render() {
     return (
-      <div className="input-group input-group-lg col-lg-8 col-lg-offset-2">
+      <div className="form-group form-group-lg has-feedback">
         <input
           className="form-control"
           type="text"
@@ -34,11 +34,7 @@ export default class SearchBar extends React.Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
-        <span className="input-group-btn">
-          <button className="btn btn-default" type="button">
-            <span className="glyphicon glyphicon-search"> </span>
-          </button>
-        </span>
+        <span className="glyphicon glyphicon-search form-control-feedback"> </span>
       </div>
     )
   }

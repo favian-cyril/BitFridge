@@ -1,9 +1,12 @@
 import React from 'react'
 
-export default function () {
-  return(
-    <div className={ classnames('col-lg-4 col-lg-offset-2 dropdown clearfix') }>
 
+export default function () {
+  const imgfile = '/images/spin.gif'
+  var classes = 'preloader dropdown-menu'
+  return (
+    <div className={classes}>
+      <img src={imgfile} className='center-block img-responsive'/>
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import React from 'react'
 import searchIngredients from '../models/apicalls'
-import classnames from 'classnames'
 import IngredientSuggestion from './IngredientSuggestion'
+import ErrorMsg from './ErrorMsg'
+import Preloader from './Preloader'
 
 
 export default class SuggestionsList extends React.Component {
@@ -11,7 +12,7 @@ export default class SuggestionsList extends React.Component {
       results: '',
       loading: false,
       timestamp: null,
-      errtype: '' // offline or notfound
+      errtype: null
     }
     this.processResults = this.processResults.bind(this)
   }
@@ -21,7 +22,7 @@ export default class SuggestionsList extends React.Component {
 
     if (searchText.length > 1) {
       // Clear results, set loading to true for anims
-      this.setState({ results: '', loading: true })
+      this.setState({ results: '', errtype: null, loading: true })
 
       // Create timestamp
       const lastTimestamp = (new Date).getTime()
@@ -30,16 +31,15 @@ export default class SuggestionsList extends React.Component {
       // Fetch results
       searchIngredients(searchText, (err, res, body) => {
         if (err)
-          if (res.name == 'TypeError') {
+          if (err.name == 'TypeError') {
             this.setState({ errtype: 'offline'})
-          } elif (body.length == 0) {
-            this.setState({ errtype: 'notfound'})
-          }
+          } else throw err
         else if (!err && res.statusCode === 200) {
-          if (lastTimestamp === this.state.timestamp) {
-            this.setState({ results: body })
-          } else {
-          }
+          if (lastTimestamp === this.state.timestamp)
+            if (body.length != 0)
+              this.setState({ results: body })
+            else
+              this.setState({ errtype: 'notfound'})
         }
         // Clear loading anims
         this.setState({ loading: false })
@@ -64,20 +64,23 @@ export default class SuggestionsList extends React.Component {
       </ul>
     )
   }
-if (this.state.loading === true) {
+
   render() {
-    <Preloader>
-      <ErrorMsg/>
-    </Preloader>
-  }
-} else {
-  render() {
-    var results = (this.state.results.length && this.props.isFocused && this.props.searchText.length)
-      ? this.processResults()
-      : null
-    var status = this.state.hidden ? '' : 'open'
+    var results, status = null
+    if (this.props.isFocused && this.props.searchText.length > 1) {
+      status = 'open'
+      if (this.state.loading) {
+        results = <Preloader/>
+      } else if (this.state.errtype == 'offline') {
+        results = <ErrorMsg msg='No connection' desc='Check your internet connection.' img='err-noconnection.png'/>
+      } else if (this.state.errtype == 'notfound') {
+        results = <ErrorMsg msg='No results' desc='Your search did not return any results.' img='err-noresults.png'/>
+      } else if (this.state.errtype === null && this.state.results.length) {
+        results = this.processResults()
+      }
+    }
     return (
-      <div className={ classnames('col-lg-8 col-lg-offset-2 dropdown clearfix', status) }>
+      <div className={'dropdown clearfix ' + status}>
         {results}
       </div>
     )
