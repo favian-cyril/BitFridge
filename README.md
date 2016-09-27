@@ -1,5 +1,8 @@
-BitFridge
-=========
+# BitFridge
+[![travis][travis-image]][travis-url]
+
+[travis-image]: https://img.shields.io/travis/favian-cyril/BitFridge.svg?style=flat
+[travis-url]: https://travis-ci.org/favian-cyril/BitFridge
 ### Group C
   - 1406546185 - Farras Apsari Putri
   - 1406546134 - Irsyad Nabil
