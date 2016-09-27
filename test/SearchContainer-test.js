@@ -20,6 +20,16 @@ describe('SearchContainer', function() {
     var wrapper = shallow(<SearchContainer />)
     assert.equal(wrapper.find(SuggestionsList).length, 1)
   })
+  it('should change the state when handleInput is called', function() {
+    var wrapper = shallow(<SearchContainer />)
+    wrapper.instance().handleInput('foo')
+    assert.equal('foo',wrapper.state('text'))
+  })
+  it('should change the state when handleFocus is called', function() {
+    var wrapper = shallow(<SearchContainer />)
+    wrapper.instance().handleFocus(true)
+    assert.equal(true,wrapper.state('isFocused'))
+  })
 })
 describe('SearchBar', function() {
   it('should have an input form', function() {
