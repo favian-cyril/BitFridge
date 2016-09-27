@@ -30,10 +30,9 @@ function get (url, params, cb) {
   request
     .get(options, function (err, res, body) {
       if (!err && res.statusCode == 200)
-      cb(null, res, JSON.parse(body)) // Correct way to call callback 
-      else {
-      cb(err)
-      }
+        cb(null, res, JSON.parse(body)) // Correct way to call callback
+      else
+        cb(err)
     })
 }
 
