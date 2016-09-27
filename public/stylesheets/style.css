@@ -25,6 +25,10 @@ h4.media-heading {
   margin-bottom: 5px;
 }
 
+input.form-group {
+  outline: none
+}
+
 div.search-error {
   color: rgba(0, 0, 0, 0.4);
   padding: 0 10px 10px 10px;
