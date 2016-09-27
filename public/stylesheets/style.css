@@ -31,7 +31,11 @@ h4.media-heading {
 }
 
 input.form-control {
-  border-bottom: 3px solid #2e6da4;
+  border-bottom: 3px solid rgba(251, 175, 65, 0.5);
+}
+
+input.form-control:focus {
+  border-bottom: 3px solid rgba(251, 175, 65, 1);
 }
 
 .form-control {
