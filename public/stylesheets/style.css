@@ -1,6 +1,11 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Hind Vadodara", Helvetica, Arial, sans-serif;
+  color: rgba(102, 102, 102, 1);
+}
+
+input:focus {
+  outline: none 0;
 }
 
 a {
@@ -13,8 +18,8 @@ a {
 }
 
 .media.ingredient:hover {
-  background-color: #dd4400;
-  color: #fff;
+  background-color: rgba(255, 233, 162, 1);
+  color: rgba(102, 102, 102, 1);
 }
 
 h4.media-heading {
@@ -25,8 +30,18 @@ h4.media-heading {
   margin-bottom: 5px;
 }
 
-input.form-group {
-  outline: none
+input.form-control {
+  border-bottom: 3px solid #2e6da4;
+}
+
+.form-control {
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.form-group-lg .form-control {
+  border-radius: 0;
 }
 
 div.search-error {
