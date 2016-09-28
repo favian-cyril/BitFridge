@@ -10,7 +10,7 @@ export default function (props) {
         <h4 className='media-heading'>{props.title}</h4>
       </div>
       <div className='media-right media-middle'>
-        <button className='btn btn-default btn-lg'>
+        <button className='btn btn-default btn-lg btn-add'>
           <span className="glyphicon glyphicon-plus"> </span>
         </button>
       </div>
