@@ -12,6 +12,10 @@ a {
   color: #00B7FF;
 }
 
+.media-body {
+  vertical-align: middle;
+}
+
 .media.ingredient {
   padding: 5px 10px;
   margin-top: 0;
@@ -20,10 +24,6 @@ a {
 .media.ingredient:hover {
   background-color: rgba(255, 233, 162, 1);
   color: rgba(102, 102, 102, 1);
-}
-
-h4.media-heading {
-  text-transform: capitalize;
 }
 
 .form-group {
@@ -61,8 +61,8 @@ input.form-control:focus {
   border-radius: 0;
 }
 
-div.dropdown {
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 1);
+.dropdown-menu {
+  border-radius: 0px 0px 8px 8px;
 }
 
 div.search-error {
