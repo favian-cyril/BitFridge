@@ -5,3 +5,5 @@ script:
 language: node_js
 node_js:
   - "node"
+notifications:
+  slack: bitfridge:pBa4p3fKGmeuNSoNKSmDIctE
