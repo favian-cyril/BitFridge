@@ -1,7 +1,9 @@
 var request = require('request')
 var append = require('append-query')
 
-var SPOONACULAR_API_KEY = 'glMwvNQWGMmsh9O1FUmZDPp6sJ67p1aNuApjsn8FLnNij2cDCx'
+require('dotenv').config()
+
+var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
 
 /**
  * Performs ingredient search with ingredient metadata.
