@@ -39,4 +39,6 @@ function get (url, params, cb) {
 }
 
 
-module.exports = searchIngredients
+module.exports = {
+  searchIngredients: searchIngredients
+}
