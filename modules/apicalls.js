@@ -10,13 +10,8 @@ var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
  *
  * Callback receives (err, res, body)
  */
-function searchIngredients (string, cb) {
-  var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete'
-  var params = {
-    metaInformation: true,
-    number: 6,
-    query: string
-  }
+function searchIngredients (path, params, cb) {
+  var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food' + path
   get(url, params, cb)
 }
 
@@ -37,7 +32,6 @@ function get (url, params, cb) {
         cb(err)
     })
 }
-
 
 module.exports = {
   searchIngredients: searchIngredients
