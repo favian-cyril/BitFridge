@@ -7,3 +7,4 @@ node_js:
   - "node"
 notifications:
   slack: bitfridge:pBa4p3fKGmeuNSoNKSmDIctE
+    on_success: change

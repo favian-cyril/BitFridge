@@ -8,7 +8,7 @@ import IngredientSuggestion from '../app/components/IngredientSuggestion'
 import SearchBar from '../app/components/SearchBar'
 import Preloader from '../app/components/Preloader'
 import ErrorMsg from '../app/components/ErrorMsg'
-import {searchIngredients} from '../app/models/apicalls'
+import searchIngredients from '../app/clientAPI'
 
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
@@ -42,10 +42,9 @@ describe('SearchBar', function() {
   })
 })
 describe('SuggestionsList', function() {
-  this.slow(500)
   it('should show SuggestionsList when parsed a text', function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients).returns(null, 200, input)
+    var mock = sinon.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
@@ -55,21 +54,25 @@ describe('SuggestionsList', function() {
       mock.restore()
       assert.equal(wrapper.find(IngredientSuggestion).length, 1)
     }
-    setTimeout(assertTest, 10)
+    setTimeout(assertTest, 1)
   })
   it('should show Preloader', function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients).returns(null, 200, input)
+    var mock = sinon.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
     })
-    assert.equal(wrapper.find(Preloader).length, 1)
+    function assertTest() {
+      mock.restore()
+      assert.equal(wrapper.find(Preloader).length, 1)
+    }
+    setTimeout(assertTest, 1)
   })
   it('should show ErrorMsg', function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients).throws("TyperError")
+    var mock = sinon.stub(searchIngredients, "searchIngredients").returns('TypeError', 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
@@ -79,7 +82,7 @@ describe('SuggestionsList', function() {
       mock.restore()
       assert.equal(wrapper.find(ErrorMsg).length, 1)
     }
-    setTimeout(assertTest, 10)
+    setTimeout(assertTest, 1)
   })
 })
 describe('IngredientSuggestion', function() {

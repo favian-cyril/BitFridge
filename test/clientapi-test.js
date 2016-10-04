@@ -1,10 +1,10 @@
 import sinon from 'sinon'
 import assert from 'assert'
-import {searchIngredients, get}  from '../modules/apicalls'
+import {searchIngredients, get}  from '../app/clientAPI'
 import request from 'request'
 import events from 'events'
 
-describe('server searchIngredients()', function() {
+describe('client searchIngredients()', function() {
   it('should call get', function() {
     var mock = sinon.spy(get)
     searchIngredients('foo', true, function(err, res, body) {
