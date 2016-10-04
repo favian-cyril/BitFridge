@@ -42,9 +42,6 @@ describe('SearchBar', function() {
   })
 })
 describe('SuggestionsList', function() {
-  afterEach(function() {
-    mock.restore()
-  })
   it('should show SuggestionsList when parsed a text', function() {
     var input = 'foo'
     var mock = sinon.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
