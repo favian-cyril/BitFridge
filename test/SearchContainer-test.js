@@ -8,7 +8,7 @@ import IngredientSuggestion from '../app/components/IngredientSuggestion'
 import SearchBar from '../app/components/SearchBar'
 import Preloader from '../app/components/Preloader'
 import ErrorMsg from '../app/components/ErrorMsg'
-import {searchIngredients} from '../app/models/apicalls'
+import searchIngredients from '../app/clientAPI'
 
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
@@ -42,45 +42,45 @@ describe('SearchBar', function() {
   })
 })
 describe('SuggestionsList', function() {
-  this.slow(500)
-  it('should show SuggestionsList when parsed a text', function() {
+  it('should show SuggestionsList when parsed a text', sinon.test(function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients).returns(null, 200, input)
+    const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
       })
     function assertTest() {
-      mock.restore()
       assert.equal(wrapper.find(IngredientSuggestion).length, 1)
     }
-    setTimeout(assertTest, 10)
-  })
-  it('should show Preloader', function() {
+    setTimeout(assertTest, 1)
+  }))
+  it('should show Preloader', sinon.test(function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients).returns(null, 200, input)
-    var wrapper = mount(<SuggestionsList />)
-    wrapper.setProps({
-      searchText: input,
-      isFocused: true
-    })
-    assert.equal(wrapper.find(Preloader).length, 1)
-  })
-  it('should show ErrorMsg', function() {
-    var input = 'foo'
-    var mock = sinon.stub(searchIngredients).throws("TyperError")
+    const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
     })
     function assertTest() {
-      mock.restore()
+      assert.equal(wrapper.find(Preloader).length, 1)
+    }
+    setTimeout(assertTest, 1)
+  }))
+  it('should show ErrorMsg', sinon.test(function() {
+    var input = 'foo'
+    const mock = this.stub(searchIngredients, "searchIngredients").returns('TypeError', 200, input)
+    var wrapper = mount(<SuggestionsList />)
+    wrapper.setProps({
+      searchText: input,
+      isFocused: true
+    })
+    function assertTest() {
       assert.equal(wrapper.find(ErrorMsg).length, 1)
     }
-    setTimeout(assertTest, 10)
-  })
+    setTimeout(assertTest, 1)
+  }))
 })
 describe('IngredientSuggestion', function() {
   it('should show title', function() {
