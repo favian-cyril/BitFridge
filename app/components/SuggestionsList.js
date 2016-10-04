@@ -50,13 +50,16 @@ export default class SuggestionsList extends React.Component {
       if (err) {
         // TypeError: Failed to fetch
         if (err.name == 'TypeError')
-          this.setState({errtype: 'offline'})
+          this.setState({ errtype: 'offline' })
+        // ServerError: Nasty stuff happening in the server
+        if (err.name == 'ServerError')
+          this.setState({ errtype: 'servererr' })
         // Other unhandled error
         else
           throw err
       }
       // No errors, success
-      else if (!err && res.statusCode === 200) {
+      else {
         // Check timestamp, accept result if request is not stale
         if (lastTimestamp === this.state.timestamp)
           // Check if request returned any results
@@ -93,10 +96,12 @@ export default class SuggestionsList extends React.Component {
 
     if (this.state.loading)
       results = <Preloader/>
-    else if (this.state.errtype == 'offline')
-      results = <ErrorMsg msg='No connection' desc='Check your internet connection.' img='err-noconnection.png'/>
     else if (this.state.errtype == 'notfound')
       results = <ErrorMsg msg='No results' desc='Your search did not return any results.' img='err-noresults.png'/>
+    else if (this.state.errtype == 'offline')
+      results = <ErrorMsg msg='No connection' desc='Check your internet connection.'/>
+    else if (this.state.errtype == 'servererr')
+      results = <ErrorMsg msg='Server error' desc='There might be a problem with the server.'/>
     else if (this.state.errtype === null && this.state.results.length)
       results = this.loadResultsList()
     return results

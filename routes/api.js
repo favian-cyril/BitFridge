@@ -11,7 +11,7 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
     if (!err && response.statusCode === 200)
       res.json(body)
     else
-      res.status(response.statusCode).json(err)
+      res.status(500).json(err)
   })
 })
 
