@@ -42,48 +42,45 @@ describe('SearchBar', function() {
   })
 })
 describe('SuggestionsList', function() {
-  it('should show SuggestionsList when parsed a text', function() {
+  it('should show SuggestionsList when parsed a text', sinon.test(function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
+    const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
       })
     function assertTest() {
-      mock.restore()
       assert.equal(wrapper.find(IngredientSuggestion).length, 1)
     }
     setTimeout(assertTest, 1)
-  })
-  it('should show Preloader', function() {
+  }))
+  it('should show Preloader', sinon.test(function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
+    const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
     })
     function assertTest() {
-      mock.restore()
       assert.equal(wrapper.find(Preloader).length, 1)
     }
     setTimeout(assertTest, 1)
-  })
-  it('should show ErrorMsg', function() {
+  }))
+  it('should show ErrorMsg', sinon.test(function() {
     var input = 'foo'
-    var mock = sinon.stub(searchIngredients, "searchIngredients").returns('TypeError', 200, input)
+    const mock = this.stub(searchIngredients, "searchIngredients").returns('TypeError', 200, input)
     var wrapper = mount(<SuggestionsList />)
     wrapper.setProps({
       searchText: input,
       isFocused: true
     })
     function assertTest() {
-      mock.restore()
       assert.equal(wrapper.find(ErrorMsg).length, 1)
     }
     setTimeout(assertTest, 1)
-  })
+  }))
 })
 describe('IngredientSuggestion', function() {
   it('should show title', function() {
