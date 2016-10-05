@@ -1,5 +1,5 @@
 import React from 'react'
-import { searchIngredients } from '../clientAPI'
+import { searchIngredients } from '../clientapi'
 import IngredientSuggestion from './IngredientSuggestion'
 import ErrorMsg from './ErrorMsg'
 import Preloader from './Preloader'
