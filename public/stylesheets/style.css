@@ -71,10 +71,6 @@ div.search-error {
   width: 100%;
 }
 
-div.search-error > h3 {
-  margin-top: 0;
-}
-
 div.preloader {
   width: 100%;
   padding: 20px 0;
