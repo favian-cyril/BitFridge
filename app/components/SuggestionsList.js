@@ -22,8 +22,10 @@ export default class SuggestionsList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    var searchText = nextProps.searchText.trim()
-    this.handleSearch(searchText)
+    if (this.props.searchText !== nextProps.searchText) {
+      var searchText = nextProps.searchText.trim()
+      this.handleSearch(searchText)
+    }
   }
 
   handleSearch(searchText) {
