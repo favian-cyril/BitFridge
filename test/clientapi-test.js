@@ -1,6 +1,6 @@
 import sinon from 'sinon'
 import assert from 'assert'
-import { searchIngredients, get }  from '../app/clientAPI'
+import { searchIngredients, get }  from '../app/clientapi'
 import request from 'request'
 
 

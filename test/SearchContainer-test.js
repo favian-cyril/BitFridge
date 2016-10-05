@@ -8,7 +8,7 @@ import IngredientSuggestion from '../app/components/IngredientSuggestion'
 import SearchBar from '../app/components/SearchBar'
 import Preloader from '../app/components/Preloader'
 import ErrorMsg from '../app/components/ErrorMsg'
-import searchIngredients from '../app/clientAPI'
+import searchIngredients from '../app/clientapi'
 
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
