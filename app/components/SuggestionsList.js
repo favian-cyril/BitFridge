@@ -1,5 +1,5 @@
 import React from 'react'
-import { searchIngredients } from '../clientAPI'
+import { searchIngredients } from '../clientapi'
 import IngredientSuggestion from './IngredientSuggestion'
 import ErrorMsg from './ErrorMsg'
 import Preloader from './Preloader'
@@ -22,8 +22,10 @@ export default class SuggestionsList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    var searchText = nextProps.searchText.trim()
-    this.handleSearch(searchText)
+    if (this.props.searchText !== nextProps.searchText) {
+      var searchText = nextProps.searchText.trim()
+      this.handleSearch(searchText)
+    }
   }
 
   handleSearch(searchText) {
@@ -52,14 +54,12 @@ export default class SuggestionsList extends React.Component {
         if (err.name == 'TypeError')
           this.setState({ errtype: 'offline' })
         // ServerError: Nasty stuff happening in the server
-        if (err.name == 'ServerError')
+        else if (err.name == 'ServerError')
           this.setState({ errtype: 'servererr' })
         // Other unhandled error
         else
           throw err
-      }
-      // No errors, success
-      else {
+      } else {
         // Check timestamp, accept result if request is not stale
         if (lastTimestamp === this.state.timestamp)
           // Check if request returned any results
@@ -92,19 +92,19 @@ export default class SuggestionsList extends React.Component {
   }
 
   processResults() {
-    var results, status = null
-
     if (this.state.loading)
-      results = <Preloader/>
-    else if (this.state.errtype == 'notfound')
-      results = <ErrorMsg msg='No results' desc='Your search did not return any results.' img='err-noresults.png'/>
-    else if (this.state.errtype == 'offline')
-      results = <ErrorMsg msg='No connection' desc='Check your internet connection.'/>
-    else if (this.state.errtype == 'servererr')
-      results = <ErrorMsg msg='Server error' desc='There might be a problem with the server.'/>
-    else if (this.state.errtype === null && this.state.results.length)
-      results = this.loadResultsList()
-    return results
+      return <Preloader/>
+    else {
+      switch (this.state.errtype) {
+        case 'notfound':
+          return <ErrorMsg msg='No results' desc='Your search did not return any results.'/>
+        case 'offline':
+          return <ErrorMsg msg='No connection' desc='Check your internet connection.'/>
+        default:
+          if (this.state.errtype === null && this.state.results.length)
+            return this.loadResultsList()
+      }
+    }
   }
 
   render() {
