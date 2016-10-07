@@ -83,18 +83,18 @@ describe('SuggestionsList', function() {
   }))
 })
 describe('IngredientSuggestion', function() {
+  var mockItem = { name: 'foo', image: 'foo' }
   it('should show title', function() {
-    var wrapper = shallow(<IngredientSuggestion />)
-    wrapper.setProps({
-      title: 'foo'
-    })
+    var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
     assert.equal(wrapper.contains(<h4 className='media-heading'>foo</h4>),true)
   })
   it('should show the image', function() {
-    var wrapper = shallow(<IngredientSuggestion />)
-    wrapper.setProps({
-      src: 'foo',
-    })
-    assert.equal(wrapper.contains(<img className='img-rounded' src='foo' alt='50x48' width='50' height='50'/>),true)
+    var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
+    assert.equal(
+      wrapper.contains(
+        <img className='img-rounded'
+             src='https://spoonacular.com/cdn/ingredients_100x100/foo'
+             alt='50x48' width='50' height='50'/>
+      ), true)
   })
 })
