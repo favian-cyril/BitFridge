@@ -74,17 +74,11 @@ export default class SuggestionsList extends React.Component {
   }
 
   loadResultsList() {
-    var imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
     return (
       <ul className='media-list dropdown-menu'>
         {
           this.state.results.map((item, i) => {
-            return (
-              <IngredientSuggestion
-                src={ imgBaseURL + item.image }
-                title={ item.name }
-                key={ i }/>
-            )
+            return <IngredientSuggestion item={ item } key={ i }/>
           })
         }
       </ul>
