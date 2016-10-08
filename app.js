@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // session store setup
 // var secretKey = crypto.randomBytes(64).toString('hex')
-app.use(session({
+var sessionMiddleware = session({
   store: new RedisStore({
     host: 'localhost',   // DEVELOPMENT ONLY
     port: 6379
@@ -39,7 +39,21 @@ app.use(session({
   secret: 'this is a not-so-secret key',
   saveUninitialized: false,
   resave: false
-}))
+})
+app.use(sessionMiddleware)
+
+// session check and retry
+app.use(function (req, res, next) {
+  var tries = 3
+  function lookupSession(err) {
+    if (err) return next(err)
+    tries -= 1
+    if (req.session !== undefined) return next()
+    if (tries < 0) return next(new Error('Session lookup failed. Retrying..'))
+    sessionMiddleware(req, res, lookupSession)
+  }
+  lookupSession()
+})
 
 // router middleware
 app.use('/', routes)
