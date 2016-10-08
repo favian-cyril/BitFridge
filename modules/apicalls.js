@@ -11,13 +11,8 @@ var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
  * Callback receives (err, res, body)
  */
 function searchIngredients (path, params, cb) {
-  if (Object.keys(params).length == 0) {
-    var err = new Error('Missing parameters for API request.')
-    cb(err)
-  } else {
-    var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food' + path
-    get(url, params, cb)
-  }
+  var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food' + path
+  get(url, params, cb)
 }
 
 /**
