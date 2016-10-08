@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   if (!req.session.key) {
     req.session.key = uuid.v1()
   }
-  res.render('index', { title: 'Express' })
+  res.render('index', { title: 'Express', _csrfToken: req.csrfToken() })
 })
 
 module.exports = router

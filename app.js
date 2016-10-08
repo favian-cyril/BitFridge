@@ -7,7 +7,7 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
-// var crypto = require('crypto')
+var csrf = require('csurf')
 var RedisStore = require('connect-redis')(session)
 
 // routes middleware
@@ -30,7 +30,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // session store setup
-// var secretKey = crypto.randomBytes(64).toString('hex')
 var sessionMiddleware = session({
   store: new RedisStore({
     host: 'localhost',   // DEVELOPMENT ONLY
@@ -54,6 +53,9 @@ app.use(function (req, res, next) {
   }
   lookupSession()
 })
+
+// csrf middleware
+app.use(csrf({ cookie: false }))
 
 // router middleware
 app.use('/', routes)
