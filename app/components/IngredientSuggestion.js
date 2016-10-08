@@ -1,5 +1,5 @@
 import React from 'react'
-import addIngredient from '../clientapi'
+import { addIngredient } from '../clientapi'
 
 export default class IngredientSuggestion extends React.Component {
   constructor(props) {
@@ -11,9 +11,11 @@ export default class IngredientSuggestion extends React.Component {
     this.addToFridge = this.addToFridge.bind(this)
   }
   addToFridge(e) {
-    addIngredient(this.props.item, function (err, res, body) {
+    e.preventDefault()
+    var ingredient = this.props.item
+    addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        this.setState({ success: true })
+        console.log(`Added ${ingredient.name} to fridge!`)  // Placeholder for success modal/tooltip
       } else {
         this.setState({ errtype: err.name })
       }
@@ -32,7 +34,7 @@ export default class IngredientSuggestion extends React.Component {
           <h4 className='media-heading'>{ name }</h4>
         </div>
         <div className='media-right media-middle'>
-          <button className='btn btn-default btn-lg btn-add' onClick={this.addToFridge}>
+          <button className='btn btn-default btn-lg btn-add' onMouseDown={this.addToFridge}>
             <span className="glyphicon glyphicon-plus"> </span>
           </button>
         </div>

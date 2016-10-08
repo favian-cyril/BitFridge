@@ -15,4 +15,10 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
   })
 })
 
+router.post('/fridge/add', function (req, res, next) {
+  var item = req.body.item
+  console.log(`Added ${item.name} to fridge!`)
+  res.status(200).end()
+})
+
 module.exports = router

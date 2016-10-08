@@ -40,5 +40,6 @@ function post (url, obj, cb) {
 }
 
 module.exports = {
-  searchIngredients: searchIngredients
+  searchIngredients: searchIngredients,
+  addIngredient: addIngredient
 }
