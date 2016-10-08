@@ -13,11 +13,11 @@ describe('client searchIngredients()', function() {
       assert.equal(mock.calledOnce, true)
     })
   })
-  it('should call request.get function', function() {
+  it('should call request.get function',  sinon.test(function() {
     var on = { on: sinon.stub() }
     var mock = sinon.stub(request, 'get').returns(on)
     searchIngredients('foo', function(err, res, body) { })
     mock.restore()
     sinon.assert.calledOnce(mock)
-  })
+  }))
 })
