@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var uuid = require('uuid')
+var router = express.Router()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+  if (!req.session.key) {
+    req.session.key = uuid.v1()
+  }
+  res.render('index', { title: 'Express' })
+})
 
-module.exports = router;
+module.exports = router
