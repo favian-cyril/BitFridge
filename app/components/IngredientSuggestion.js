@@ -17,7 +17,7 @@ export default class IngredientSuggestion extends React.Component {
       if (!err && res.statusCode == 200) {
         console.log(`Added ${ingredient.name} to fridge!`)  // Placeholder for success modal/tooltip
       } else {
-        this.setState({ errtype: err.name })
+        console.error(new Error('Failed to save to fridge.'))
       }
     })
   }

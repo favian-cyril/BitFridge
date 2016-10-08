@@ -12,17 +12,18 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
     if (!err && response.statusCode === 200)
       res.json(body)
     else
-      next(err)
+      res.status(500).json(err)
   })
 })
 
 router.post('/fridge/add', function (req, res, next) {
   fridge.addIngredient(req, function (err) {
     if (!err) {
-      console.log(`Added ${item.name} to fridge!`)
+      console.log(`Added ${req.body.item.name} to fridge!`)
       res.status(200).end()
     } else {
-      next(err)
+      console.log('Failed to save to database.')
+      res.status(500).json(err)
     }
   })
 })
