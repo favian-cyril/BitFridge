@@ -9,7 +9,7 @@ function searchIngredients (string, cb) {
   var url = baseUrl + 'ingredients/autocomplete'
   var params = {
     metaInformation: true,
-    number: 6,
+    number: 5,
     query: string
   }
   get(url, params, cb)
