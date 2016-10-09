@@ -72,7 +72,7 @@ You simply just type in your ingredients, and Bitfridge will give out the recipe
 
 ### Background
 
-We identify that the consumers will be all people affiliated with cooking, regardless of their experience. They need a go-to app to help them to cook. Wheter or not ingredients they have are in abundance or limited, the consumers will need BitFridge ease their work. In BitFridge, We want to deliver a user-friendly and easy to use app.
+We identify that the consumers will be all people affiliated with cooking, regardless of their experience. They need a go-to app to help them to cook. Whether or not ingredients they have are in abundance or limited, the consumers will need BitFridge to ease their work. In BitFridge, We want to deliver a user-friendly and easy to use app.
 
 Our Library
 -----------
