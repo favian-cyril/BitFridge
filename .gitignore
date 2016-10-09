@@ -40,3 +40,12 @@ jspm_packages
 
 # WebStorm
 .idea/
+
+# Environment variables
+.env
+
+# Generated bundled JS
+public/index_bundle.js
+
+# Redis DB dump
+dump.rdb
