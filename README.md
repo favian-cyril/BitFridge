@@ -56,11 +56,9 @@ SCRUM Core Team
 
 --------------
 
---------------
-
 
 # Our Story behind the Code.
-------------
+
 
 ### Overview
 
