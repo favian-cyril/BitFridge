@@ -128,7 +128,7 @@ In clientapi-test.js, we test the clientapi.js. We first check whether the clien
 
 ### Others
 
-We use glyphicons halflings regular fonts. We store loading and error icons in public files. We also store a jquery and bootstrap js and css files int the public files.
+We use glyphicons halflings regular fonts. We store loading and error icons in public files. We also store a jquery and bootstrap js and css files in the public files.
 
 
 
