@@ -9,7 +9,7 @@ export default class SuggestionsList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      results: '',
+      results: [],
       loading: false,
       timestamp: null,
       errtype: null
