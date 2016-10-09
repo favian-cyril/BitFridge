@@ -54,6 +54,9 @@ SCRUM Core Team
   - *Back-end Developer:* Abdurrahman Faris Agianda, Favian Cyrilvarick Amrullah, Irsyad Nabil
 
 
+--------------
+
+--------------
 
 
 # Our Story behind the Code.
