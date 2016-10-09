@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var apicalls = require('../modules/apicalls')
+var fridge = require('../modules/fridge')
 
 var searchIngredients = apicalls.searchIngredients
 
@@ -12,6 +13,18 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
       res.json(body)
     else
       res.status(500).json(err)
+  })
+})
+
+router.post('/fridge/add', function (req, res, next) {
+  fridge.addIngredient(req, function (err) {
+    if (!err) {
+      console.log(`Added ${req.body.item.name} to fridge!`)
+      res.status(200).end()
+    } else {
+      console.log('Failed to save to database.')
+      res.status(500).json(err)
+    }
   })
 })
 

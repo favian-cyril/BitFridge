@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Router, browserHistory } from 'react-router'
-import SearchContainer from './containers/SearchContainer'
+import IndexContainer from './containers/IndexContainer'
 
 var routes = (
   <Router history={browserHistory}>
-    <Route path='/' component={SearchContainer}/>
+    <Route path='/' component={IndexContainer}/>
   </Router>
 )
 
