@@ -1,10 +1,9 @@
 {
   "dev": {
-  "driver": "pg",
-  "user": {"ENV": "USER"},
-  "password": {"ENV": "PASSWORD"},
-  "host": "localhost",
-  "database": "Bitfridge",
-  "schema": "Bitfridge"
+  "driver": "mysql",
+  "user": "root",
+  "password": "root",
+  "database": "bitfridge",
+  "host": "localhost"
   }
 }

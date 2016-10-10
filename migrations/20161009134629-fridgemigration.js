@@ -17,7 +17,7 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   db.createTable('guest', {
       columns: {
-      id: {type:'string', primaryKey:true},
+      id: {type:'string', primaryKey:true, unique:true},
       fridge: 'string'
     },
     IfNotExists: true
