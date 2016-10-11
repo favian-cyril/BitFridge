@@ -14,7 +14,7 @@ var MySQLStore = require('express-mysql-session')(session);
 require('dotenv').config()
 
 var options = {
-    user: 'root',
+    user: 'bitfridge',
     password: process.env.MYSQLSTORE_SERVER_PASSWORD,
     host: 'localhost',
     port: 3306,
