@@ -10,9 +10,12 @@ var session = require('express-session')
 var csrf = require('csurf')
 var MySQLStore = require('express-mysql-session')(session);
 
+// fetch .env environment variables
+require('dotenv').config()
+
 var options = {
     user: 'root',
-    password: 'root',
+    password: process.env.MYSQLSTORE_SERVER_PASSWORD,
     host: 'localhost',
     port: 3306,
     database: 'session_test'
