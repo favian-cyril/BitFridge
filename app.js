@@ -8,7 +8,16 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
-var RedisStore = require('connect-redis')(session)
+//var RedisStore = require('connect-redis')(session)
+var MySQLStore = require('express-mysql-session')(session);
+
+var options = {
+    user: 'root',
+    password: 'root',
+    host: 'localhost',
+    port: 3306,
+    database: 'session_test'
+};
 
 // routes middleware
 var routes = require('./routes/index')
@@ -31,10 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // session store setup
 var sessionMiddleware = session({
-  store: new RedisStore({
-    host: 'localhost',   // DEVELOPMENT ONLY
-    port: 6379
-  }),
+  store: new MySQLStore(options),
   secret: 'this is a not-so-secret key',
   saveUninitialized: false,
   resave: false

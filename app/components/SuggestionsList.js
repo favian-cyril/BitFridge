@@ -105,9 +105,7 @@ export default class SuggestionsList extends React.Component {
     var status, results
     if (this.props.isFocused && this.props.searchText.length > 1)
       status = 'open'
-
     results = this.processResults()
-
     return (
       <div className={'dropdown clearfix ' + status}>
         {results}
