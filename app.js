@@ -8,7 +8,6 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
-//var RedisStore = require('connect-redis')(session)
 var MySQLStore = require('express-mysql-session')(session);
 
 var options = {

@@ -86,7 +86,7 @@ describe('IngredientSuggestion', function() {
   var mockItem = { name: 'foo', image: 'foo' }
   it('should show title', function() {
     var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
-    assert.equal(wrapper.contains(<h4 className='media-heading'>foo</h4>),true)
+    assert.equal(wrapper.contains(<p className='media-heading'>foo</p>), true)
   })
   it('should show the image', function() {
     var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
