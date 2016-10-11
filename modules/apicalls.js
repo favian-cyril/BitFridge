@@ -6,8 +6,9 @@ require('dotenv').config()
 var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
 
 /**
+*@function
  * Performs ingredient search with ingredient metadata.
- *
+ *@callback
  * Callback receives (err, res, body)
  */
 function searchIngredients (path, params, cb) {
@@ -33,6 +34,10 @@ function get (url, params, cb) {
     })
 }
 
+/**
+* A module that search ingredients
+*@module
+*/
 module.exports = {
   searchIngredients: searchIngredients
 }
