@@ -25,9 +25,9 @@ export default class SearchBar extends React.Component {
   render() {
     return (
       <div className="form-group form-group-lg right-inner-addon">
-        <i className="fa fa-search"></i>
+        <i className="fa fa-search fa-lg"></i>
         <input
-          className="form-control"
+          className="form-control form-control-lg"
           type="text"
           ref="searchInput"
           placeholder="Search for ingredients..."
