@@ -26,7 +26,7 @@ export default class IngredientSuggestion extends React.Component {
     var imageURL = imgBaseURL + this.props.item.image
     var name = this.props.item.name
     return (
-      <li className='media ingredient'>
+      <li className='media ingredient' onMouseDown={(e) => { e.preventDefault() }}>
         <div className='media-left media-middle'>
           <img className='img-rounded' src={ imageURL } alt='50x48' width='50' height='50'/>
         </div>
