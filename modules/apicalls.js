@@ -36,8 +36,7 @@ function get (url, params, cb) {
 
 /**
 * A module that search ingredients
-*@module
-*/
+*@module search/ingredients*/
 module.exports = {
   searchIngredients: searchIngredients
 }
