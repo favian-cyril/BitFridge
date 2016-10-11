@@ -2,8 +2,7 @@
   "dev": {
   "driver": "mysql",
   "user": "root",
-  "password": "root",
-  "database": "bitfridge",
+  "password": { "ENV": "MYSQLSTORE_SERVER_PASSWORD" },
   "host": "localhost"
   }
 }
