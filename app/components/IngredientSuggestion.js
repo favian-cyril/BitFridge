@@ -31,7 +31,7 @@ export default class IngredientSuggestion extends React.Component {
           <img className='img-rounded' src={ imageURL } alt='50x48' width='50' height='50'/>
         </div>
         <div className='media-body'>
-          <lead className='media-heading'>{ name }</lead>
+          <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
           <button className='btn btn-default btn-add' onMouseDown={this.addToFridge}>
