@@ -1,5 +1,6 @@
 body {
   background-color: #2D2D2D;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 
 input:focus {
@@ -8,6 +9,10 @@ input:focus {
 
 a {
   color: #FED03D;
+}
+
+i.fa {
+  line-height: inherit;
 }
 
 div.index-container {
