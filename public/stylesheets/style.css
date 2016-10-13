@@ -1,14 +1,9 @@
 body {
-  background-color: #2D2D2D;
-  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 input:focus {
   outline: none 0;
-}
-
-a {
-  color: #FED03D;
 }
 
 i.fa-search {
@@ -16,11 +11,11 @@ i.fa-search {
 }
 
 div.index-container {
-  margin-top: 5vh;
+  margin-top: 10vh;
 }
 
 img.index-logo {
-  padding: 25px;
+  padding: 20px;
 }
 
 .media-body {
@@ -29,12 +24,21 @@ img.index-logo {
 
 .media.ingredient {
   padding: 5px;
-  margin-top: 0;
-  outline: 1px solid #EEE;
+  margin: 0;
+  border-bottom: 1px solid #ccc;;
+}
+
+.media.ingredient:last-child {
+  border: 0;
 }
 
 .media.ingredient:hover {
-  background-color: rgba(255, 233, 162, 1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.media.ingredient p.media-heading {
+  font-size: 1.25rem;
+  text-transform: capitalize;
 }
 
 .form-group {
@@ -42,7 +46,7 @@ img.index-logo {
 }
 
 input.form-control {
-  border: 1px solid rgba(45, 45, 45, 1);
+  /*border: 1px solid rgba(45, 45, 45, 1);*/
   -webkit-transition: all 120ms ease-out;
   -moz-transition: all 120ms ease-out;
   -ms-transition: all 120ms ease-out;
@@ -51,10 +55,10 @@ input.form-control {
 }
 
 input.form-control:focus {
-  -webkit-box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);
-  -moz-box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);
-  box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);
-  border: 1px solid #f4a000;
+  /*-webkit-box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);*/
+  /*-moz-box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);*/
+  /*box-shadow: 0px 0px 0px 2px rgba(244,160,0,1);*/
+  /*border: 1px solid #f4a000;*/
   -webkit-transition: all 120ms ease-out;
   -moz-transition: all 120ms ease-out;
   -ms-transition: all 120ms ease-out;
@@ -62,14 +66,8 @@ input.form-control:focus {
   transition: all 120ms ease-out;
 }
 
-.form-control {
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.form-control {
-  border-radius: 4px;
+input.form-control::-webkit-input-placeholder {
+  color: #ccc;
 }
 
 .dropdown-menu {
@@ -93,7 +91,7 @@ div.preloader {
 button.btn-add {
   background-color: transparent;
   padding: 10px;
-  color: rgba(244, 160, 0, 1)
+  /*color: rgba(244, 160, 0, 1)*/
 }
 
 button.btn-add:hover {
