@@ -21,6 +21,12 @@ function addIngredient(ingredient, cb) {
   post(url, form, cb)
 }
 
+function delIngredient(ingredient, cb) {
+  var url = baseUrl + 'fridge/del'
+  var form = { item: ingredient }
+  post(url, form, cb) 
+}
+
 function get (url, params, cb) {
   url = append(url, params)
   request.get(url, function (err, res, body) {

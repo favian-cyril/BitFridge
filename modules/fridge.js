@@ -3,12 +3,21 @@ function addIngredient(req, cb) {
     var item = req.body.item
     if (req.session.fridge == undefined)
       req.session.fridge = []
-    req.session.fridge.push(item)
+    req.session.fridge.push(item.id)
     cb(null)
   } else {
     var err = new Error('Session key lookup failed.')
     cb(err)
   }
+}
+function delIngredient(req, cb) {
+  if (req.session.key) {
+    var id = req.body.id
+    delete req.session.fridge[id]
+    cb(null)
+  } else {
+    var err = new Error('Session key lookup failed.')
+    cb(err)
 }
 
 module.exports = {
