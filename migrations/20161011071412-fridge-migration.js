@@ -5,10 +5,10 @@ module.exports = {
     return queryInterface
       .createTable('guest', {
       id:  {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       primaryKey: true,
     },
-      fridge: DataTypes.STRING
+      fridge: Sequelize.STRING
     });
     /*
       Add altering commands here.

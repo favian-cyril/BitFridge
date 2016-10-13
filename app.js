@@ -9,17 +9,18 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
 var MySQLStore = require('express-mysql-session')(session);
+var Sequelize = require('sequelize')
 
 // fetch .env environment variables
 require('dotenv').config()
 
 var options = {
-    user: 'bitfridge',
-    password: process.env.MYSQLSTORE_SERVER_PASSWORD,
     host: process.env.MYSQLSTORE_SERVER_HOST,
     port: 3306,
-    database: 'session_test'
 };
+
+//Sequelize initialization
+var sequelize = new Sequelize('bitfridge', 'bitfridge', process.env.MYSQLSTORE_SERVER_PASSWORD, options)
 
 // routes middleware
 var routes = require('./routes/index')
@@ -101,4 +102,7 @@ app.use(function(err, req, res, next) {
 })
 
 
-module.exports = app
+module.exports = {
+  app: app,
+  sequelize: sequelize
+}
