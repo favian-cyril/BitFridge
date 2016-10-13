@@ -18,6 +18,7 @@ function delIngredient(req, cb) {
   } else {
     var err = new Error('Session key lookup failed.')
     cb(err)
+  }
 }
 
 module.exports = {
