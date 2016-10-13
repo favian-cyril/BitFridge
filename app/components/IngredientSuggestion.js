@@ -5,20 +5,23 @@ export default class IngredientSuggestion extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      success: false,
-      errtype: null
+      status: null,
+      errtype: null,
+      message: null
     }
     this.addToFridge = this.addToFridge.bind(this)
   }
   addToFridge(e) {
     e.preventDefault()
     var ingredient = this.props.item
+    var that = this
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        console.log(`Added ${ingredient.name} to fridge!`)  // Placeholder for success modal/tooltip
+        that.setState({ status: 'success', message: `Added ${ingredient.name} to fridge!` })
       } else {
-        console.error(new Error('Failed to save to fridge.'))
+        that.setState({ status: 'failure', message: 'Failed to save to fridge.' })
       }
+      console.log(that.state.message)
     })
   }
   render() {
