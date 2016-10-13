@@ -16,7 +16,7 @@ require('dotenv').config()
 var options = {
     user: 'bitfridge',
     password: process.env.MYSQLSTORE_SERVER_PASSWORD,
-    host: 'localhost',
+    host: process.env.MYSQLSTORE_SERVER_HOST,
     port: 3306,
     database: 'session_test'
 };
@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // session store setup
 var sessionMiddleware = session({
-  store: new MySQLStore(options),
+  // store: new MySQLStore(options),
   secret: 'this is a not-so-secret key',
   saveUninitialized: false,
   resave: false
