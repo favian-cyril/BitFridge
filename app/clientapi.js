@@ -4,7 +4,16 @@ var append = require('append-query')
 // DEVELOPMENT ONLY
 const baseUrl = 'http://localhost:3000/api/'
 
-/** @class */
+
+/**
+*@summary
+*speak with the API.js
+*@see api.js
+*
+*#callback
+*@param {string} string - the ingredient's name
+* @param cb - callback
+*/
 function searchIngredients (string, cb) {
   var url = baseUrl + 'ingredients/autocomplete'
   var params = {
@@ -24,11 +33,7 @@ function get (url, params, cb) {
     cb(err)
   })
 }
-/**
-*Search Ingredients
-@module search/ingredients
-*/
+/**Search Ingredients*/
 module.exports = {
-  /**searching the Ingredients*/
   searchIngredients: searchIngredients
 }
