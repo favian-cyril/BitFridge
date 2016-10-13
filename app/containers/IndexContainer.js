@@ -14,10 +14,20 @@ export default class IndexContainer extends React.Component {
       return (
         <div className="index-container">
           <div className="container">
-            <img className="index-logo col-lg-offset-4 col-md-offset-4 col-lg-4 col-md-4 clearfix"
-                 src="/images/logo-3x.png"/>
+            <img className="img-responsive index-logo col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6"
+                 src="/images/logo-8x.png"/>
           </div>
-          <SearchContainer/>
+          <SearchContainer context="index"/>
+        </div>
+      )
+    } else {
+      return (
+        <div className="index-container">
+          <div className="container">
+            <img className="img-responsive index-logo col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6"
+                 src="/images/logo-8x.png"/>
+          </div>
+          <SearchContainer context="dashboard"/>
         </div>
       )
     }
