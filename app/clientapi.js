@@ -3,7 +3,7 @@ var append = require('append-query')
 var $ = require('jquery')
 
 // DEVELOPMENT ONLY
-const baseUrl = 'http://188.166.247.122:3000/api/'
+const baseUrl = 'http://localhost:3000/api/'
 
 function searchIngredients (string, cb) {
   var url = baseUrl + 'ingredients/autocomplete'
