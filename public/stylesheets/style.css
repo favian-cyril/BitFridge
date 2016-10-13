@@ -2,10 +2,6 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-input:focus {
-  outline: none 0;
-}
-
 i.fa-search {
   line-height: inherit;
 }
@@ -25,7 +21,7 @@ img.index-logo {
 .media.ingredient {
   padding: 5px;
   margin: 0;
-  border-bottom: 1px solid #ccc;;
+  border-bottom: 1px solid #ccc;
 }
 
 .media.ingredient:last-child {
@@ -74,7 +70,7 @@ input.form-control::-webkit-input-placeholder {
   padding: 0;
   border-radius: 4px;
   height: auto;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 div.search-error {
