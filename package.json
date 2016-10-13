@@ -43,6 +43,7 @@
     "browserify": "13.1.0",
     "chai": "^3.5.0",
     "enzyme": "^2.4.1",
+    "express-mysql-session": "1.2.0",
     "gulp": "3.9.1",
     "jade": "^1.11.0",
     "livereactload": "3.0.0",

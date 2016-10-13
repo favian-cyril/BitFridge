@@ -15,7 +15,7 @@ describe('FridgeCardContainer', function() {
     var input = 'foo'
     var wrapper = mount(<FridgeCardContainer title={input}/>)
     assert.equal(input, wrapper.instance().props.title)
-    })
+  })
   it("should have settings", function(){
     var settings = {}
     var wrapper = mount(<FridgeCardContainer settings={settings}/>)

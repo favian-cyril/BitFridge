@@ -26,16 +26,16 @@ export default class IngredientSuggestion extends React.Component {
     var imageURL = imgBaseURL + this.props.item.image
     var name = this.props.item.name
     return (
-      <li className='media ingredient'>
+      <li className='media ingredient' onMouseDown={(e) => { e.preventDefault() }}>
         <div className='media-left media-middle'>
           <img className='img-rounded' src={ imageURL } alt='50x48' width='50' height='50'/>
         </div>
         <div className='media-body'>
-          <h4 className='media-heading'>{ name }</h4>
+          <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
-          <button className='btn btn-default btn-lg btn-add' onMouseDown={this.addToFridge}>
-            <span className="glyphicon glyphicon-plus"> </span>
+          <button className='btn btn-default btn-add' onMouseDown={this.addToFridge}>
+            <i className="fa fa-2x fa-plus"> </i>
           </button>
         </div>
       </li>
