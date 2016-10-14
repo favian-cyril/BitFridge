@@ -8,7 +8,7 @@
     "build": "gulp bundle",
     "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js",
     "test": "mocha --compilers js:babel-core/register test/**/*-test.js",
-    "migrate": "node_modules/.bin/sequelize db:migrate ",
+    "migrate": "node_modules/.bin/sequelize db:migrate "
   },
   "dependencies": {
     "append-query": "1.1.0",
