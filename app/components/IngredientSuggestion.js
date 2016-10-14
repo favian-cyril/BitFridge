@@ -1,24 +1,29 @@
 import React from 'react'
 import { addIngredient } from '../clientapi'
+import $ from 'jquery'
 
 export default class IngredientSuggestion extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      success: false,
-      errtype: null
+      status: null,
+      errtype: null,
+      message: null,
+      added: this.props.fridge
     }
     this.addToFridge = this.addToFridge.bind(this)
   }
   addToFridge(e) {
-    e.preventDefault()
     var ingredient = this.props.item
+    var that = this
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        console.log(`Added ${ingredient.name} to fridge!`)  // Placeholder for success modal/tooltip
+        that.setState({ status: 'success', message: `Added ${ingredient.name} to fridge!` })
       } else {
-        console.error(new Error('Failed to save to fridge.'))
+        that.setState({ status: 'failure', message: 'Failed to save to fridge.' })
       }
+      console.log(that.state.message)
+      window.showTooltip($('#' + that.props.listkey))
     })
   }
   render() {
@@ -34,8 +39,12 @@ export default class IngredientSuggestion extends React.Component {
           <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
-          <button className='btn btn-default btn-add' onMouseDown={this.addToFridge}>
-            <i className="fa fa-2x fa-plus"> </i>
+          <button id={this.props.listkey} onMouseDown={this.addToFridge}
+                  className={'btn btn-default btn-add ' + this.state.status}
+                  title={this.state.message} data-toggle='tooltip'
+                  data-container='body' data-placement='right'
+                  data-trigger='manual'>
+            <i className="fa fa-2x fa-plus btn-add-icon"></i>
           </button>
         </div>
       </li>

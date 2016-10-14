@@ -8,10 +8,6 @@ body {
   font-family: "San Francisco Display", Helvetica, Arial, sans-serif;
 }
 
-i.fa-search {
-  line-height: inherit;
-}
-
 div.index-container {
   margin-top: 10vh;
 }
@@ -76,7 +72,6 @@ input.form-control::-webkit-input-placeholder {
   padding: 0;
   border-radius: 4px;
   height: auto;
-  overflow-y: hidden;
 }
 
 div.search-error {
@@ -104,6 +99,10 @@ button.btn-add:active {
   color: rgba(65, 117, 5, 1)
 }
 
+button.btn-add.success {
+  color: rgb(105, 187, 15)
+}
+
 .centered{
   float: none;
   margin: 0 auto;
@@ -123,4 +122,8 @@ button.btn-add:active {
     position:absolute;
     right: 0px;
     padding: 10px 12px;
+  }
+
+  i.fa-search {
+    line-height: inherit;
   }

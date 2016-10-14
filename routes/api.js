@@ -20,10 +20,10 @@ router.post('/fridge/add', function (req, res, next) {
   fridge.addIngredient(req, function (err) {
     if (!err) {
       console.log(`Added ${req.body.item.name} to fridge!`)
-      res.status(200)
+      res.status(200).end()
     } else {
       console.log('Failed to save to database.')
-      res.status(500).json(err)
+      next(err)
     }
   })
 })
@@ -32,10 +32,10 @@ router.post('/fridge/del', function (req, res, next) {
   fridge.delIngredient(req, function (err) {
     if (!err) {
       console.log(`Deleted ${req.body.item.name} to fridge!`)
-      res.status(200)
+      res.status(200).end()
     } else {
       console.log(`Failed to delete from database.`)
-      res.status(500).json(err)
+      next(err)
     }
   })
 })

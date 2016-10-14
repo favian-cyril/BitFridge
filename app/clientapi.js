@@ -32,6 +32,14 @@ function get (url, params, cb) {
   request.get(url, function (err, res, body) {
     if (!err && res.statusCode == 200)
       cb(null, res, JSON.parse(body))
+    else if (res.statusCode == 500) {
+      // DEVELOPMENT ONLY
+      var body = JSON.parse(res.body)
+      err = new Error(body.message)
+      err.stack = body.stack
+      console.error(err)
+      // DEVELOPMENT ONLY
+    }
   }).on('error', function (err) {
     cb(err)
   })
@@ -47,6 +55,14 @@ function post (url, obj, cb) {
   request.post(options, function (err, res, body) {
     if (!err && res.statusCode == 200)
       cb(null, res)
+    else if (res.statusCode == 500) {
+      // DEVELOPMENT ONLY
+      var body = JSON.parse(res.body)
+      err = new Error(body.message)
+      err.stack = body.stack
+      console.error(err)
+      // DEVELOPMENT ONLY
+    }
   }).on('error', function (err) {
     cb(err)
   })
