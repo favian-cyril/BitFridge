@@ -23,7 +23,7 @@ router.post('/fridge/add', function (req, res, next) {
       res.status(200).end()
     } else {
       console.log('Failed to save to database.')
-      res.status(500).json(err)
+      next(err)
     }
   })
 })
@@ -35,7 +35,7 @@ router.post('/fridge/del', function (req, res, next) {
       res.status(200).end()
     } else {
       console.log(`Failed to delete from database.`)
-      res.status(500).json(err)
+      next(err)
     }
   })
 })

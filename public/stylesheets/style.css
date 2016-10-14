@@ -99,6 +99,10 @@ button.btn-add:active {
   color: rgba(65, 117, 5, 1)
 }
 
+button.btn-add.success {
+  color: rgb(105, 187, 15)
+}
+
 .centered{
   float: none;
   margin: 0 auto;

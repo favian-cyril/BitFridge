@@ -1,5 +1,6 @@
 import React from 'react'
 import { addIngredient } from '../clientapi'
+import $ from 'jquery'
 
 export default class IngredientSuggestion extends React.Component {
   constructor(props) {
@@ -7,12 +8,12 @@ export default class IngredientSuggestion extends React.Component {
     this.state = {
       status: null,
       errtype: null,
-      message: null
+      message: null,
+      added: this.props.fridge
     }
     this.addToFridge = this.addToFridge.bind(this)
   }
   addToFridge(e) {
-    e.preventDefault()
     var ingredient = this.props.item
     var that = this
     addIngredient(ingredient, function (err, res, body) {
@@ -22,6 +23,7 @@ export default class IngredientSuggestion extends React.Component {
         that.setState({ status: 'failure', message: 'Failed to save to fridge.' })
       }
       console.log(that.state.message)
+      window.showTooltip($('#' + that.props.listkey))
     })
   }
   render() {
@@ -37,8 +39,12 @@ export default class IngredientSuggestion extends React.Component {
           <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
-          <button className='btn btn-default btn-add' onMouseDown={this.addToFridge}>
-            <i className="fa fa-2x fa-plus"> </i>
+          <button id={this.props.listkey} onMouseDown={this.addToFridge}
+                  className={'btn btn-default btn-add ' + this.state.status}
+                  title={this.state.message} data-toggle='tooltip'
+                  data-container='body' data-placement='right'
+                  data-trigger='manual'>
+            <i className="fa fa-2x fa-plus btn-add-icon"></i>
           </button>
         </div>
       </li>
