@@ -32,5 +32,6 @@ function delIngredient(req, cb) {
 }
 
 module.exports = {
-  addIngredient: addIngredient
+  addIngredient: addIngredient,
+  delIngredient: delIngredient
 }
