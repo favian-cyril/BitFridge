@@ -13,14 +13,6 @@ var MySQLStore = require('express-mysql-session')(session);
 // fetch .env environment variables
 require('dotenv').config()
 
-var options = {
-    host: process.env.MYSQLSTORE_SERVER_HOST,
-    port: 3306
-};
-
-//Sequelize initialization
-var sequelize = new Sequelize('bitfridge', 'bitfridge', process.env.MYSQLSTORE_SERVER_PASSWORD, options)
-
 // routes middleware
 var routes = require('./routes/index')
 var api = require('./routes/api')

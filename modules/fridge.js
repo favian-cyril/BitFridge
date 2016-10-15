@@ -6,11 +6,13 @@ function addIngredient(req, cb) {
     if (req.session.fridge == undefined)
       req.session.fridge = []
     req.session.fridge.push(item.id)
-    if (models.Guest.findById(item.id) == undefined){
-      models.Guest.create({id:item.id,fridge:req.session.fridge})
-    } else {
-      models.Guest.update({fridge:req.session.fridge}, {where:{id:item.id}})
-    }
+    models.guest.findById(req.session.id).then(function(guest) {
+      if (guest == null) {
+      models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
+      } else {
+      models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+      }
+    })
     cb(null)
   } else {
     var err = new Error('Session key lookup failed.')
@@ -21,7 +23,7 @@ function delIngredient(req, cb) {
   if (req.session.key) {
     var id = req.body.id
     delete req.session.fridge[id]
-    models.Guest.update({fridge:req.session.fridge}, {where:{id:item.id}})
+    models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
     cb(null)
   } else {
     var err = new Error('Session key lookup failed.')
