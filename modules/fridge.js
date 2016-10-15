@@ -1,3 +1,5 @@
+var models = require('../models')
+
 function addIngredient(req, cb) {
   if (req.session.key) {
     var id = req.body.item.id
