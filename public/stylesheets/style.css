@@ -6,8 +6,8 @@ input:focus {
   outline: none 0;
 }
 
-i.fa-search {
-  line-height: inherit;
+body {
+  font-family: "San Francisco Display", Helvetica, Arial, sans-serif;
 }
 
 div.index-container {
@@ -25,7 +25,7 @@ img.index-logo {
 .media.ingredient {
   padding: 5px;
   margin: 0;
-  border-bottom: 1px solid #ccc;;
+  border-bottom: 1px solid #ccc;
 }
 
 .media.ingredient:last-child {
@@ -74,7 +74,6 @@ input.form-control::-webkit-input-placeholder {
   padding: 0;
   border-radius: 4px;
   height: auto;
-  overflow: hidden;
 }
 
 div.search-error {
@@ -102,6 +101,10 @@ button.btn-add:active {
   color: rgba(65, 117, 5, 1)
 }
 
+button.btn-add.success {
+  color: rgb(105, 187, 15)
+}
+
 .centered{
   float: none;
   margin: 0 auto;
@@ -121,4 +124,8 @@ button.btn-add:active {
     position:absolute;
     right: 0px;
     padding: 10px 12px;
+  }
+
+  i.fa-search {
+    line-height: inherit;
   }

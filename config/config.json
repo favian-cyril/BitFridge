@@ -1,0 +1,9 @@
+{
+  "development": {
+  "username": "bitfridge",
+  "password":{"use_env_variable": "MYSQLSTORE_SERVER_PASSWORD"},
+  "database": "bitfridge",
+  "host": {"use_env_variable": "MYSQLSTORE_SERVER_HOST"},
+  "dialect": "mysql"
+  }
+}

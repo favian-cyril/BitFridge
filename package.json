@@ -8,8 +8,7 @@
     "build": "gulp bundle",
     "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js",
     "test": "mocha --compilers js:babel-core/register test/**/*-test.js",
-    "migrate": "node_modules/.bin/db-migrate up",
-    "database": "node_modules/.bin/db-migrate db:create bitfridge"
+    "migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "dependencies": {
     "append-query": "1.1.0",
@@ -24,7 +23,7 @@
     "express-session": "1.14.1",
     "jquery": "3.1.1",
     "morgan": "~1.7.0",
-    "react": "15.2.1",
+    "react": "15.3.2",
     "react-dom": "15.2.1",
     "react-onclickoutside": "5.7.0",
     "react-router": "2.5.2",
@@ -42,14 +41,15 @@
     "babelify": "7.3.0",
     "browserify": "13.1.0",
     "chai": "^3.5.0",
-    "db-migrate": "^0.10.0-beta.20",
     "enzyme": "^2.4.1",
     "express-mysql-session": "1.2.0",
     "gulp": "3.9.1",
     "jade": "^1.11.0",
     "livereactload": "3.0.0",
     "mocha": "^3.0.2",
+    "mysql2": "^1.1.1",
     "react-proxy": "1.1.8",
+    "sequelize": "^3.24.3",
     "sinon": "^1.17.6",
     "vinyl-source-stream": "1.1.0",
     "watchify": "3.7.0"

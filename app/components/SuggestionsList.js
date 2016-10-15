@@ -78,7 +78,10 @@ export default class SuggestionsList extends React.Component {
       <ul className='media-list dropdown-menu'>
         {
           this.state.results.map((item, i) => {
-            return <IngredientSuggestion item={ item } key={ i }/>
+            return <IngredientSuggestion 
+              item={item} 
+              key={i} 
+              listkey={i}/>
           })
         }
       </ul>

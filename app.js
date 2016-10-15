@@ -13,14 +13,6 @@ var MySQLStore = require('express-mysql-session')(session);
 // fetch .env environment variables
 require('dotenv').config()
 
-var options = {
-    user: 'bitfridge',
-    password: process.env.MYSQLSTORE_SERVER_PASSWORD,
-    host: process.env.MYSQLSTORE_SERVER_HOST,
-    port: 3306,
-    database: 'session_test'
-};
-
 // routes middleware
 var routes = require('./routes/index')
 var api = require('./routes/api')
@@ -83,9 +75,9 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500)
-    res.render('error', {
+    res.json({
       message: err.message,
-      error: err
+      stack: err.stack
     })
   })
 }
