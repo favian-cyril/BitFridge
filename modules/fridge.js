@@ -1,30 +1,48 @@
-var models  = require('../models')
-
 function addIngredient(req, cb) {
   if (req.session.key) {
-    var item = req.body.item
+    var id = req.body.item.id
     if (req.session.fridge == undefined)
       req.session.fridge = []
-    req.session.fridge.push(item.id)
-    models.guest.findById(req.session.id).then(function(guest) {
-      if (guest == null) {
-      models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
-      } else {
-      models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+    if (!(req.session.fridge.includes(id))) {
+      req.session.fridge.push(id)
+      models.guest.findById(req.session.id).then(function(guest) {
+        if (guest == null) {
+        models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
+        } else {
+        models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+        }
       }
-    })
-    cb(null)
+      cb(null)
+    } else {
+      cb(new Error('Duplicate item added.'))
+    }
   } else {
-    var err = new Error('Session key lookup failed.')
-    cb(err)
+    cb(new Error('Session key lookup failed.'))
   }
 }
+
 function delIngredient(req, cb) {
   if (req.session.key) {
-    var id = req.body.id
-    delete req.session.fridge[id]
-    models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
-    cb(null)
+    var id = req.body.item.id.toString()
+    var index = req.session.fridge.indexOf(id)
+    if (index > -1) {
+      req.session.fridge.splice(index, 1)
+      models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+      cb(null)
+    }
+    else {
+      cb(new Error('Item not found.'))
+    }
+  } else {
+    cb(new Error('Session key lookup failed.'))
+  }
+}
+
+function getFridge(req, cb) {
+  if (req.session.key) {
+    if (req.session.fridge == undefined)
+      req.session.fridge = []
+    cb(null, req.session.fridge)
   } else {
     var err = new Error('Session key lookup failed.')
     cb(err)
@@ -33,5 +51,6 @@ function delIngredient(req, cb) {
 
 module.exports = {
   addIngredient: addIngredient,
-  delIngredient: delIngredient
+  delIngredient: delIngredient,
+  getFridge: getFridge
 }

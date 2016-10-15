@@ -8,7 +8,8 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
-var MySQLStore = require('express-mysql-session')(session);
+var MySQLStore = require('express-mysql-session')(session)
+// var Sequelize = require('sequelize')
 
 // fetch .env environment variables
 require('dotenv').config()

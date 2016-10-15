@@ -11,7 +11,7 @@ export default class CardContent extends React.Component {
         <ul className='media-list dropdown-menu'>
           {
             this.props.contents.map((item, i) => {
-              return <IngredientSuggestion item={ item } key={ i }/>
+              return <IngredientSuggestion item={ item } key={ i } fridge={ this.props.fridge }/>
             })
           }
         </ul>

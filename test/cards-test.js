@@ -29,10 +29,11 @@ describe('FridgeCardContainer', function() {
 describe('CardContent', function() {
   it('should show list of items', function() {
     var items = [
-      {name: 'foo', image: 'bar'},
-      {name: 'bar', image: 'foo'}
+      {name: 'foo', image: 'bar', id: 123},
+      {name: 'bar', image: 'foo', id: 321}
     ]
-    var wrapper = mount(<CardContent contents={items}/>)
+    var fridge = [123, 345, 567]
+    var wrapper = mount(<CardContent contents={items} fridge={fridge}/>)
     assert.equal(wrapper.find(IngredientSuggestion).length, 2)
   })
 })

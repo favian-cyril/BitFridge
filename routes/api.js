@@ -17,6 +17,7 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
 })
 
 router.post('/fridge/add', function (req, res, next) {
+  console.log(req.session)
   fridge.addIngredient(req, function (err) {
     if (!err) {
       console.log(`Added ${req.body.item.name} to fridge!`)
@@ -31,10 +32,23 @@ router.post('/fridge/add', function (req, res, next) {
 router.post('/fridge/del', function (req, res, next) {
   fridge.delIngredient(req, function (err) {
     if (!err) {
-      console.log(`Deleted ${req.body.item.name} to fridge!`)
+      console.log(`Deleted ${req.body.item.name} from fridge!`)
       res.status(200).end()
     } else {
-      console.log(`Failed to delete from database.`)
+      console.log('Failed to delete from database.')
+      next(err)
+    }
+  })
+})
+
+router.get('/fridge/get', function(req, res, next) {
+  console.log(req.session)
+  fridge.getFridge(req, function (err, fridge) {
+    if (!err) {
+      console.log('Fridge fetched from database!')
+      res.json(fridge)
+    } else {
+      console.log('Failed to fetch from database.')
       next(err)
     }
   })

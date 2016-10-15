@@ -1,5 +1,6 @@
 import React from 'react'
-import { addIngredient } from '../clientapi'
+import { addIngredient, delIngredient } from '../clientapi'
+import { Debounce } from 'react-throttle'
 import $ from 'jquery'
 
 export default class IngredientSuggestion extends React.Component {
@@ -9,27 +10,90 @@ export default class IngredientSuggestion extends React.Component {
       status: null,
       errtype: null,
       message: null,
-      added: this.props.fridge
+      added: null
     }
+    this.handleClick = this.handleClick.bind(this)
     this.addToFridge = this.addToFridge.bind(this)
+    this.delFromFridge = this.delFromFridge.bind(this)
+    this.isInFridge = this.isInFridge.bind(this)
   }
-  addToFridge(e) {
+
+  componentDidMount() {
+    this.setState({ added: this.isInFridge() })
+  }
+
+  handleClick(e) {
+    if (this.state.added) {
+      this.delFromFridge()
+    } else {
+      this.addToFridge()
+    }
+  }
+
+  addToFridge() {
     var ingredient = this.props.item
     var that = this
+    var elemId = '#' + that.props.listkey
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        that.setState({ status: 'success', message: `Added ${ingredient.name} to fridge!` })
+        that.props.handleUpdate('add', ingredient.id.toString())
+        that.setState({
+          status: 'success',
+          message: `Added ${ingredient.name} to fridge!`,
+          added: true
+        })
       } else {
-        that.setState({ status: 'failure', message: 'Failed to save to fridge.' })
+        that.setState({
+          status: 'failure',
+          message: 'Failed to save to fridge.'
+        })
       }
       console.log(that.state.message)
-      window.showTooltip($('#' + that.props.listkey))
+      $('.tooltip-inner').html(that.state.message)
+      setTimeout(function () {
+        window.showTooltip($(elemId))
+      }, 100)
     })
+    return true
   }
+
+  delFromFridge() {
+    var ingredient = this.props.item
+    var that = this
+    var elemId = '#' + that.props.listkey
+    delIngredient(ingredient, function (err, res, body) {
+      if (!err && res.statusCode == 200) {
+        that.props.handleUpdate('del', ingredient.id.toString())
+        that.setState({
+          status: 'success',
+          message: `Deleted ${ingredient.name} from fridge!`,
+          added: false
+        })
+      } else {
+        that.setState({
+          status: 'failure',
+          message: 'Failed to delete from fridge.'
+        })
+      }
+      console.log(that.state.message)
+      window.showTooltip($(elemId))
+      $('.tooltip-inner').html(that.state.message)
+    })
+    return true
+  }
+
+  isInFridge() {
+    var itemIdStr = this.props.item.id.toString()
+    return this.props.fridge.includes(itemIdStr)
+  }
+
   render() {
     var imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
     var imageURL = imgBaseURL + this.props.item.image
     var name = this.props.item.name
+    var buttonClass = ''
+    if (this.state.added)
+      buttonClass += ' success'
     return (
       <li className='media ingredient' onMouseDown={(e) => { e.preventDefault() }}>
         <div className='media-left media-middle'>
@@ -39,8 +103,8 @@ export default class IngredientSuggestion extends React.Component {
           <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
-          <button id={this.props.listkey} onMouseDown={this.addToFridge}
-                  className={'btn btn-default btn-add ' + this.state.status}
+          <button id={this.props.listkey} onMouseUp={this.handleClick}
+                  className={'btn btn-default btn-add ' + buttonClass}
                   title={this.state.message} data-toggle='tooltip'
                   data-container='body' data-placement='right'
                   data-trigger='manual'>

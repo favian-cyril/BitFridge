@@ -1,7 +1,9 @@
-@font-face {
-  font-family: "San Francisco Display";
-  font-weight: normal;
-  src: url(/fonts/sanfranciscodisplay-regular-webfont.woff);
+body {
+  font-family: "San Francisco Display", "Helvetica Neue", Arial, sans-serif;
+}
+
+input:focus {
+  outline: none 0;
 }
 
 body {
