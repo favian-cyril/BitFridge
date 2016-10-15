@@ -36,6 +36,8 @@ export default class SearchContainer extends React.Component {
           <SuggestionsList
             searchText={this.state.text}
             isFocused={this.state.isFocused}
+            fridge={this.props.fridge}
+            handleUpdate={this.props.handleUpdate}
           />
         </div>
       </div>
