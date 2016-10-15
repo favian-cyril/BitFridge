@@ -81,7 +81,10 @@ export default class SuggestionsList extends React.Component {
             return <IngredientSuggestion 
               item={item} 
               key={i} 
-              listkey={i}/>
+              listkey={i}
+              fridge={this.props.fridge}
+              handleUpdate={this.props.handleUpdate}
+            />
           })
         }
       </ul>

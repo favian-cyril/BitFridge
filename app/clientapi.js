@@ -27,18 +27,25 @@ function delIngredient(ingredient, cb) {
   post(url, form, cb) 
 }
 
+function getFridge(cb) {
+  var url = baseUrl + 'fridge/get'
+  get(url, null, cb)
+}
+
 function get (url, params, cb) {
-  url = append(url, params)
+  if (params)
+    url = append(url, params)
   request.get(url, function (err, res, body) {
     if (!err && res.statusCode == 200)
       cb(null, res, JSON.parse(body))
     else if (res.statusCode == 500) {
       // DEVELOPMENT ONLY
-      var body = JSON.parse(res.body)
+      body = JSON.parse(res.body)
       err = new Error(body.message)
       err.stack = body.stack
       console.error(err)
       // DEVELOPMENT ONLY
+      cb(err)
     }
   }).on('error', function (err) {
     cb(err)
@@ -57,11 +64,12 @@ function post (url, obj, cb) {
       cb(null, res)
     else if (res.statusCode == 500) {
       // DEVELOPMENT ONLY
-      var body = JSON.parse(res.body)
+      body = JSON.parse(res.body)
       err = new Error(body.message)
       err.stack = body.stack
       console.error(err)
       // DEVELOPMENT ONLY
+      cb(err)
     }
   }).on('error', function (err) {
     cb(err)
@@ -70,5 +78,7 @@ function post (url, obj, cb) {
 
 module.exports = {
   searchIngredients: searchIngredients,
-  addIngredient: addIngredient
+  addIngredient: addIngredient,
+  delIngredient: delIngredient,
+  getFridge: getFridge
 }
