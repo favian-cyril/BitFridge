@@ -11,7 +11,7 @@ function addIngredient(req, cb) {
         } else {
         models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
         }
-      }
+      })
       cb(null)
     } else {
       cb(new Error('Duplicate item added.'))
