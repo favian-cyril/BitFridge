@@ -1,6 +1,6 @@
 import React from 'react'
 import { addIngredient, delIngredient } from '../clientapi'
-import { Debounce } from 'react-throttle'
+import _ from 'lodash'
 import $ from 'jquery'
 
 export default class IngredientSuggestion extends React.Component {
@@ -49,10 +49,8 @@ export default class IngredientSuggestion extends React.Component {
         })
       }
       console.log(that.state.message)
+      window.showTooltip($(elemId))
       $('.tooltip-inner').html(that.state.message)
-      setTimeout(function () {
-        window.showTooltip($(elemId))
-      }, 100)
     })
     return true
   }
@@ -103,7 +101,7 @@ export default class IngredientSuggestion extends React.Component {
           <p className='media-heading'>{ name }</p>
         </div>
         <div className='media-right media-middle'>
-          <button id={this.props.listkey} onMouseUp={this.handleClick}
+          <button id={this.props.listkey} onMouseUp={_.debounce(this.handleClick, 1000, { leading: true })}
                   className={'btn btn-default btn-add ' + buttonClass}
                   title={this.state.message} data-toggle='tooltip'
                   data-container='body' data-placement='right'
