@@ -1,3 +1,5 @@
+var models = require('../models')
+
 function addIngredient(req, cb) {
   if (req.session.key) {
     var id = req.body.item.id
@@ -5,6 +7,13 @@ function addIngredient(req, cb) {
       req.session.fridge = []
     if (!(req.session.fridge.includes(id))) {
       req.session.fridge.push(id)
+      models.guest.findById(req.session.id).then(function(guest) {
+        if (guest == null) {
+        models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
+        } else {
+        models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+        }
+      })
       cb(null)
     } else {
       cb(new Error('Duplicate item added.'))
@@ -20,6 +29,7 @@ function delIngredient(req, cb) {
     var index = req.session.fridge.indexOf(id)
     if (index > -1) {
       req.session.fridge.splice(index, 1)
+      models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
       cb(null)
     }
     else {
