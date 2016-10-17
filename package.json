@@ -4,7 +4,7 @@
   "description": "BitFridge ========= ### Group C   - 1406546185 - Farras Apsari Putri   - 1406546134 - Irsyad Nabil   - 1406546153 - Meta Andrini Utari   - 1406641621 - Favian Cyrilvarick Amrullah   - 1406546140 - Abdurrahman Faris Agianda",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node --harmony_array_includes ./bin/www",
     "build": "gulp bundle",
     "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js",
     "test": "mocha --compilers js:babel-core/register test/**/*-test.js",
@@ -22,6 +22,7 @@
     "express": "~4.13.4",
     "express-session": "1.14.1",
     "jquery": "3.1.1",
+    "lodash": "4.16.4",
     "morgan": "~1.7.0",
     "react": "15.3.2",
     "react-dom": "15.2.1",
