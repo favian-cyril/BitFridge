@@ -22,6 +22,19 @@ export default class DashboardContainer extends React.Component {
       			</div>
       		</div>
       	</nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="row">
+                        <FridgeCardContainer />
+                        <!--Cooking today container-->
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8">
+                    <!--Recipe result container-->
+                </div>
+            </div>
+        </div>
       )
     }
   }
