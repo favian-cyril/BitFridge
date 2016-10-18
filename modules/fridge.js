@@ -5,7 +5,7 @@ function addIngredient(req, cb) {
     var id = req.body.item.id
     if (req.session.fridge == undefined)
       req.session.fridge = []
-    if (!(req.session.fridge.includes(id))) {
+    if (req.session.fridge.indexOf(id) === -1) {
       req.session.fridge.push(id)
       models.guest.findById(req.session.id).then(function(guest) {
         if (guest == null) {
