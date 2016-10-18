@@ -23,9 +23,6 @@ export default class SearchBar extends React.Component {
   }
 
   render() {
-    var divClass, iClass, inputClass
-    if (this.props.context == "index") {}
-
     return (
       <div className="input-group form-group right-inner-addon">
         <input

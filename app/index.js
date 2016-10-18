@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Router, browserHistory } from 'react-router'
-import IndexContainer from './containers/IndexContainer'
+import MainContainer from './containers/MainContainer'
 
 var routes = (
   <Router history={browserHistory}>
-    <Route path='/' component={IndexContainer}/>
+    <Route path='/' component={MainContainer}/>
   </Router>
 )
 

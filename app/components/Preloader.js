@@ -6,7 +6,7 @@ export default function () {
   var classes = 'preloader dropdown-menu'
   return (
     <div className={classes}>
-      <img src={imgfile} className='center-block img-responsive'/>
+      <img src={imgfile} className='centered img-responsive'/>
     </div>
   )
 }

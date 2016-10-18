@@ -126,4 +126,9 @@ div.preloader {
 .centered {
   float: none;
   margin: 0 auto;
+  display: block;
+}
+
+.search-bar-fix {
+  top: 2px;
 }

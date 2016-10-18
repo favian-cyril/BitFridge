@@ -40,6 +40,7 @@ export default class SearchContainer extends React.Component {
             isFocused={this.state.isFocused}
             fridge={this.props.fridge}
             handleUpdate={this.props.handleUpdate}
+            context={this.props.context}
           />
         </div>
       </div>

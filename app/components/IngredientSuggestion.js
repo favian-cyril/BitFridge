@@ -16,6 +16,7 @@ export default class IngredientSuggestion extends React.Component {
     this.addToFridge = this.addToFridge.bind(this)
     this.delFromFridge = this.delFromFridge.bind(this)
     this.isInFridge = this.isInFridge.bind(this)
+    this.showTooltip = this.showTooltip.bind(this)
   }
 
   componentDidMount() {
@@ -23,66 +24,74 @@ export default class IngredientSuggestion extends React.Component {
   }
 
   handleClick(e) {
-    if (this.state.added) {
-      this.delFromFridge()
-    } else {
-      this.addToFridge()
-    }
-  }
-
-  addToFridge() {
     var ingredient = this.props.item
     var that = this
     var elemId = '#' + that.props.listkey
+    if (this.state.added) {
+      this.delFromFridge(ingredient, function () {
+        if ((that.props.fridge.length > 2 && that.props.context == "dashboard") ||
+        that.props.context == "index")
+          that.showTooltip(elemId)
+      })
+    } else {
+      this.addToFridge(ingredient, () => {
+        if ((that.props.fridge.length < 3 && that.props.context == "index") ||
+          that.props.context == "dashboard")
+          that.showTooltip(elemId)
+      })
+    }
+  }
+
+  addToFridge(ingredient, cb) {
+    var that = this
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('add', ingredient.id.toString())
-        that.setState({
+        var unmounting = that.props.fridge.length > 2
+        if (!unmounting) that.setState({
           status: 'success',
           message: `Added ${ingredient.name} to fridge!`,
           added: true
         })
       } else {
-        that.setState({
+        if (!unmounting) that.setState({
           status: 'failure',
           message: 'Failed to save to fridge.'
         })
       }
-      console.log(that.state.message)
-      window.showTooltip($(elemId))
-      $('.tooltip-inner').last().html(that.state.message)
+      cb()
     })
-    return true
   }
 
-  delFromFridge() {
-    var ingredient = this.props.item
+  delFromFridge(ingredient, cb) {
     var that = this
-    var elemId = '#' + that.props.listkey
     delIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('del', ingredient.id.toString())
-        that.setState({
+        var unmounting = that.props.fridge.length < 3
+          if (!unmounting) that.setState({
           status: 'success',
           message: `Deleted ${ingredient.name} from fridge!`,
           added: false
         })
       } else {
-        that.setState({
+        if (!unmounting) that.setState({
           status: 'failure',
           message: 'Failed to delete from fridge.'
         })
       }
-      console.log(that.state.message)
-      window.showTooltip($(elemId))
-      $('.tooltip-inner').last().html(that.state.message)
+      cb()
     })
-    return true
   }
 
   isInFridge() {
     var itemIdStr = this.props.item.id.toString()
     return this.props.fridge.includes(itemIdStr)
+  }
+
+  showTooltip(elemId) {
+    window.showTooltip($(elemId))
+    $('.tooltip-inner').last().html(this.state.message)
   }
 
   render() {

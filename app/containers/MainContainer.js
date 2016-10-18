@@ -16,6 +16,13 @@ export default class IndexContainer extends React.Component {
   componentDidMount() {
     this.getFridge()
   }
+  
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.fridge.length > 2 && !nextState.showDash)
+      this.setState({ showDash: true })
+    else if (nextState.fridge.length < 3 && nextState.showDash)
+      this.setState({ showDash: false })
+  }
 
   getFridge() {
     var that = this
@@ -43,7 +50,7 @@ export default class IndexContainer extends React.Component {
         <div className="index-container index-view">
           <div className="container-fluid">
             <div className="row">
-              <img className="img-responsive index-logo col-md-offset-4 col-md-4" src="/images/logo-4x.png"/>
+              <img className="img-responsive index-logo offset-md-4 col-md-4" src="/images/logo-4x.png"/>
             </div>
             <div className="row">
               <div className="centered col-md-6">
@@ -55,12 +62,21 @@ export default class IndexContainer extends React.Component {
       )
     } else {
       return (
-        <div className="index-container">
-          <div className="container">
-            <img className="img-responsive index-logo col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6"
-                 src="/images/logo-8x.png"/>
+        <div className="dash-container">
+          <nav className="navbar navbar-fixed-top navbar-light clearfix">
+            <div className="row">
+              <div className="col-xs-3 offset-xs-1">
+                <img className="img-responsive" src="../images/logo-1x.png"/>
+              </div>
+              <div className="col-xs-7 search-bar-fix">
+                <div className="container">
+                  <SearchContainer context="dashboard" fridge={this.state.fridge} handleUpdate={this.updateFridge}/>
+                </div>
+              </div>
+            </div>
+          </nav>
+          <div className="container-fluid">
           </div>
-          <SearchContainer context="dashboard"/>
         </div>
       )
     }
