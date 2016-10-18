@@ -8,6 +8,11 @@ div.index-container {
   margin-top: 25vh;
 }
 
+/* DASH CONTAINER */
+div.dash-container > div {
+  padding-top: 70px;
+}
+
 /* IMAGES */
 img.index-logo {
   padding: 20px;
@@ -37,6 +42,11 @@ div.card-block {
 
 div.card-block.recipe-card {
   background-color: #ffffff;
+}
+
+.list-wrapper {
+  max-height: 33vh;
+  overflow-y: auto;
 }
 
 /* INGREDIENT SUGGESTION */

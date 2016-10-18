@@ -1,8 +1,9 @@
 import React from 'react'
 import SearchContainer from './SearchContainer'
+import Fridge from '../components/Fridge'
 import { getFridge } from '../clientapi'
 
-export default class IndexContainer extends React.Component {
+export default class MainContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -76,6 +77,13 @@ export default class IndexContainer extends React.Component {
             </div>
           </nav>
           <div className="container-fluid">
+            <div className="row">
+              <div className="col-xs-3 offset-xs-1">
+                <div className="row">
+                  <Fridge contents={this.state.fridge}/>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )
