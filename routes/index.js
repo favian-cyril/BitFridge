@@ -9,9 +9,9 @@ router.get('/', function(req, res, next) {
   }
   var baseurl
   if (process.env.NODE_ENV == 'production') {
-    baseurl = 'http://188.166.247.122/api'
+    baseurl = 'http://188.166.247.122/api/'
   } else {
-    baseurl = 'http://localhost:3000/api'
+    baseurl = 'http://localhost:3000/api/'
   }
   res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
 })
