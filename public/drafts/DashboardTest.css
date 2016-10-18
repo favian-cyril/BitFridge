@@ -1,0 +1,16 @@
+nav.navbar-fixed-top {
+    background-color: #ffffff;
+    border-bottom: solid 1px #CCCCCC;
+    min-height:60px !important;
+}
+
+.list-wrapper {
+    max-height: 196px;
+    overflow-y: auto;
+    margin-top: -15px;
+}
+
+li.list-group-item {
+    border-right: none;
+    border-left: none;
+}
