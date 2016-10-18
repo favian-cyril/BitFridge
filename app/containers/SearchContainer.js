@@ -25,7 +25,7 @@ export default class SearchContainer extends React.Component {
   render() {
     return (
       <div className='container'>
-        <div className='centered col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2'>
+        <div className='row'>
           <Debounce time='400' handler='onInput'>
             <SearchBar
               onInput={this.handleInput}
@@ -33,6 +33,8 @@ export default class SearchContainer extends React.Component {
               context={this.props.context}
             />
           </Debounce>
+        </div>
+        <div className='row'>
           <SuggestionsList
             searchText={this.state.text}
             isFocused={this.state.isFocused}

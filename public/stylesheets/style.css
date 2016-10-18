@@ -1,23 +1,45 @@
+/* GLOBALS */
 body {
-  font-family: "San Francisco Display", "Helvetica Neue", Arial, sans-serif;
+  background-color: #f3f5f6;
 }
 
-input:focus {
-  outline: none 0;
-}
-
-body {
-  font-family: "San Francisco Display", Helvetica, Arial, sans-serif;
-}
-
+/* INDEX CONTAINER */
 div.index-container {
-  margin-top: 10vh;
+  margin-top: 20vh;
 }
 
+/* IMAGES */
 img.index-logo {
   padding: 20px;
 }
 
+/* NAVBAR STUFF */
+div.form-group {
+  margin-bottom: 0;
+}
+
+nav.navbar-fixed-top {
+  background-color: #ffffff;
+  border-bottom: solid 1px #CCCCCC;
+  min-height: 60px !important;
+}
+
+/* CARD CONTAINER */
+div.card {
+  margin: 10px;
+}
+
+div.card-block {
+  padding: 15px 15px 5px 15px;
+  border-bottom: 1px solid #cccccc;
+  background-color: #e7e7e7;
+}
+
+div.card-block.recipe-card {
+  background-color: #ffffff;
+}
+
+/* INGREDIENT SUGGESTION */
 .media-body {
   vertical-align: middle;
 }
@@ -37,38 +59,15 @@ img.index-logo {
 }
 
 .media.ingredient p.media-heading {
-  font-size: 1.25rem;
   text-transform: capitalize;
+  margin-bottom: 0;
 }
 
-.form-group {
-  margin-bottom: 5px;
-}
-
-input.form-control::-webkit-input-placeholder {
-  color: #ccc;
-}
-
-.dropdown-menu {
-  padding: 0;
-  border-radius: 4px;
-  height: auto;
-}
-
-div.search-error {
-  color: rgba(0, 0, 0, 0.4);
-  padding: 0 10px 10px 10px;
-  width: 100%;
-}
-
-div.preloader {
-  width: 100%;
-  padding: 20px 0;
-}
-
+/* ADD TO FRIDGE */
 button.btn-add {
   background-color: transparent;
-  padding: 10px;
+  padding: 0 5px;
+  color: #55595c;
 }
 
 button.btn-add:hover {
@@ -83,27 +82,48 @@ button.btn-add.success {
   color: rgb(105, 187, 15)
 }
 
-.centered{
-  float: none;
-  margin: 0 auto;
+/* SEARCH BAR */
+
+input.form-control::-webkit-input-placeholder {
+  color: #ccc;
+}
+
+/* SEARCH DROPDOWN */
+.dropdown-menu {
+  margin-top: 5px;
+  padding: 0;
+  border-radius: 4px;
+  height: auto;
+}
+
+/* ERROR MSGS, PRELOADER */
+
+div.search-error {
+  color: rgba(0, 0, 0, 0.4);
+  padding: 0 10px 10px 10px;
+  width: 100%;
+}
+
+div.preloader {
+  width: 100%;
+  padding: 20px 0;
 }
 
 /* ICON IN INPUT */
+.right-inner-addon {
+  position: relative;
+}
 
-  .right-inner-addon {
-    position: relative;
-  }
+.right-inner-addon input {
+  padding-right: 60px;
+}
 
-  .right-inner-addon input {
-    padding-right: 30px;
-  }
+.right-inner-addon i {
+  line-height: normal;
+}
 
-  .right-inner-addon i {
-    position:absolute;
-    right: 0px;
-    padding: 10px 12px;
-  }
-
-  i.fa-search {
-    line-height: inherit;
-  }
+/* UTILITY CLASSES */
+.centered {
+  float: none;
+  margin: 0 auto;
+}

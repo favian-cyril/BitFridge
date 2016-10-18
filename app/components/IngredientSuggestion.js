@@ -95,12 +95,12 @@ export default class IngredientSuggestion extends React.Component {
     return (
       <li className='media ingredient' onMouseDown={(e) => { e.preventDefault() }}>
         <div className='media-left media-middle'>
-          <img className='img-rounded' src={ imageURL } alt='50x48' width='50' height='50'/>
+          <img className='img-rounded' src={ imageURL } alt='50x48' width='40' height='40'/>
         </div>
         <div className='media-body'>
           <p className='media-heading'>{ name }</p>
         </div>
-        <div className='media-right media-middle'>
+        <div className='media-right media-bottom'>
           <button id={this.props.listkey} onMouseUp={_.debounce(this.handleClick, 1000, { leading: true })}
                   className={'btn btn-default btn-add ' + buttonClass}
                   title={this.state.message} data-toggle='tooltip'

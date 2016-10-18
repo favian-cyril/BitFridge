@@ -40,12 +40,17 @@ export default class IndexContainer extends React.Component {
   render() {
     if (!this.state.showDash) {
       return (
-        <div className="index-container">
-          <div className="container">
-            <img className="img-responsive index-logo col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6"
-                 src="/images/logo-8x.png"/>
+        <div className="index-container index-view">
+          <div className="container-fluid">
+            <div className="row">
+              <img className="img-responsive index-logo col-md-offset-4 col-md-4" src="/images/logo-4x.png"/>
+            </div>
+            <div className="row">
+              <div className="centered col-md-6">
+                <SearchContainer context="index" fridge={this.state.fridge} handleUpdate={this.updateFridge}/>
+              </div>
+            </div>
           </div>
-          <SearchContainer context="index" fridge={this.state.fridge} handleUpdate={this.updateFridge}/>
         </div>
       )
     } else {

@@ -24,16 +24,12 @@ export default class SearchBar extends React.Component {
 
   render() {
     var divClass, iClass, inputClass
-    if (this.props.context == 'index') {
-      divClass = " form-group-lg"
-      iClass = " fa-lg"
-      inputClass = " form-control-lg"
-    }
+    if (this.props.context == "index") {}
+
     return (
-      <div className={"form-group right-inner-addon" + divClass}>
-        <i className={"fa fa-search" + iClass}></i>
+      <div className="input-group form-group right-inner-addon">
         <input
-          className={"form-control " + inputClass}
+          className="form-control"
           type="text"
           ref="searchInput"
           placeholder="Search for ingredients..."
@@ -41,6 +37,7 @@ export default class SearchBar extends React.Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
+        <span className="input-group-addon"><i className="fa fa-search"></i></span>
       </div>
     )
   }
