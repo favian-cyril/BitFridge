@@ -21,6 +21,10 @@ export default class SearchContainer extends React.Component {
   handleFocus(focus) {
     this.setState({ isFocused: focus })
   }
+  
+  componentWillUnmount() {
+    window.destroyTooltips()
+  }
 
   render() {
     return (

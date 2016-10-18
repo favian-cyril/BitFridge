@@ -8,3 +8,7 @@ function showTooltip(target) {
     $(target).tooltip('hide');
   }, 2000)
 }
+
+function destroyTooltips() {
+  $("[data-toggle='tooltip']").tooltip('dispose');
+}
