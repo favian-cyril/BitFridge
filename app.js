@@ -8,8 +8,7 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
-var MySQLStore = require('express-mysql-session')(session)
-// var Sequelize = require('sequelize')
+var RedisStore = require('connect-redis')(session)
 
 // fetch .env environment variables
 require('dotenv').config()
@@ -33,13 +32,22 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-// session store setup
-var sessionMiddleware = session({
-  // store: new MySQLStore(options),
+// session store options depend on environment
+var options = {
   secret: 'this is a not-so-secret key',
   saveUninitialized: false,
   resave: false
-})
+}
+
+if (app.get('env') == 'production') {
+  options.store = new RedisStore({
+    host: 'localhost',
+    port: 6379
+  })
+}
+
+// session store setup
+var sessionMiddleware = session(options)
 app.use(sessionMiddleware)
 
 // session check and retry
