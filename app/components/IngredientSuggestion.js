@@ -50,7 +50,7 @@ export default class IngredientSuggestion extends React.Component {
       }
       console.log(that.state.message)
       window.showTooltip($(elemId))
-      $('.tooltip-inner').html(that.state.message)
+      $('.tooltip-inner').last().html(that.state.message)
     })
     return true
   }
@@ -75,7 +75,7 @@ export default class IngredientSuggestion extends React.Component {
       }
       console.log(that.state.message)
       window.showTooltip($(elemId))
-      $('.tooltip-inner').html(that.state.message)
+      $('.tooltip-inner').last().html(that.state.message)
     })
     return true
   }
