@@ -1,6 +1,10 @@
 body {
-    padding-top: 10px;
+    padding-top: 70px;
     background-color: #f3f5f6;
+}
+
+.row.top-gutter {
+	margin-top: 15px;
 }
 
 /* NAVBAR STUFF */
@@ -24,9 +28,15 @@ div.card {
 div.card-block {
     padding: 15px 15px 5px 15px;
     border-bottom: 1px solid #cccccc;
+    background-color: #e7e7e7;
+}
+
+div.card-block.recipe-card {
+    background-color: #ffffff;
 }
 
 /* INGREDIENTS */
+
 .media-body {
     position: relative;
     top: 50%;
@@ -42,13 +52,9 @@ div.card-block {
 }
 
 .list-wrapper {
-    max-height: 180px;
+    max-height: 33vh;
     overflow-y: auto;
 }
-
-/* 	.media.ingredient:last-child {
-	  border: 0;
-	} */
 
 .media.ingredient:hover {
     background-color: rgba(0, 0, 0, 0.05);
@@ -62,6 +68,7 @@ div.card-block {
 button.btn-add {
     background-color: transparent;
     padding: 10px;
+    color: #55595c;
 }
 
 button.btn-add:hover {
@@ -96,4 +103,12 @@ button.btn-add.success {
 li.list-group-item {
     border-right: none;
     border-left: none;
+}
+
+/* VERTICAL CENTERING */
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
