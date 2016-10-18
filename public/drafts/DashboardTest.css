@@ -1,13 +1,96 @@
+body {
+    padding-top: 10px;
+    background-color: #f3f5f6;
+}
+
+/* NAVBAR STUFF */
+
+div.form-group {
+    margin-bottom: 0;
+}
+
 nav.navbar-fixed-top {
     background-color: #ffffff;
     border-bottom: solid 1px #CCCCCC;
-    min-height:60px !important;
+    min-height: 60px !important;
+}
+
+/* CARD CONTAINER */
+
+div.card {
+    margin: 10px;
+}
+
+div.card-block {
+    padding: 15px 15px 5px 15px;
+    border-bottom: 1px solid #cccccc;
+}
+
+/* INGREDIENTS */
+.media-body {
+    position: relative;
+    top: 50%;
+    transform: translateY(12.5%);
+    vertical-align: middle;
+}
+
+.media.ingredient {
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    background-color: #ffffff;
 }
 
 .list-wrapper {
-    max-height: 196px;
+    max-height: 180px;
     overflow-y: auto;
-    margin-top: -15px;
+}
+
+/* 	.media.ingredient:last-child {
+	  border: 0;
+	} */
+
+.media.ingredient:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.media.ingredient p {
+    text-transform: capitalize;
+    line-height: 100%;
+}
+
+button.btn-add {
+    background-color: transparent;
+    padding: 10px;
+}
+
+button.btn-add:hover {
+    color: rgb(105, 187, 15)
+}
+
+button.btn-add:active {
+    color: rgba(65, 117, 5, 1)
+}
+
+button.btn-add.success {
+    color: rgb(105, 187, 15)
+}
+
+/* ICON IN INPUT */
+
+.right-inner-addon.pull-xs-right {
+    position: relative;
+}
+
+.right-inner-addon.pull-xs-right input {
+    padding-right: 60px;
+}
+
+.right-inner-addon.pull-xs-right i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 24px;
+    line-height: auto;
 }
 
 li.list-group-item {
