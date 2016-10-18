@@ -5,6 +5,12 @@ nav.navbar-fixed-top {
 }
 
 .list-wrapper {
-    max-height: 148px;
+    max-height: 196px;
     overflow-y: auto;
+    margin-top: -15px;
+}
+
+li.list-group-item {
+    border-right: none;
+    border-left: none;
 }
