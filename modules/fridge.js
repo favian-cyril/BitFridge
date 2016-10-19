@@ -1,17 +1,23 @@
 var models = require('../models')
 
 function addIngredient(req, cb) {
-  if (req.session.key) {
-    var id = req.body.item.id
+  if (req.session.id) {
+    var item = req.body.item
+    var index = -1
     if (req.session.fridge == undefined)
       req.session.fridge = []
-    if (req.session.fridge.indexOf(id) === -1) {
-      req.session.fridge.push(id)
+    req.session.fridge.forEach((res, i) => {
+      if (item.id == res.id)
+        index = i
+    })
+    if (index === -1) {
+      req.session.fridge.push(item)
+      console.log(req.session.id)
       models.guest.findById(req.session.id).then(function(guest) {
         if (guest == null) {
-        models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
+          models.guest.create({id:req.session.id,fridge:JSON.stringify(req.session.fridge)})
         } else {
-        models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
+          models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
         }
       })
       cb(null)
@@ -24,9 +30,13 @@ function addIngredient(req, cb) {
 }
 
 function delIngredient(req, cb) {
-  if (req.session.key) {
-    var id = req.body.item.id.toString()
-    var index = req.session.fridge.indexOf(id)
+  if (req.session.id) {
+    var item = req.body.item
+    var index = -1
+    req.session.fridge.forEach((res, i) => {
+      if (item.id == res.id) 
+        index = i
+    })
     if (index > -1) {
       req.session.fridge.splice(index, 1)
       models.guest.update({fridge:JSON.stringify(req.session.fridge)}, {where:{id:req.session.id}})
@@ -41,7 +51,7 @@ function delIngredient(req, cb) {
 }
 
 function getFridge(req, cb) {
-  if (req.session.key) {
+  if (req.session.id) {
     if (req.session.fridge == undefined)
       req.session.fridge = []
     cb(null, req.session.fridge)

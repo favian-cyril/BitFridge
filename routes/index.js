@@ -5,7 +5,7 @@ var router = express.Router()
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if (!req.session.key) {
-    req.session.key = uuid.v1()
+    req.session.id = uuid.v1()
   }
   var baseurl
   if (process.env.NODE_ENV == 'production') {
