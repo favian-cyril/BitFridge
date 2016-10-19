@@ -34,13 +34,14 @@ export default class MainContainer extends React.Component {
     })
   }
 
-  updateFridge(op, id) {
+  updateFridge(op, item) {
     var fridge = this.state.fridge
-    if (op == 'add') {
-      fridge.push(id)
-    } else if (op == 'del') {
-      let idx = fridge.indexOf(id)
-      if (idx > -1) fridge.splice(idx, 1)
+    var idx = -1
+    fridge.forEach((res, i) => { if (res.id == item.id) idx = i })
+    if (op == 'add' && idx == -1) {
+      fridge.push(item)
+    } else if (op == 'del' && idx > -1) {
+      fridge.splice(idx, 1)
     }
     this.setState({ fridge: fridge })
   }
@@ -77,7 +78,7 @@ export default class MainContainer extends React.Component {
             </div>
           </nav>
           <div className="container-fluid">
-            <div className="row">
+            <div className="row no-gutter">
               <div className="col-xs-3 offset-xs-1">
                 <div className="row">
                   <Fridge contents={this.state.fridge}/>

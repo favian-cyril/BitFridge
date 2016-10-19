@@ -14,10 +14,6 @@ export default class Fridge extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
   render() {
     return (
       <div className='container fridge'>

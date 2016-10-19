@@ -46,7 +46,7 @@ export default class IngredientSuggestion extends React.Component {
     var that = this
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        that.props.handleUpdate('add', ingredient.id.toString())
+        that.props.handleUpdate('add', ingredient)
         var unmounting = (that.props.fridge.length > 2 && that.props.context == "index")
         if (!unmounting) that.setState({
           status: 'success',
@@ -67,7 +67,7 @@ export default class IngredientSuggestion extends React.Component {
     var that = this
     delIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
-        that.props.handleUpdate('del', ingredient.id.toString())
+        that.props.handleUpdate('del', ingredient)
         var unmounting = (that.props.fridge.length < 3 && that.props.context == "dashboard")
           if (!unmounting) that.setState({
           status: 'success',
