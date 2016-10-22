@@ -15,6 +15,14 @@ function searchIngredients (string, cb) {
   get(url, params, cb)
 }
 
+function searchResults (ingredients, page, cb) {
+  var url = baseUrl + 'recipes/results'
+  var params = {
+    ingredients: ingredients,
+    page: page
+  }
+  get(url, params, cb)
+}
 function addIngredient(ingredient, cb) {
   var url = baseUrl + 'fridge/add'
   var form = { item: ingredient }
@@ -24,7 +32,7 @@ function addIngredient(ingredient, cb) {
 function delIngredient(ingredient, cb) {
   var url = baseUrl + 'fridge/del'
   var form = { item: ingredient }
-  post(url, form, cb) 
+  post(url, form, cb)
 }
 
 function getFridge(cb) {
@@ -78,6 +86,7 @@ function post (url, obj, cb) {
 
 module.exports = {
   searchIngredients: searchIngredients,
+  searchResults: searchResults,
   addIngredient: addIngredient,
   delIngredient: delIngredient,
   getFridge: getFridge
