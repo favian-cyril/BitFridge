@@ -4,11 +4,23 @@ var apicalls = require('../modules/apicalls')
 var fridge = require('../modules/fridge')
 
 var searchIngredients = apicalls.searchIngredients
+var searchResults = apicalls.searchResults
 
 router.get('/ingredients/autocomplete', function(req, res, next) {
   var path = req.path
   var params = req.query
   searchIngredients(path, params, function (err, response, body) {
+    if (!err && response.statusCode === 200)
+      res.json(body)
+    else
+      res.status(500).json(err)
+  })
+})
+
+router.get('/recipes/results', function(req, res, next) {
+  var ingredients = req.ingredients
+  var page = req.page
+  searchResults(ingredients, page, function (err, response, body) {
     if (!err && response.statusCode === 200)
       res.json(body)
     else
