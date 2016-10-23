@@ -20,6 +20,7 @@ export default class SearchBar extends React.Component {
 
   handleBlur() {
     this.props.setFocus(false)
+    window.destroyTooltips()
   }
 
   render() {

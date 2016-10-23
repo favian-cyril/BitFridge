@@ -29,14 +29,14 @@ export default class IngredientSuggestion extends React.Component {
     var elemId = '#' + that.props.listkey
     if (this.state.added) {
       this.delFromFridge(ingredient, function () {
-        if ((that.props.fridge.length > 2 && that.props.context == "dashboard") ||
-        that.props.context == "index")
+        if ((that.context.fridge.length > 2 && that.context.display == "dash") ||
+        that.context.display == "index")
           that.showTooltip(elemId)
       })
     } else {
       this.addToFridge(ingredient, () => {
-        if ((that.props.fridge.length < 3 && that.props.context == "index") ||
-          that.props.context == "dashboard")
+        if ((that.context.fridge.length < 3 && that.context.display == "index") ||
+          that.context.display == "dash")
           that.showTooltip(elemId)
       })
     }
@@ -47,14 +47,14 @@ export default class IngredientSuggestion extends React.Component {
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('add', ingredient)
-        var unmounting = (that.props.fridge.length > 2 && that.props.context == "index")
+        var unmounting = (that.context.fridge.length > 2 && that.context.display == "index")
         if (!unmounting) that.setState({
           status: 'success',
           message: `Added ${ingredient.name} to fridge!`,
           added: true
         })
       } else {
-        if (!unmounting) that.setState({
+        that.setState({
           status: 'failure',
           message: 'Failed to save to fridge.'
         })
@@ -68,14 +68,18 @@ export default class IngredientSuggestion extends React.Component {
     delIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('del', ingredient)
-        var unmounting = (that.props.fridge.length < 3 && that.props.context == "dashboard")
-          if (!unmounting) that.setState({
-          status: 'success',
-          message: `Deleted ${ingredient.name} from fridge!`,
-          added: false
-        })
+        var unmounting = (that.context.fridge.length < 3 && that.context.display == "dash")
+        var ingUnmount = (that.props.parent == 'fridge')
+          if (!unmounting && !ingUnmount)
+            that.setState({
+              status: 'success',
+              message: `Deleted ${ingredient.name} from fridge!`,
+              added: false
+            })
+          else if (ingUnmount) 
+            that.setState({ message: `Deleted ${ingredient.name} from fridge!` })
       } else {
-        if (!unmounting) that.setState({
+        that.setState({
           status: 'failure',
           message: 'Failed to delete from fridge.'
         })
@@ -85,8 +89,10 @@ export default class IngredientSuggestion extends React.Component {
   }
 
   isInFridge() {
-    var itemIdStr = this.props.item.id.toString()
-    return this.props.fridge.includes(itemIdStr)
+    var fridge = this.context.fridge
+    var itemIdStr = this.props.item.id
+    var results = fridge.filter((item) => { return itemIdStr == item.id })
+    return results.length > 0
   }
 
   showTooltip(elemId) {
@@ -99,6 +105,7 @@ export default class IngredientSuggestion extends React.Component {
     var imageURL = imgBaseURL + this.props.item.image
     var name = this.props.item.name
     var buttonClass = ''
+    var dataPlacement = (this.context.display == 'index') ? 'right' : 'left'
     if (this.state.added)
       buttonClass += ' success'
     return (
@@ -113,7 +120,7 @@ export default class IngredientSuggestion extends React.Component {
           <button id={this.props.listkey} onMouseUp={_.debounce(this.handleClick, 1000, { leading: true })}
                   className={'btn btn-default btn-add ' + buttonClass}
                   title={this.state.message} data-toggle='tooltip'
-                  data-container='body' data-placement='right'
+                  data-container='body' data-placement={dataPlacement}
                   data-trigger='manual'>
             <i className="fa fa-2x fa-plus btn-add-icon"></i>
           </button>
@@ -121,4 +128,9 @@ export default class IngredientSuggestion extends React.Component {
       </li>
     )
   }
+}
+
+IngredientSuggestion.contextTypes = {
+  fridge: React.PropTypes.array,
+  display: React.PropTypes.string
 }

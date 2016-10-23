@@ -12,10 +12,13 @@ export default class CardContent extends React.Component {
           <h5 className="card-title">{this.props.title}</h5>
         </div>
         <div className="list-wrapper">
-          <ul className='media-list dropdown-menu'>
+          <ul className='media-list'>
             {
               this.props.contents.map((item, i) => {
-                return <IngredientSuggestion item={ item } key={ i } fridge={ this.props.fridge }/>
+                return <IngredientSuggestion item={ item } key={ i } 
+                                             parent='fridge'
+                                             fridge={ this.props.fridge }
+                                             handleUpdate={this.props.handleUpdate}/>
               })
             }
           </ul>

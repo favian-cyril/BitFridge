@@ -1,6 +1,5 @@
 import React from 'react'
 import CardContent from '../components/CardContent'
-import IngredientSuggestion from '../components/IngredientSuggestion'
 
 export default class Fridge extends React.Component {
   constructor(props) {
@@ -17,7 +16,9 @@ export default class Fridge extends React.Component {
   render() {
     return (
       <div className='container fridge'>
-        <CardContent title={this.props.title} contents={this.state.contents}/>
+        <CardContent title={this.props.title} 
+                     contents={this.props.contents}
+                     handleUpdate={this.props.handleUpdate}/>
       </div>
     )
   }

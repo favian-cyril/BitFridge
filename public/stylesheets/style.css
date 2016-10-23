@@ -45,11 +45,15 @@ div.card-block.recipe-card {
 }
 
 .list-wrapper {
-  max-height: 33vh;
+  height: 33vh;
   overflow-y: auto;
 }
 
 /* INGREDIENT SUGGESTION */
+.media-list {
+  margin-bottom: 0;
+}
+
 .media-body {
   vertical-align: middle;
 }
@@ -60,7 +64,7 @@ div.card-block.recipe-card {
   border-bottom: 1px solid #ccc;
 }
 
-.media.ingredient:last-child {
+div.index-container .media.ingredient:last-child {
   border: 0;
 }
 
@@ -141,4 +145,9 @@ div.preloader {
 
 .search-bar-fix {
   top: 2px;
+}
+
+.no-gutter > [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0;
 }

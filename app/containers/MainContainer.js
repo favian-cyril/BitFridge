@@ -7,22 +7,31 @@ export default class MainContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showDash: false,
-      fridge: null
+      display: 'index',
+      fridge: []
     }
     this.getFridge = this.getFridge.bind(this)
     this.updateFridge = this.updateFridge.bind(this)
   }
 
-  componentDidMount() {
-    this.getFridge()
+  getChildContext() {
+    return {
+      fridge: this.state.fridge,
+      display: this.state.display
+    }
   }
   
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.fridge.length > 2 && !nextState.showDash)
-      this.setState({ showDash: true })
-    else if (nextState.fridge.length < 3 && nextState.showDash)
-      this.setState({ showDash: false })
+    if (nextState.fridge) {
+      if (nextState.fridge.length > 2 && nextState.display == 'index')
+        this.setState({display: 'dash'})
+      else if (nextState.fridge.length < 3 && nextState.display == 'dash')
+        this.setState({display: 'index'})
+    }
+  }
+  
+  componentDidMount() {
+    this.setState({ fridge: this.getFridge() })
   }
 
   getFridge() {
@@ -47,7 +56,7 @@ export default class MainContainer extends React.Component {
   }
   
   render() {
-    if (!this.state.showDash) {
+    if (this.state.display == 'index') {
       return (
         <div className="index-container index-view">
           <div className="container-fluid">
@@ -56,7 +65,7 @@ export default class MainContainer extends React.Component {
             </div>
             <div className="row">
               <div className="centered col-md-6">
-                <SearchContainer context="index" fridge={this.state.fridge} handleUpdate={this.updateFridge}/>
+                <SearchContainer handleUpdate={this.updateFridge}/>
               </div>
             </div>
           </div>
@@ -72,7 +81,7 @@ export default class MainContainer extends React.Component {
               </div>
               <div className="col-xs-7 search-bar-fix">
                 <div className="container">
-                  <SearchContainer context="dashboard" fridge={this.state.fridge} handleUpdate={this.updateFridge}/>
+                  <SearchContainer handleUpdate={this.updateFridge}/>
                 </div>
               </div>
             </div>
@@ -81,7 +90,7 @@ export default class MainContainer extends React.Component {
             <div className="row no-gutter">
               <div className="col-xs-3 offset-xs-1">
                 <div className="row">
-                  <Fridge contents={this.state.fridge}/>
+                  <Fridge contents={this.state.fridge} handleUpdate={this.updateFridge}/>
                 </div>
               </div>
             </div>
@@ -90,4 +99,9 @@ export default class MainContainer extends React.Component {
       )
     }
   }
+}
+
+MainContainer.childContextTypes = {
+  fridge: React.PropTypes.array,
+  display: React.PropTypes.string
 }

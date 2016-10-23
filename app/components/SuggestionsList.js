@@ -84,7 +84,6 @@ export default class SuggestionsList extends React.Component {
               listkey={i}
               fridge={this.props.fridge}
               handleUpdate={this.props.handleUpdate}
-              context={this.props.context}
             />
           })
         }
