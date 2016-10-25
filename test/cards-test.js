@@ -13,13 +13,8 @@ global.window = doc.defaultView
 describe('FridgeCardContainer', function() {
   it('should have a title', function() {
     var input = 'foo'
-    var wrapper = mount(<Fridge title={input}/>)
+    var wrapper = shallow(<Fridge title={input} contents={['foo', 'bar']}/>)
     assert.equal(input, wrapper.instance().props.title)
-  })
-  it("should have settings", function(){
-    var settings = {}
-    var wrapper = mount(<Fridge settings={settings}/>)
-    assert.equal(true, wrapper.state('settings') instanceof Object)
   })
   it("should have content", function(){
     var wrapper = shallow(<Fridge contents={<CardContent />}/>)
@@ -33,7 +28,7 @@ describe('CardContent', function() {
       {name: 'bar', image: 'foo', id: 321}
     ]
     var fridge = [123, 345, 567]
-    var wrapper = mount(<CardContent contents={items} fridge={fridge}/>)
+    var wrapper = shallow(<CardContent contents={items} fridge={fridge}/>)
     assert.equal(wrapper.find(IngredientSuggestion).length, 2)
   })
 })
