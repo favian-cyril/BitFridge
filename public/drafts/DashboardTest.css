@@ -56,6 +56,11 @@ div.card-block.recipe-card {
     overflow-y: auto;
 }
 
+.recipe-list-wrapper {
+    height: 87vh;
+    overflow-y: auto;
+}
+
 .media.ingredient:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
