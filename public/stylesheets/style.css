@@ -49,6 +49,11 @@ div.card-block.recipe-card {
   overflow-y: auto;
 }
 
+.recipe-list-wrapper {
+  height: 75vh;
+  overflow-y: auto;
+}
+
 /* INGREDIENT SUGGESTION */
 .media-list {
   margin-bottom: 0;
