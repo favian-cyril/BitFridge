@@ -93,6 +93,33 @@ export default class MainContainer extends React.Component {
                   <Fridge contents={this.state.fridge} handleUpdate={this.updateFridge}/>
                 </div>
               </div>
+              <div className="col-xs-7">
+                <div className="row">
+                  <div className="card">
+                    <div className="card-block recipe-card">
+                      <h4 className="card-title">Recipe Results</h4>
+                    </div>
+                    <div className="recipe-list-wrapper">
+                      <ul className="media-list">
+                        <li className='media ingredient'>
+                          <div className='media-left media-middle'>
+                            <img className='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                          </div>
+                          <div className="media-body">
+                            <h5 className="media-heading">Media heading</h5>
+                            <p><small className="text-muted">Missing: Melon</small></p>
+                          </div>
+                          <div className='media-right media-middle'>
+                            <button className='btn btn-default btn-add'>
+                              <i className="fa fa-2x fa-external-link btn-add-icon"></i>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

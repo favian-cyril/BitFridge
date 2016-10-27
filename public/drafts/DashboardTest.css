@@ -52,7 +52,7 @@ div.card-block.recipe-card {
 }
 
 .list-wrapper {
-    max-height: 33vh;
+    max-height: 32vh;
     overflow-y: auto;
 }
 
@@ -81,6 +81,20 @@ button.btn-add:active {
 
 button.btn-add.success {
     color: rgb(105, 187, 15)
+}
+
+/* RECIPE RESULTS */
+
+.recipe-list-wrapper {
+    height: 75vh;
+    overflow-y: auto;
+}
+
+.card.recipe:hover {
+    cursor: pointer;
+    cursor: hand;
+    border: solid 1px cornflowerblue;
+    box-shadow: 3px 3px 5px #cccccc;
 }
 
 /* ICON IN INPUT */
