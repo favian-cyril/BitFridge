@@ -4,6 +4,8 @@ var append = require('append-query')
 require('dotenv').config()
 
 var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
+var YUMMLY_APP_ID = process.env.YUMMLY_APP_ID
+var YUMMLY_API_KEY = process.env.YUMMLY_API_KEY
 
 /**
  * Performs ingredient search with ingredient metadata.
@@ -16,11 +18,17 @@ function searchIngredients (path, params, cb) {
 }
 
 function searchResults (ingredients, page, cb) {
-  var params = '&'
+  var ingrParam = ''
   ingredients.forEach( function (i) {
-    params = params + 'allowedIngredient[]=' + i
+    ingrParam += '&allowedIngredient[]=' + i
   })
-  var url = 'http://api.yummly.com/v1/api/recipes?_app_id=' + YUMMLY_APP_ID + '&_app_key=' + YUMMLY_API_KEY + params + '&maxResult=' + page
+  var params = {
+    _app_id: YUMMLY_APP_ID,
+    _app_key: YUMMLY_API_KEY,
+    maxResult: '8',
+    start: page * 8
+  }
+  var url = append('http://api.yummly.com/v1/api/recipes?', params) + ingrParam
   request.get(url, function (err, res, body) {
     if (!err && res.statusCode == 200)
       cb(null, res, JSON.parse(body))
