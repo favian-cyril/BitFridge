@@ -87,7 +87,7 @@ export default class MainContainer extends React.Component {
             </div>
           </nav>
           <div className="container-fluid">
-            <div className="row no-gutter">
+            <div className="row">
               <div className="col-xs-3 offset-xs-1">
                 <div className="row">
                   <Fridge contents={this.state.fridge} handleUpdate={this.updateFridge}/>
