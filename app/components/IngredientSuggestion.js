@@ -76,8 +76,6 @@ export default class IngredientSuggestion extends React.Component {
               message: `Deleted ${ingredient.name} from fridge!`,
               added: false
             })
-          else if (ingUnmount) 
-            that.setState({ message: `Deleted ${ingredient.name} from fridge!` })
       } else {
         that.setState({
           status: 'failure',
@@ -111,7 +109,7 @@ export default class IngredientSuggestion extends React.Component {
     return (
       <li className='media ingredient' onMouseDown={(e) => { e.preventDefault() }}>
         <div className='media-left media-middle'>
-          <img className='img-rounded' src={ imageURL } alt='50x48' width='40' height='40'/>
+          <img className='img-rounded' src={ imageURL } alt='40x40' width='40' height='40'/>
         </div>
         <div className='media-body'>
           <p className='media-heading'>{ name }</p>

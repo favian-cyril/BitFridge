@@ -54,6 +54,9 @@ function getFridge(req, cb) {
   if (req.session.id) {
     if (req.session.fridge == undefined)
       req.session.fridge = []
+    req.session.fridge.map((item) => {
+      item.id = parseInt(item.id)
+    })
     cb(null, req.session.fridge)
   } else {
     var err = new Error('Session key lookup failed.')
