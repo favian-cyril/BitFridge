@@ -1,34 +1,30 @@
-import sinon from "sinon"
-import {mount, shallow} from 'enzyme'
-import {assert} from 'chai'
+import { mount, shallow } from 'enzyme'
+import { assert } from 'chai'
 import React from 'react'
 import Fridge from '../app/components/Fridge'
-import CardContent from '../app/components/CardContent'
 import IngredientSuggestion from '../app/components/IngredientSuggestion'
 
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
 global.document = doc
 global.window = doc.defaultView
-describe('FridgeCardContainer', function() {
+describe('Fridge', function() {
+  var content = [
+    { name: 'foo', image: 'bar', id: 123 },
+    { name: 'rza', image: 'gza', id: 777 }
+  ]
   it('should have a title', function() {
     var input = 'foo'
-    var wrapper = shallow(<Fridge title={input} contents={['foo', 'bar']}/>)
+    var wrapper = shallow(<Fridge title={input} contents={content}/>)
     assert.equal(input, wrapper.instance().props.title)
   })
-  it("should have content", function(){
-    var wrapper = shallow(<Fridge contents={<CardContent />}/>)
-    assert.equal(wrapper.find(CardContent).length, 1)
+  it("should have settings", function() {
+    var settings = {}
+    var wrapper = shallow(<Fridge settings={settings} contents={content}/>)
+    assert.equal(true, wrapper.state('settings') instanceof Object)
   })
-})
-describe('CardContent', function() {
-  it('should show list of items', function() {
-    var items = [
-      {name: 'foo', image: 'bar', id: 123},
-      {name: 'bar', image: 'foo', id: 321}
-    ]
-    var fridge = [123, 345, 567]
-    var wrapper = shallow(<CardContent contents={items} fridge={fridge}/>)
+  it("should have content", function() {
+    var wrapper = shallow(<Fridge contents={content}/>)
     assert.equal(wrapper.find(IngredientSuggestion).length, 2)
   })
 })

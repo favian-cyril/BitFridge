@@ -63,8 +63,17 @@ export default class SuggestionsList extends React.Component {
         // Check timestamp, accept result if request is not stale
         if (lastTimestamp === this.state.timestamp)
           // Check if request returned any results
-          if (body.length != 0)
-            this.setState({ results: body })
+          if (body.length != 0) {
+            var results = []
+            var resId = []
+            body.forEach((item, i) => {
+              if (resId.indexOf(item.id) === -1) {
+                results.push(item)
+                resId.push(item.id)
+              }
+            })
+            this.setState({ results: results })
+          }
           else
             this.setState({ errtype: 'notfound'})
       }

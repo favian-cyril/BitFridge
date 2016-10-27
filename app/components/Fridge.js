@@ -1,11 +1,10 @@
 import React from 'react'
-import CardContent from '../components/CardContent'
+import IngredientSuggestion from './IngredientSuggestion'
 
 export default class Fridge extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      contents: [],
       settings: {
         sort: 'default', 
         allergies: null 
@@ -16,9 +15,23 @@ export default class Fridge extends React.Component {
   render() {
     return (
       <div className='container fridge'>
-        <CardContent title={this.props.title} 
-                     contents={this.props.contents}
-                     handleUpdate={this.props.handleUpdate}/>
+        <div className="card">
+          <div className="card-block">
+            <h5 className="card-title">{this.props.title}</h5>
+          </div>
+          <div className="list-wrapper">
+            <ul className='media-list'>
+              {
+                this.props.contents.map((item, i) => {
+                  return <IngredientSuggestion item={ item } key={ i }
+                                               parent='fridge'
+                                               fridge={ this.props.fridge }
+                                               handleUpdate={this.props.handleUpdate}/>
+                })
+              }
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }

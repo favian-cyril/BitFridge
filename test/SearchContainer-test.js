@@ -94,7 +94,7 @@ describe('IngredientSuggestion', function() {
       wrapper.contains(
         <img className='img-rounded'
              src='https://spoonacular.com/cdn/ingredients_100x100/foo'
-              alt='50x48' width='40' height='40'/>
+             alt='40x40' width='40' height='40'/>
       ), true)
   })
 })
