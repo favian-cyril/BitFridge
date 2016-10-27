@@ -93,25 +93,25 @@ export default class MainContainer extends React.Component {
                   <Fridge contents={this.state.fridge} handleUpdate={this.updateFridge}/>
                 </div>
               </div>
-              <div class="col-xs-7">
-                <div class="row">
-                  <div class="card">
-                    <div class="card-block recipe-card">
-                      <h4 class="card-title">Recipe Results</h4>
+              <div className="col-xs-7">
+                <div className="row">
+                  <div className="card">
+                    <div className="card-block recipe-card">
+                      <h4 className="card-title">Recipe Results</h4>
                     </div>
-                    <div class="recipe-list-wrapper">
-                      <ul class="media-list">
-                        <li class='media ingredient'>
-                          <div class='media-left media-middle'>
-                            <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                    <div className="recipe-list-wrapper">
+                      <ul className="media-list">
+                        <li className='media ingredient'>
+                          <div className='media-left media-middle'>
+                            <img className='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
                           </div>
-                          <div class="media-body">
-                            <h5 class="media-heading">Media heading</h5>
-                            <p><small class="text-muted">Missing: Melon</small></p>
+                          <div className="media-body">
+                            <h5 className="media-heading">Media heading</h5>
+                            <p><small className="text-muted">Missing: Melon</small></p>
                           </div>
-                          <div class='media-right media-middle'>
-                            <button class='btn btn-default btn-add'>
-                              <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                          <div className='media-right media-middle'>
+                            <button className='btn btn-default btn-add'>
+                              <i className="fa fa-2x fa-external-link btn-add-icon"></i>
                             </button>
                           </div>
                         </li>
