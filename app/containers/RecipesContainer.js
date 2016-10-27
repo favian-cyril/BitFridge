@@ -1,4 +1,5 @@
 import React from 'react'
+import Recipe from '../components/Recipe'
 import {searchResults} from '../clientapi'
 
 
@@ -42,6 +43,9 @@ export default class RecipesContainer extends React.Component {
           <ul className="media-list">
             {
               this.recipes.map((item) => {
+                return <Recipe item={ item }
+                               parent='recipe'
+                               recipe={ this.props.recipe }/>
                 
               })
             }

@@ -1,4 +1,5 @@
 import React from 'react'
+import RecipesContainer from './RecipesContainer'
 import SearchContainer from './SearchContainer'
 import Fridge from '../components/Fridge'
 import { getFridge } from '../clientapi'
@@ -95,7 +96,7 @@ export default class MainContainer extends React.Component {
               </div>
               <div className="col-xs-7">
                 <div className="row">
-                  
+                  <RecipesContainer contents={this.state.recipes}/>
                 </div>
               </div>
             </div>
