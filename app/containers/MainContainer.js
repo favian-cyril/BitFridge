@@ -9,10 +9,13 @@ export default class MainContainer extends React.Component {
     super(props)
     this.state = {
       display: 'index',
-      fridge: []
+      fridge: [],
+      recipes: []
     }
     this.getFridge = this.getFridge.bind(this)
     this.updateFridge = this.updateFridge.bind(this)
+    this.updateRecipes = this.updateRecipes.bind(this)
+    this.updateMissing = this.updateMissing.bind(this)
   }
 
   getChildContext() {
@@ -29,6 +32,9 @@ export default class MainContainer extends React.Component {
         this.setState({display: 'dash'})
       else if (nextState.fridge.length < 3 && nextState.display == 'dash')
         this.setState({display: 'index'})
+    }
+    if (this.state.fridge != nextState.fridge) {
+      console.log('fridge changed')
     }
   }
   
@@ -57,9 +63,19 @@ export default class MainContainer extends React.Component {
     this.setState({ fridge: fridge })
   }
 
-  /* updateRecipe
-  * if recipe has all ingredients in Fridge
-  * update */
+  updateRecipes(recipes) {
+    this.setState({ recipes: recipes })
+  }
+
+  updateMissing(recipe, missing) {
+    var recipes = this.state.recipes
+    recipes.forEach((item, i) => {
+      if (item.name == recipe.name) {
+        recipes[i].missing = missing
+      }
+    })
+    this.setState({ recipes: recipes })
+  }
 
   render() {
     if (this.state.display == 'index') {
@@ -101,7 +117,7 @@ export default class MainContainer extends React.Component {
               </div>
               <div className="col-xs-7">
                 <div className="row">
-                  <RecipesContainer contents={this.state.recipes}/>
+                  <RecipesContainer handleUpdateRecipes={this.updateRecipes}/>
                 </div>
               </div>
             </div>
@@ -114,5 +130,6 @@ export default class MainContainer extends React.Component {
 
 MainContainer.childContextTypes = {
   fridge: React.PropTypes.array,
-  display: React.PropTypes.string
+  display: React.PropTypes.string,
+  recipes: React.PropTypes.array
 }
