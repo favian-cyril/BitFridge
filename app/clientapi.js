@@ -18,7 +18,7 @@ function searchIngredients (string, cb) {
 function searchResults (ingredients, page, cb) {
   var url = baseUrl + 'recipes/results'
   var params = {
-    ingredients: ingredients,
+    ingredients: JSON.stringify(ingredients),
     page: page
   }
   get(url, params, cb)

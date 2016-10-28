@@ -12,19 +12,24 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
   searchIngredients(path, params, function (err, response, body) {
     if (!err && response.statusCode === 200)
       res.json(body)
-    else
+    else {
       res.status(500).json(err)
+      console.log(err)
+    }
   })
 })
 
 router.get('/recipes/results', function(req, res, next) {
   var path = req.path
   var params = req.query
-  searchResults(ingredients, page, function (err, response, body) {
+  console.log(JSON.parse(params.ingredients))
+  searchResults(JSON.parse(params.ingredients), parseInt(params.page), function (err, response, body) {
     if (!err && response.statusCode === 200)
       res.json(body)
-    else
+    else {
       res.status(500).json(err)
+      console.log(err)
+    }
   })
 })
 

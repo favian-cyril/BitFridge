@@ -1,6 +1,7 @@
 import React from 'react'
 import Recipe from '../components/Recipe'
-import {searchResults} from '../clientapi'
+import Preloader from '../components/Preloader'
+import { searchResults } from '../clientapi'
 
 
 export default class RecipesContainer extends React.Component {
@@ -9,31 +10,62 @@ export default class RecipesContainer extends React.Component {
     this.state = {
       loading: false,
       page: 1,
-      recipes: []
+      isLoading: true
     }
     this.getResults = this.getResults.bind(this)
   }
+
   getResults () {
+    this.setState({ isLoading: true })
     var that = this
-    searchResults(this.context.fridge, this.state.page, function (err, res, body) {
-      if (!err & res.statusCode == 200) {
+    var fridgeList = this.context.fridge.map((item) => { return item.name })
+    searchResults(fridgeList, this.state.page, function (err, res, body) {
+      if (!err && res.statusCode == 200) {
+        var recipes = []
         body['matches'].forEach( function (i) {
-          that.state.recipes.push(i)
+          recipes.push(i)
         })
+        that.props.handleUpdateRecipes(recipes)
+        that.setState({ isLoading: false })
       }
     })
   }
+
   componentWillUpdate (nextContext) {
+    console.log('Component will update')
     if (nextContext.fridge) {
-      this.setState({page: 1, recipes: []})
+      this.setState({ page: 1, recipes: [] })
       this.getResults()
     }
   }
+
+  componentDidMount () {
+    console.log('Component did mount')
+    if (this.context.fridge) {
+      this.setState({ page: 1, recipes: [] })
+      this.getResults()
+    }
+  }
+
   nextPage () {
     this.setState({ page: this.state.page + 1})
     this.getResults()
   }
+
   render() {
+    var results
+
+    if (this.state.isLoading) {
+      results = (<Preloader/>)
+    } else {
+      results = this.context.recipes.map((item) => {
+        return <Recipe item={ item }
+                       parent='recipe'
+                       recipe={ this.props.recipe }/>
+
+      })
+    }
+
     return (
       <div className="card">
         <div className="card-block recipe-card">
@@ -41,14 +73,7 @@ export default class RecipesContainer extends React.Component {
         </div>
         <div className="recipe-list-wrapper">
           <ul className="media-list">
-            {
-              this.recipes.map((item) => {
-                return <Recipe item={ item }
-                               parent='recipe'
-                               recipe={ this.props.recipe }/>
-                
-              })
-            }
+            {results}
           </ul>
         </div>
       </div>
@@ -56,5 +81,6 @@ export default class RecipesContainer extends React.Component {
   }
 }
 RecipesContainer.contextTypes = {
-  fridge: React.PropTypes.array
+  fridge: React.PropTypes.array,
+  recipes: React.PropTypes.array
 }

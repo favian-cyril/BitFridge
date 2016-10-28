@@ -3,25 +3,26 @@ import React from 'react'
 export default class Recipe extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      missing: []
-    }
+    this.findMissing = this.findMissing.bind(this)
   }
-  this.findMissing = this.findMissing.bind(this)
 
   findMissing() {
     var fridge = this.context.fridge
     var ingredients = this.props.recipe.ingredients
     var missing = []
-    ingredients.forEach((itemIngredient) => {
-      fridge.forEach((itemFridge) => {
-        if (itemIngredient.name == itemFridge.name) {
+    for (i=0; i<ingredients.length; i++) {
+      for (j=0; j<fridge.length; j++) {
+        var found = false
+        if (ingredients[i].name == fridge[j].name) {
+          found = true
           break
         }
-      })
-      missing.push(itemIngredient.name)
-    })
-    this.setState({ missing: missing })
+      }
+      if (!found) {
+        missing.push(ingredients[i])
+      }
+    }
+    this.context({ missing: missing })
   }
 
   render() {
