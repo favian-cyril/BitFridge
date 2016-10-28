@@ -1,19 +1,42 @@
 import React from 'react'
 
-
 export default class Recipe extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      missing: []
+    }
   }
+  this.findMissing = this.findMissing.bind(this)
+
+  findMissing() {
+    var fridge = this.context.fridge
+    var ingredients = this.props.recipe.ingredients
+    var missing = []
+    ingredients.forEach((itemIngredient) => {
+      fridge.forEach((itemFridge) => {
+        if (itemIngredient.name == itemFridge.name) {
+          break
+        }
+      })
+      missing.push(itemIngredient.name)
+    })
+    this.setState({ missing: missing })
+  }
+
   render() {
+    var missingStr = ''
+    this.findMissing.forEach((item) => {
+      missingStr = missingStr + item + ', '
+    })
     return (
       <li className='media ingredient'>
         <div className='media-left media-middle'>
-          <img className='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+          <img className='img-rounded' src="http://placehold.it/90x60" alt='90x60' width='90' height='60'/>
         </div>
         <div className="media-body">
           <h5 className="media-heading">{this.props.recipe.title}</h5>
-          <p><small className="text-muted">Missing: {}</small></p>
+          <p><small className="text-muted">Missing: { missingStr }</small></p>
         </div>
         <div className='media-right media-middle'>
           <button className='btn btn-default btn-add'>
@@ -23,4 +46,8 @@ export default class Recipe extends React.Component {
       </li>
     )
   }
+}
+
+Recipe.contextTypes = {
+    fridge: React.PropTypes.array
 }
