@@ -4,7 +4,7 @@ var router = express.Router()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if (!req.session.key) {
+  if (!req.session.id) {
     req.session.id = uuid.v1()
   }
   var baseurl
