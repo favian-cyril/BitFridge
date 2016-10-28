@@ -27,7 +27,7 @@ export default class Recipe extends React.Component {
 
   render() {
     var missingStr = ''
-    this.findMissing.forEach((item) => {
+    this.context.missing.forEach((item) => {
       missingStr = missingStr + item + ', '
     })
     return (
