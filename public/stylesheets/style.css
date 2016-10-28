@@ -54,6 +54,10 @@ div.card-block.recipe-card {
   overflow-y: auto;
 }
 
+small.text-muted {
+  text-overflow: ellipsis;
+}
+
 /* INGREDIENT SUGGESTION */
 .media-list {
   margin-bottom: 0;

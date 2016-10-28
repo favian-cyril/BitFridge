@@ -18,7 +18,8 @@ export default class MainContainer extends React.Component {
   getChildContext() {
     return {
       fridge: this.state.fridge,
-      display: this.state.display
+      display: this.state.display,
+      recipes: this.state.recipes
     }
   }
   
@@ -55,7 +56,11 @@ export default class MainContainer extends React.Component {
     }
     this.setState({ fridge: fridge })
   }
-  
+
+  /* updateRecipe
+  * if recipe has all ingredients in Fridge
+  * update */
+
   render() {
     if (this.state.display == 'index') {
       return (
