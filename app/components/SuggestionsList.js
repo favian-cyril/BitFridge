@@ -102,7 +102,7 @@ export default class SuggestionsList extends React.Component {
 
   processResults() {
     if (this.state.loading)
-      return <Preloader/>
+      return <div className="preloader dropdown-menu"><Preloader/></div>
     else {
       switch (this.state.errtype) {
         case 'notfound':
