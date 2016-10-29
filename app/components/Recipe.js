@@ -6,37 +6,41 @@ export default class Recipe extends React.Component {
     this.findMissing = this.findMissing.bind(this)
   }
 
+  componentDidUpdate() {
+    this.findMissing()
+  }
+
   findMissing() {
-    var fridge = this.context.fridge
+    var fridge = this.context.fridge.map((item) => { return item.name })
     var ingredients = this.props.recipe.ingredients
     var missing = []
-    for (i=0; i<ingredients.length; i++) {
-      for (j=0; j<fridge.length; j++) {
-        var found = false
-        if (ingredients[i] == fridge[j].name) {
-          found = true
-          break
-        }
-      }
-      if (!found) {
-        missing.push(ingredients[i])
-      }
-    }
-    this.context({ missing: missing })
+    ingredients.forEach((ingrItem) => {
+      var found = fridge.some((fridgeItem) => {
+        return fridgeItem == ingrItem
+      })
+      if (!found) missing.push(ingrItem)
+    })
+    var recipes = this.context.recipes
+    var idx = recipes.indexOf(recipes.find((r) => { return r.id == this.props.recipe.id } ))
+    recipes[idx].missing = missing
+    console.log(recipes)
+    this.props.handleUpdateRecipes(recipes)
   }
 
   render() {
     var missingStr = ''
-    this.context.missing.forEach((item) => {
-      missingStr = missingStr + item + ', '
-    })
+    if (this.props.recipe.missing) {
+      this.props.recipe.missing.forEach((item) => {
+        missingStr = missingStr + item + ', '
+      })
+    }
     return (
       <li className='media ingredient'>
         <div className='media-left media-middle'>
-          <img className='img-rounded' src="http://placehold.it/90x60" alt='90x60' width='90' height='60'/>
+          <img className='img-rounded' src={this.props.recipe.imageUrlsBySize['90']} alt='90x90' width='90' height='90'/>
         </div>
         <div className="media-body">
-          <h5 className="media-heading">{this.props.recipe.title}</h5>
+          <h5 className="media-heading">{this.props.recipe.recipeName}</h5>
           <p><small className="text-muted">Missing: { missingStr }</small></p>
         </div>
         <div className='media-right media-middle'>
