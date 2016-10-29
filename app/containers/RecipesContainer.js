@@ -58,10 +58,11 @@ export default class RecipesContainer extends React.Component {
     if (this.state.isLoading) {
       results = (<Preloader/>)
     } else {
-      results = this.context.recipes.map((item) => {
-        return <Recipe item={ item }
+      results = this.context.recipes.map((item, i) => {
+        return <Recipe recipe={ item }
+                       key={ i }
                        parent='recipe'
-                       recipe={ this.props.recipe }/>
+                       handleUpdateRecipes={this.props.handleUpdateRecipes}/>
 
       })
     }
