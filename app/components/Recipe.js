@@ -13,7 +13,7 @@ export default class Recipe extends React.Component {
     for (i=0; i<ingredients.length; i++) {
       for (j=0; j<fridge.length; j++) {
         var found = false
-        if (ingredients[i].name == fridge[j].name) {
+        if (ingredients[i] == fridge[j].name) {
           found = true
           break
         }
