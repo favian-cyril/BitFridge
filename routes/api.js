@@ -22,9 +22,11 @@ router.get('/ingredients/autocomplete', function(req, res, next) {
 router.get('/recipes/results', function(req, res, next) {
   var path = req.path
   var params = req.query
-  console.log(JSON.parse(params.ingredients))
-  searchResults(JSON.parse(params.ingredients), parseInt(params.page), function (err, response, body) {
+  var ingredients = JSON.parse(params.ingredients)
+  var page = parseInt(params.page)
+  searchResults(ingredients, page, function (err, response, body) {
     if (!err && response.statusCode === 200)
+      
       res.json(body)
     else {
       res.status(500).json(err)
@@ -34,7 +36,6 @@ router.get('/recipes/results', function(req, res, next) {
 })
 
 router.post('/fridge/add', function (req, res, next) {
-  console.log(req.session)
   fridge.addIngredient(req, function (err) {
     if (!err) {
       console.log(`Added ${req.body.item.name} to fridge!`)
@@ -59,7 +60,6 @@ router.post('/fridge/del', function (req, res, next) {
 })
 
 router.get('/fridge/get', function(req, res, next) {
-  console.log(req.session)
   fridge.getFridge(req, function (err, fridge) {
     if (!err) {
       console.log('Fridge fetched from database!')

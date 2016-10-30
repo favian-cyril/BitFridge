@@ -40,13 +40,14 @@ div.card-block {
   background-color: #e7e7e7;
 }
 
-div.card-block.recipe-card {
-  background-color: #ffffff;
-}
-
 .list-wrapper {
   height: 33vh;
   overflow-y: auto;
+}
+
+/* RECIPE CONTAINER */
+div.card-block.recipe-card {
+  background-color: #ffffff;
 }
 
 .recipe-list-wrapper {
@@ -54,8 +55,9 @@ div.card-block.recipe-card {
   overflow-y: auto;
 }
 
-small.text-muted {
-  text-overflow: ellipsis;
+/* RECIPE SUGGESTION */
+small.missing-str {
+  line-height: 1 !important;
 }
 
 /* INGREDIENT SUGGESTION */

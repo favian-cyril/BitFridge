@@ -44,7 +44,8 @@ function get (url, params, cb) {
   if (params)
     url = append(url, params)
   request.get(url, function (err, res, body) {
-    if (!err && res.statusCode == 200)
+    if (!res.statusCode) cb(new Error('offline'))
+    else if (!err && res.statusCode == 200)
       cb(null, res, JSON.parse(body))
     else if (res.statusCode == 500) {
       // DEVELOPMENT ONLY
@@ -68,7 +69,8 @@ function post (url, obj, cb) {
     form: obj
   }
   request.post(options, function (err, res, body) {
-    if (!err && res.statusCode == 200)
+    if (!res.statusCode) cb(new Error('offline'))
+    else if (!err && res.statusCode == 200)
       cb(null, res)
     else if (res.statusCode == 500) {
       // DEVELOPMENT ONLY

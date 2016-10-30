@@ -22,6 +22,7 @@ export default class RecipesContainer extends React.Component {
     searchResults(fridgeList, this.state.page, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         var recipes = []
+        console.log(body)
         body['matches'].forEach( function (i) {
           recipes.push(i)
         })
@@ -32,7 +33,6 @@ export default class RecipesContainer extends React.Component {
   }
 
   componentWillUpdate (nextContext) {
-    console.log('Component will update')
     if (nextContext.fridge) {
       this.setState({ page: 1, recipes: [] })
       this.getResults()
@@ -40,7 +40,6 @@ export default class RecipesContainer extends React.Component {
   }
 
   componentDidMount () {
-    console.log('Component did mount')
     if (this.context.fridge) {
       this.setState({ page: 1, recipes: [] })
       this.getResults()

@@ -29,13 +29,13 @@ export default class IngredientSuggestion extends React.Component {
     var elemId = '#' + that.props.listkey
     if (this.state.added) {
       this.delFromFridge(ingredient, function () {
-        if ((that.context.fridge.length > 2 && that.context.display == "dash") ||
+        if ((that.context.fridge.length > 0 && that.context.display == "dash") ||
         that.context.display == "index")
           that.showTooltip(elemId)
       })
     } else {
       this.addToFridge(ingredient, () => {
-        if ((that.context.fridge.length < 3 && that.context.display == "index") ||
+        if ((that.context.fridge.length < 1 && that.context.display == "index") ||
           that.context.display == "dash")
           that.showTooltip(elemId)
       })
@@ -47,7 +47,7 @@ export default class IngredientSuggestion extends React.Component {
     addIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('add', ingredient)
-        var unmounting = (that.context.fridge.length > 2 && that.context.display == "index")
+        var unmounting = (that.context.fridge.length > 0 && that.context.display == "index")
         if (!unmounting) that.setState({
           status: 'success',
           message: `Added ${ingredient.name} to fridge!`,
@@ -68,7 +68,7 @@ export default class IngredientSuggestion extends React.Component {
     delIngredient(ingredient, function (err, res, body) {
       if (!err && res.statusCode == 200) {
         that.props.handleUpdate('del', ingredient)
-        var unmounting = (that.context.fridge.length < 3 && that.context.display == "dash")
+        var unmounting = (that.context.fridge.length < 1 && that.context.display == "dash")
         var ingUnmount = (that.props.parent == 'fridge')
           if (!unmounting && !ingUnmount)
             that.setState({

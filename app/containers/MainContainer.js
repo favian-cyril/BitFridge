@@ -28,9 +28,9 @@ export default class MainContainer extends React.Component {
   
   componentWillUpdate(nextProps, nextState) {
     if (nextState.fridge) {
-      if (nextState.fridge.length > 2 && nextState.display == 'index')
+      if (nextState.fridge.length > 0 && nextState.display == 'index')
         this.setState({display: 'dash'})
-      else if (nextState.fridge.length < 3 && nextState.display == 'dash')
+      else if (nextState.fridge.length < 1 && nextState.display == 'dash')
         this.setState({display: 'index'})
     }
     if (this.state.fridge != nextState.fridge) {

@@ -6,7 +6,7 @@ export default class Recipe extends React.Component {
     this.findMissing = this.findMissing.bind(this)
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.findMissing()
   }
 
@@ -23,16 +23,19 @@ export default class Recipe extends React.Component {
     var recipes = this.context.recipes
     var idx = recipes.indexOf(recipes.find((r) => { return r.id == this.props.recipe.id } ))
     recipes[idx].missing = missing
-    console.log(recipes)
     this.props.handleUpdateRecipes(recipes)
   }
 
   render() {
     var missingStr = ''
     if (this.props.recipe.missing) {
-      this.props.recipe.missing.forEach((item) => {
+      this.props.recipe.missing.slice(0, 4).forEach((item) => {
         missingStr = missingStr + item + ', '
       })
+      if (this.props.recipe.missing.length > 3) {
+        var number = this.props.recipe.missing.slice(4).length.toString()
+        missingStr = missingStr + ` +${number} more`
+      }
     }
     return (
       <li className='media ingredient'>
@@ -41,12 +44,12 @@ export default class Recipe extends React.Component {
         </div>
         <div className="media-body">
           <h5 className="media-heading">{this.props.recipe.recipeName}</h5>
-          <p><small className="text-muted">Missing: { missingStr }</small></p>
+          <small className="missing-str">Missing: { missingStr }</small>
         </div>
         <div className='media-right media-middle'>
-          <button className='btn btn-default btn-add'>
+          <a className='btn btn-default btn-add' href={this.props.recipe.sourceUrl} target="_blank">
             <i className="fa fa-2x fa-external-link btn-add-icon"></i>
-          </button>
+          </a>
         </div>
       </li>
     )
@@ -54,5 +57,6 @@ export default class Recipe extends React.Component {
 }
 
 Recipe.contextTypes = {
-    fridge: React.PropTypes.array
+  fridge: React.PropTypes.array,
+  recipes: React.PropTypes.array 
 }
