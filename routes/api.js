@@ -6,31 +6,30 @@ var fridge = require('../modules/fridge')
 var searchIngredients = apicalls.searchIngredients
 var searchResults = apicalls.searchResults
 
-router.get('/ingredients/autocomplete', function(req, res, next) {
+router.get('/ingredients/autocomplete', function (req, res, next) {
   var path = req.path
   var params = req.query
-  searchIngredients(path, params, function (err, response, body) {
-    if (!err && response.statusCode === 200)
+  searchIngredients(path, params, function (err, body) {
+    if (!err) {
       res.json(body)
-    else {
+    } else {
       res.status(500).json(err)
-      console.log(err)
+      console.error(err)
+      console.log(err.stack)
     }
   })
 })
 
-router.get('/recipes/results', function(req, res, next) {
-  var path = req.path
+router.get('/recipes/results', function (req, res, next) {
   var params = req.query
   var ingredients = JSON.parse(params.ingredients)
   var page = parseInt(params.page)
-  searchResults(ingredients, page, function (err, response, body) {
-    if (!err && response.statusCode === 200)
-      
+  searchResults(ingredients, page, function (err, body) {
+    if (!err) {
       res.json(body)
-    else {
+    } else {
       res.status(500).json(err)
-      console.log(err)
+      console.error(err)
     }
   })
 })
@@ -59,7 +58,7 @@ router.post('/fridge/del', function (req, res, next) {
   })
 })
 
-router.get('/fridge/get', function(req, res, next) {
+router.get('/fridge/get', function (req, res, next) {
   fridge.getFridge(req, function (err, fridge) {
     if (!err) {
       console.log('Fridge fetched from database!')

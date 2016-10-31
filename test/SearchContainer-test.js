@@ -3,41 +3,36 @@ import {mount, shallow} from 'enzyme'
 import {assert} from 'chai'
 import React from 'react'
 import SearchContainer from '../app/containers/SearchContainer'
-import SuggestionsList from '../app/components/SuggestionsList'
-import IngredientSuggestion from '../app/components/IngredientSuggestion'
+import SuggestionsList from '../app/components/SuggestionList'
+import Ingredient from '../app/components/Ingredient'
 import SearchBar from '../app/components/SearchBar'
 import Preloader from '../app/components/Preloader'
-import ErrorMsg from '../app/components/ErrorMsg'
+import ErrorMsg from '../app/components/Error'
 import searchIngredients from '../app/clientapi'
 
+// set up a testing environment to run like a browser in the command line
+// create a fake browser and html doc
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
+global.navigator = {
+  userAgent: 'node.js'
+};
 global.document = doc
 global.window = doc.defaultView
 
 describe('SearchContainer', function() {
   it('should have a SearchBar', function() {
-    var wrapper = shallow(<SearchContainer />)
+    var wrapper = shallow(<SearchContainer updateFridge={function(){}} inInFridge={function(){}}/>)
     assert.equal(wrapper.find(SearchBar).length, 1)
   })
   it('should have a SuggestionsList', function() {
-    var wrapper = shallow(<SearchContainer />)
+    var wrapper = shallow(<SearchContainer updateFridge={function(){}} inInFridge={function(){}}/>)
     assert.equal(wrapper.find(SuggestionsList).length, 1)
-  })
-  it('should change the state when handleInput is called', function() {
-    var wrapper = shallow(<SearchContainer />)
-    wrapper.instance().handleInput('foo')
-    assert.equal('foo',wrapper.state('text'))
-  })
-  it('should change the state when handleFocus is called', function() {
-    var wrapper = shallow(<SearchContainer />)
-    wrapper.instance().handleFocus(true)
-    assert.equal(true,wrapper.state('isFocused'))
   })
 })
 describe('SearchBar', function() {
   it('should have an input form', function() {
-    var wrapper = shallow(<SearchBar />)
+    var wrapper = shallow(<SearchBar handleInput={function(){}} handleToggleFocus={function(){}}/>)
     assert.equal(wrapper.find('input').length, 1)
   })
 })
@@ -85,11 +80,11 @@ describe('SuggestionsList', function() {
 describe('IngredientSuggestion', function() {
   var mockItem = { name: 'foo', image: 'foo' }
   it('should show title', function() {
-    var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
+    var wrapper = shallow(<Ingredient ingredient={mockItem}/>)
     assert.equal(wrapper.contains(<p className='media-heading'>foo</p>), true)
   })
   it('should show the image', function() {
-    var wrapper = shallow(<IngredientSuggestion item={mockItem}/>)
+    var wrapper = shallow(<Ingredient ingredient={mockItem}/>)
     assert.equal(
       wrapper.contains(
         <img className='img-rounded'
