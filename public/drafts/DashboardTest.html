@@ -4,31 +4,62 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="../stylesheets/bootstrap-social.css">
     <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
     <link rel="stylesheet" href="./DashboardTest.css">
-    <script src="../javascripts/jquery.js"></script>
-    <script src="../javascripts/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+    <script>
+        var loginElement = '<button type="button" class="btn btn-block btn-facebook"><span class="fa fa-facebook"></span> | Log In with Facebook</button>' +
+                '<br><button type="button" class="btn btn-block btn-google"><span class="fa fa-google"></span> | Log In with Google</button>';
+        var logoutElement = '<div class="list-group">' +
+                '<a href="#" class="list-group-item list-group-item-action">History</a> ' +
+                '<a href="#" class="list-group-item list-group-item-action">My Recipes</a></div>' +
+                '<br><button class="btn btn-md btn-block btn-primary">Log Out</button>';
+
+        $(document).on('click', 'button.btn-secondary', function () {
+            $('#LI').popover({
+                content: loginElement,
+                html: true
+            });
+
+            $('#LO').popover({
+                content: logoutElement,
+                html: true
+            });
+        });
+
+        $(document).on('click', 'button.btn-block', function() {
+            $('.popover').popover('hide');
+            $('button.btn-secondary').toggle();
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-fixed-top navbar-light clearfix">
         <div class="row flex-items-xs-middle">
-            <div class="col-xs-3 offset-xs-1">
-                <img className="img-responsive index-logo" src="../images/logo-1x.png"/>
+            <div class="col-xs-2 offset-xs-1">
+                <img class="img-responsive index-logo" src="../images/logo-1x.png"/>
             </div>
-            <div class="col-xs-7 vertical-center">
-                <div className="container">
+            <div class="col-xs-4 offset-xs-2 vertical-center">
+                <div class="container">
                     <div class="input-group form-group right-inner-addon pull-xs-left">
                         <input class="form-control" type="text" placeholder="Search">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     </div>
                 </div>
             </div>
+            <div class="col-xs-2 vertical-center">
+                <button id="LI" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom">Log In</button>
+                <button id="LO" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom" style="display: none;">Hello, User! <span class="fa fa-user"></span></button>
+            </div>
         </div>
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-3 offset-xs-1">
+            <div class="col-xs-4 offset-xs-1">
                 <div class="row">
                     <div class="card">
                         <div class="card-block">
@@ -109,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-6">
                 <div class="row">
                     <div class="card">
                         <div class="card-block recipe-card">
@@ -119,7 +150,7 @@
                             <ul class="media-list">
                                 <li class='media ingredient'>
                                     <div class='media-left media-middle'>
-                                        <img class='img-rounded' src="http://placehold.it/90x60" alt='90x60' width='90' height='60'/>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
                                     </div>
                                     <div class="media-body">
                                         <h5 class="media-heading">Media heading</h5>

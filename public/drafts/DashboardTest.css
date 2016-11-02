@@ -19,6 +19,18 @@ nav.navbar-fixed-top {
     min-height: 60px !important;
 }
 
+/* LOGIN BUTTON */
+
+button.btn-login {
+    outline: none;
+    background-color: white;
+    color: #555860;
+}
+
+button.btn-login:hover {
+    text-decoration: underline;
+}
+
 /* CARD CONTAINER */
 
 div.card {
