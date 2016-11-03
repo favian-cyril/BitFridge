@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
     <script>
+        // POPOVER
         var loginElement = '<button type="button" class="btn btn-block btn-facebook"><span class="fa fa-facebook"></span> | Log In with Facebook</button>' +
                 '<br><button type="button" class="btn btn-block btn-google"><span class="fa fa-google"></span> | Log In with Google</button>';
         var logoutElement = '<div class="list-group">' +
@@ -34,6 +35,15 @@
         $(document).on('click', 'button.btn-block', function() {
             $('.popover').popover('hide');
             $('button.btn-secondary').toggle();
+        });
+
+        // ACCORDION
+        $('button.accordion').each(function() {
+            $(this).on('click', function() {
+                $(this).find('span.fa').toggle();
+                this.classList.toggle();
+                this.nextElementSibling.classList.toggle('show');
+            });
         });
     </script>
 </head>
@@ -124,19 +134,32 @@
                     </div>
                 </div>
                 <div class="row">
-	              		<div class="card">
+                    <div class="card">
                         <div class="card-block">
                             <h5 class="card-title">Cooking Today</h5>
                         </div>
-                            <div class="list-wrapper">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                    <li class="list-group-item">Sorry Fav :(</li>
-                                    <li class="list-group-item">Sorry Raf :(</li>
-                                </ul>
+                        <div class="list-wrapper">
+                            <button class="accordion"><span class="fa fa-caret-right"></span><span class="fa fa-caret-down" style="display: none;"></span> Section 1</button>
+                            <div class="panel">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
+
+                            <button class="accordion"><span class="fa fa-caret-right"></span><span class="fa fa-caret-down" style="display: none;"></span> Section 2</button>
+                            <div class="panel">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            </div>
+
+                            <button class="accordion"><span class="fa fa-caret-right"></span><span class="fa fa-caret-down" style="display: none;"></span> Section 3</button>
+                            <div id="foo" class="panel">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <center>
+                                <button type="button" class="btn btn-success">Add to Shopping List</button>
+                                <button type="button" class="btn btn-danger">Clear All Recipes</button>
+                            </center>
+                        </div>
                     </div>
                 </div>
             </div>
