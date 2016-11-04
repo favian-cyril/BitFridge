@@ -4,11 +4,17 @@ import Preloader from './Preloader'
 import Error from './Error'
 
 const RecipeResults = (props, context) => {
-  const preloader = props.isLoading ? <Preloader/> : null
-  let results
-  if (context.recipes.length > 0) {
-    results = context.recipes.map((item, i) =>
-      <Recipe key={i} recipe={item}/>
+  let results = context.recipes.map((item, i) =>
+    <Recipe key={i} recipe={item}/>
+  )
+  if (props.isLoading && context.recipes.length === 0) {
+    results = <Preloader/>
+  } else if (props.isLoading && context.recipes.length > 0) {
+    results = (
+      <div>
+        {results}
+        <Preloader/>
+      </div>
     )
   } else if (context.recipes.length === 0) {
     results = (
@@ -28,7 +34,6 @@ const RecipeResults = (props, context) => {
       <div className="recipe-list-wrapper">
         <ul className="media-list">
           {results}
-          {preloader}
         </ul>
       </div>
       <div className="media view-more">

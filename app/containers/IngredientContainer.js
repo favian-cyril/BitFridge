@@ -16,21 +16,15 @@ class IngredientContainer extends React.Component {
     this.showTooltip = this.showTooltip.bind(this)
   }
 
-  componentDidUpdate() {
-    if (this.state.wait) {
-      setTimeout(() => {
-        if (this.state.wait) this.setState({ isLoading: true, wait: false })
-      }, 50)
-    }
-  }
-
   handleToggle() {
     let unmounting
     let failed = false
     if (!this.props.isInFridge(this.props.ingredient)) {
       unmounting = this.context.display === 'index' &&
         this.context.fridge.length === REDIRECT_INGR_THRESHOLD - 1
-      if (!unmounting) this.setState({ wait: true })
+        setTimeout(() => {
+          if (!unmounting) this.setState({ isLoading: true })
+        }, 50)
       addIngredient(this.props.ingredient, (err) => {
         if (!err) {
           const successMessage = `Added ${this.props.ingredient.name} to fridge!`
