@@ -24,6 +24,15 @@ const SuggestionList = (props) => {
         <Error msg="No connection" desc="Check your internet connection."/>
       </div>
     )
+  } else if (props.errorType === 'SERVERERR') {
+    results = (
+      <div className="dropdown-menu">
+        <Error
+          msg="Server error"
+          desc="The server is having problems, please leave him alone and try again later."
+        />
+      </div>
+    )
   } else if (props.errorType === '' && props.suggestionResults.length) {
     results = (
       <ul className="media-list dropdown-menu">

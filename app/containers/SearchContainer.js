@@ -67,9 +67,9 @@ class SearchContainer extends React.Component {
         } else {
           this.setState({ errorType: 'NOTFOUND' })
         }
-      } else if (err.message === 'Network Error') {
+      } else if (err.message && err.message === 'Network Error') {
         this.setState({ errorType: 'OFFLINE' })
-      } else if (err.response.data.code === 'ENOTFOUND') {
+      } else if (err.response && err.response.data.code === 'ENOTFOUND') {
         this.setState({ errorType: 'SERVERERR' })
       } else if (err) {
         throw err
