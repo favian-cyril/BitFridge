@@ -4,9 +4,9 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface
       .createTable('guest', {
-      id:  {
+      id: {
       type: Sequelize.STRING,
-      primaryKey: true,
+      primaryKey: true
     },
       fridge: Sequelize.STRING
     });

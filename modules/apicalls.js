@@ -1,6 +1,5 @@
-var request = require('request')
-var append = require('append-query')
 var axios = require('axios')
+var append = require('append-query')
 
 require('dotenv').config()
 
@@ -15,13 +14,14 @@ var YUMMLY_API_KEY = process.env.YUMMLY_API_KEY
  */
 function searchIngredients (path, params, cb) {
   var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food' + path
-  get(url, params, cb)
+  const headers = { 'X-Mashape-Key': SPOONACULAR_API_KEY }
+  _get(url, params, headers, cb)
 }
 
 function searchResults (ingredients, page, cb) {
   var baseUrl = 'http://api.yummly.com/v1/api'
   var ingrParam = ''
-  ingredients.forEach( function (i) {
+  ingredients.forEach(function (i) {
     ingrParam += '&allowedIngredient[]=' + i
   })
   var params = {
@@ -41,15 +41,14 @@ function searchResults (ingredients, page, cb) {
       args.forEach(function (res, i) {
         response.data.matches[i].sourceUrl = res.data.source.sourceRecipeUrl
       })
-      response.statusCode = 200
-      cb(null, response, response.data)
+      cb(null, response.data)
     }).catch(function (error) {
       console.error('Failed to gather recipe sourceUrls.')
-      cb(new Error(error.message))
+      cb(error)
     })
   }).catch(function (error) {
     console.error('Failed to return search results.')
-    cb(new Error(error.message))
+    cb(error)
   })
 }
 
@@ -57,18 +56,14 @@ function searchResults (ingredients, page, cb) {
  * Wrapper GET function using 'request' library
  * Callback receives (err, res, body)
  */
-function get (url, params, cb) {
-  var options = {
-    url: append(url, params),
-    headers: { 'X-Mashape-Key': SPOONACULAR_API_KEY }
-  }
-  request
-    .get(options, function (err, res, body) {
-      if (!res.statusCode) cb(new Error('offline'))
-      else if (!err && res.statusCode == 200)
-        cb(null, res, JSON.parse(body)) // Correct way to call callback
-      else
-        cb(err)
+function _get (url, params, headers, cb) {
+  const fetchUrl = append(url, params)
+  axios.get(fetchUrl, { headers: headers })
+    .then(function (res) {
+      cb(null, res.data)
+    })
+    .catch(function (err) {
+      cb(err)
     })
 }
 

@@ -2,29 +2,29 @@ import { mount, shallow } from 'enzyme'
 import { assert } from 'chai'
 import React from 'react'
 import Fridge from '../app/components/Fridge'
-import IngredientSuggestion from '../app/components/IngredientSuggestion'
+import IngredientContainer from '../app/containers/IngredientContainer'
 
+// set up a testing environment to run like a browser in the command line
+// create a fake browser and html doc
 import jsdom from 'jsdom'
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
+global.navigator = {
+  userAgent: 'node.js'
+};
 global.document = doc
 global.window = doc.defaultView
 describe('Fridge', function() {
   var content = [
-    { name: 'foo', image: 'bar', id: 123 },
-    { name: 'rza', image: 'gza', id: 777 }
+    { item: 'foo', i: 123 },
+    { item: 'rza', i: 777 }
   ]
+  var input = 'foo'
   it('should have a title', function() {
-    var input = 'foo'
-    var wrapper = shallow(<Fridge title={input} contents={content}/>)
+    var wrapper = shallow(<Fridge title={input} contents={content} handleUpdate={function(){}}/>)
     assert.equal(input, wrapper.instance().props.title)
   })
-  it("should have settings", function() {
-    var settings = {}
-    var wrapper = shallow(<Fridge settings={settings} contents={content}/>)
-    assert.equal(true, wrapper.state('settings') instanceof Object)
-  })
   it("should have content", function() {
-    var wrapper = shallow(<Fridge contents={content}/>)
-    assert.equal(wrapper.find(IngredientSuggestion).length, 2)
+    var wrapper = shallow(<Fridge title={input} contents={content} handleUpdate={function(){}}/>)
+    assert.equal(wrapper.find(IngredientContainer).length, 2)
   })
 })
