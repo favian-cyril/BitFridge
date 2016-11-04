@@ -1,17 +1,25 @@
 import React from 'react'
 import Recipe from './Recipe'
 import Preloader from './Preloader'
+import Error from './Error'
 
 const RecipeResults = (props, context) => {
   const preloader = props.isLoading ? <Preloader/> : null
-  const results = context.recipes
-    ? context.recipes.map((item, i) =>
-      <Recipe
-        key={i}
-        recipe={item}
-      />
+  let results
+  if (context.recipes.length > 0) {
+    results = context.recipes.map((item, i) =>
+      <Recipe key={i} recipe={item}/>
     )
-    : null
+  } else if (context.recipes.length === 0) {
+    results = (
+      <li className="media">
+        <Error
+          msg="No results"
+          desc="Your search did not return any results."
+        />
+      </li>
+    )
+  }
   return (
     <div className="card">
       <div className="card-block recipe-card">

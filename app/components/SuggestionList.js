@@ -7,11 +7,23 @@ const SuggestionList = (props) => {
   let results
   const status = (props.isFocused && props.searchText.length > 1) ? 'open' : ''
   if (props.isLoading) {
-    results = <div className="preloader dropdown-menu"><Preloader/></div>
+    results = (
+      <div className="dropdown-menu">
+        <Preloader/>
+      </div>
+    )
   } else if (props.errorType === 'NOTFOUND') {
-    results = <Error msg="No results" desc="Your search did not return any results."/>
+    results = (
+      <div className="dropdown-menu">
+        <Error msg="No results" desc="Your search did not return any results."/>
+      </div>
+    )
   } else if (props.errorType === 'OFFLINE') {
-    results = <Error msg="No connection" desc="Check your internet connection."/>
+    results = (
+      <div className="dropdown-menu">
+        <Error msg="No connection" desc="Check your internet connection."/>
+      </div>
+    )
   } else if (props.errorType === '' && props.suggestionResults.length) {
     results = (
       <ul className="media-list dropdown-menu">
@@ -21,6 +33,7 @@ const SuggestionList = (props) => {
               key={i}
               ingredient={item}
               idName={`ingr_${i}`}
+              parent={'search'}
               updateFridge={props.updateFridge}
               isInFridge={props.isInFridge}
             />

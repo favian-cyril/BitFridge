@@ -122,23 +122,28 @@ i.btn-loading {
 
 /* SEARCH BAR */
 
-input.form-control::-webkit-input-placeholder {
-  color: #ccc;
+input#search-input {
+  background: #FFFFFF;
+}
+
+input#search-input::-webkit-input-placeholder {
+  color: #CCCCCC;
 }
 
 /* SEARCH DROPDOWN */
 .dropdown-menu {
   margin-top: 5px;
-  padding: 0;
+  padding: 20px 0;
   border-radius: 4px;
   height: auto;
+  width: 100%;
 }
 
 /* ERROR MSGS, PRELOADER */
 
 div.search-error {
-  padding: 15px;
   width: 100%;
+  padding: 20px 0;
 }
 
 div.search-error p {

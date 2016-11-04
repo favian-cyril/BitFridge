@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Error = props =>
-  <div className="search-error dropdown-menu">
+  <div className="search-error">
     <h4 className="text-xs-center">{props.msg}</h4>
     <p className="text-xs-center text-muted">{props.desc}</p>
   </div>

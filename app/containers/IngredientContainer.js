@@ -34,7 +34,7 @@ class IngredientContainer extends React.Component {
       addIngredient(this.props.ingredient, (err) => {
         if (!err) {
           const successMessage = `Added ${this.props.ingredient.name} to fridge!`
-          this.setState({ message: successMessage })
+          if (!unmounting) this.setState({ message: successMessage })
           this.props.updateFridge('ADD', this.props.ingredient)
         } else {
           this.setState({ message: 'Failed to add ingredient.' })
