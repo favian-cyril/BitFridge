@@ -5,7 +5,7 @@ body {
 
 /* INDEX CONTAINER */
 div.index-container {
-  margin-top: 25vh;
+  margin-top: 30vh;
 }
 
 /* DASH CONTAINER */
@@ -133,7 +133,7 @@ input#search-input::-webkit-input-placeholder {
 /* SEARCH DROPDOWN */
 .dropdown-menu {
   margin-top: 5px;
-  padding: 20px 0;
+  padding: 0;
   border-radius: 4px;
   height: auto;
   width: 100%;
