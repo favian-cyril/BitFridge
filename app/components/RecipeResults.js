@@ -22,7 +22,7 @@ const RecipeResults = (props, context) => {
         <Error msg="Network Connection Error"
                desc="Check your internet connection and try again."
         />
-        <button type="button" class="btn btn-outline-secondary">Try Again</button>
+        <center><button type="button" className="btn btn-warning">Try Again</button></center>
       </li>
     )
   } else if (props.errorType === 'SERVERERR') {
@@ -30,9 +30,9 @@ const RecipeResults = (props, context) => {
       <li className="media">
         <Error
           msg="Server Error"
-          desc="The server is having problems, please leave him alone and try again."
+          desc="The server is having problems, please leave him alone and try again later."
         />
-        <button type="button" class="btn btn-outline-secondary">Try Again</button>
+        <button type="button" className="btn btn-warning">Try Again</button>
       </li>
     )
   } else if (context.recipes.length === 0) {

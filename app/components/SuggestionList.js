@@ -23,7 +23,7 @@ const SuggestionList = (props) => {
     results = (
       <div className="dropdown-menu">
         <Error msg="Network Connection Error"
-               desc="Check your internet connection."/>
+               desc="Check your internet connection and try again."/>
       </div>
     )
   } else if (props.errorType === 'SERVERERR') {
