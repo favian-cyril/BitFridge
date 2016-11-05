@@ -40,6 +40,64 @@ describe('SearchContainer', function() {
     )
     assert.equal(wrapper.find(SuggestionsList).length, 1)
   })
+  it('should change the result state based on the input', sinon.test(function() {
+    var body = [{id: 1, name:'foo'}, {id: 2, name:'bar'}]
+    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(null, body)
+    const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={mock2}
+      />
+    )
+    var inst = wrapper.instance()
+    inst.handleSearch('foo')
+    assert.equal(wrapper.state().suggestionResults.length, body.length)
+  }))
+  it('should have error when the result is empty', sinon.test(function() {
+    var body = []
+    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(null, body)
+    const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={mock2}
+      />
+    )
+    var inst = wrapper.instance()
+    inst.handleSearch('foo')
+    assert.equal(wrapper.state().errorType, 'NOTFOUND')
+  }))
+  it('should have error when server is offline', sinon.test(function() {
+    var body = []
+    var err = {message: 'Network Error'}
+    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(err, body)
+    const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={mock2}
+      />
+    )
+    var inst = wrapper.instance()
+    inst.handleSearch('foo')
+    assert.equal(wrapper.state().errorType, 'OFFLINE')
+  }))
+  it('should have error when server is error', sinon.test(function() {
+    var body = []
+    var err = {response: {data: {code: 'ENOTFOUND'}}}
+    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(err, body)
+    const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={mock2}
+      />
+    )
+    var inst = wrapper.instance()
+    inst.handleSearch('foo')
+    assert.equal(wrapper.state().errorType, 'SERVERERR')
+  }))
 })
 describe('SearchBar', function() {
   it('should have an input form', function() {
