@@ -48,33 +48,37 @@ class SearchContainer extends React.Component {
         timestamp: lastTimestamp,
         suggestionResults: []
       })
-      this.fetchResults(searchText, lastTimestamp, () => {
-        this.setState({ isLoading: false })
-      })
+      this.fetchResults(searchText, lastTimestamp)
+        .then(() => {
+          this.setState({ isLoading: false })
+        })
     }
   }
 
   fetchResults(searchText, lastTimestamp, cb) {
-    searchIngredients(searchText, (err, body) => {
-      if (!err && lastTimestamp === this.state.timestamp) {
-        if (body.length !== 0) {
-          let results = _.uniqBy(body, 'id')
-          results = results.map((ingredient) => {
-            ingredient.isAdded = this.props.isInFridge(ingredient)
-            return ingredient
-          })
-          this.setState({ suggestionResults: results })
-        } else {
-          this.setState({ errorType: 'NOTFOUND' })
-        }
-      } else if (err.message && err.message === 'Network Error') {
-        this.setState({ errorType: 'OFFLINE' })
-      } else if (err.response && err.response.data.code === 'ENOTFOUND') {
-        this.setState({ errorType: 'SERVERERR' })
-      } else if (err) {
-        throw err
-      }
-      cb()
+    return new Promise((resolve) => {
+      searchIngredients(searchText)
+        .then((results) => {
+          if (body.length !== 0 && lastTimestamp === this.state.timestamp) {
+            let results = _.uniqBy(body, 'id')
+            results = results.map((ingredient) => {
+              ingredient.isAdded = this.props.isInFridge(ingredient)
+              return ingredient
+            })
+            this.setState({ suggestionResults: results })
+          } else {
+            this.setState({ errorType: 'NOTFOUND' })
+          }
+        })
+        .catch((error) => {
+          if (error.message && error.message === 'Network Error') {
+            this.setState({ errorType: 'OFFLINE' })
+          } else if (error.response && error.response.data.code === 'ENOTFOUND') {
+            this.setState({ errorType: 'SERVERERR' })
+          } else if (error) {
+            throw error
+          }
+        })
     })
   }
 
