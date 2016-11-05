@@ -76,6 +76,23 @@ button.view-more {
 
 .media-body {
   vertical-align: middle;
+  position: relative;
+}
+
+.media-body > .ingr-name-overlay {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 10px;
+  z-index: 9999;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.media.ingredient:hover .ingr-name-overlay {
+  background-image: linear-gradient(to left, rgba(243, 243, 243, 1), rgba(243, 243, 243, 0));
+}
+
+.media-body > .ingr-name-wrapper {
+  max-width: 0;
 }
 
 .media.ingredient {
@@ -121,7 +138,6 @@ i.btn-loading {
 }
 
 /* SEARCH BAR */
-
 input#search-input {
   background: #FFFFFF;
 }
@@ -140,7 +156,6 @@ input#search-input::-webkit-input-placeholder {
 }
 
 /* ERROR MSGS, PRELOADER */
-
 div.search-error {
   width: 100%;
   padding: 20px 0;

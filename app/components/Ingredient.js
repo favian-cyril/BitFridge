@@ -18,7 +18,10 @@ const Ingredient = (props) => {
         <img className="img-rounded" src={imageURL} alt="40x40" width="40" height="40"/>
       </div>
       <div className="media-body">
-        <p className="media-heading">{ name }</p>
+        <div className="ingr-name-overlay"></div>
+        <div className="ingr-name-wrapper">
+          <p className="media-heading">{ name }</p>
+        </div>
       </div>
       <div className="media-right media-middle">
         <button
