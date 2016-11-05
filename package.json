@@ -8,6 +8,7 @@
     "build": "gulp bundle",
     "watch": "node_modules/.bin/watchify app/index.js -t babelify -p livereactload -o public/index_bundle.js",
     "test": "mocha --compilers js:babel-core/register test/**/*-test.js",
+    "test-cov": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register test/**/*-test.js",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "lint": "./node_modules/.bin/eslint .; exit 0"
   },
@@ -56,6 +57,7 @@
     "eslint-plugin-standard": "2.0.1",
     "express-mysql-session": "1.2.0",
     "gulp": "3.9.1",
+    "istanbul": "^1.0.0-alpha.2",
     "jsdom": "9.8.0",
     "livereactload": "3.0.0",
     "mocha": "^3.0.2",
