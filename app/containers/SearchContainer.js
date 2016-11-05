@@ -49,39 +49,34 @@ class SearchContainer extends React.Component {
         suggestionResults: []
       })
       this.fetchResults(searchText, lastTimestamp)
-        .then(() => {
-          this.setState({ isLoading: false })
-        })
     }
   }
 
-  fetchResults(searchText, lastTimestamp, cb) {
-    return new Promise((resolve) => {
-      searchIngredients(searchText)
-        .then((results) => {
-          if (results.length !== 0 && lastTimestamp === this.state.timestamp) {
-            results = _.uniqBy(results, 'id')
-            results = results.map((ingredient) => {
-              ingredient.isAdded = this.props.isInFridge(ingredient)
-              return ingredient
-            })
-            this.setState({ suggestionResults: results })
-            resolve()
-          } else if (results.length === 0) {
-            this.setState({ errorType: 'NOTFOUND' })
-            resolve()
-          }
-        })
-        .catch((error) => {
-          if (error.message && error.message === 'Network Error') {
-            this.setState({ errorType: 'OFFLINE' })
-          } else if (error.response && error.response.data.code === 'ENOTFOUND') {
-            this.setState({ errorType: 'SERVERERR' })
-          } else if (error) {
-            throw error
-          }
-        })
-    })
+  fetchResults(searchText, lastTimestamp) {
+    searchIngredients(searchText)
+      .then((results) => {
+        if (results.length !== 0 && lastTimestamp === this.state.timestamp) {
+          results = _.uniqBy(results, 'id')
+          results = results.map((ingredient) => {
+            ingredient.isAdded = this.props.isInFridge(ingredient)
+            return ingredient
+          })
+          this.setState({ suggestionResults: results })
+        } else if (results.length === 0) {
+          this.setState({ errorType: 'NOTFOUND' })
+        }
+        this.setState({ isLoading: false })
+      })
+      .catch((error) => {
+        if (error.message && error.message === 'Network Error') {
+          this.setState({ errorType: 'OFFLINE' })
+        } else if (error.response && error.response.data.code === 'ENOTFOUND') {
+          this.setState({ errorType: 'SERVERERR' })
+        } else if (error) {
+          throw error
+        }
+        this.setState({ isLoading: false })
+      })
   }
 
   render() {
