@@ -54,7 +54,7 @@ Dashboard.propTypes = {
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
-    recipe: React.PropTypes.string.isRequired
+    recipes: React.PropTypes.string.isRequired
   })
 }
 
