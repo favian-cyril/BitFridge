@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router'
 import Preloader from '../components/Preloader'
 import { getFridge, searchResults } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
+import anims from '../utils/anims'
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -25,8 +26,7 @@ class MainContainer extends React.Component {
     this.updateFridge = this.updateFridge.bind(this)
     this.isInFridge = this.isInFridge.bind(this)
     this.fetchRecipes = this.fetchRecipes.bind(this)
-    this.mapMissing = this.mapMissing.bind(this)
-    this.viewMore = this.viewMore.bind(this)
+    this.moreRecipes = this.moreRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
   }
 
@@ -40,13 +40,10 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     this.fetchDisplay()
-    this.fetchFridge((err) => {
-      if (err) {
-        this.handleError(err, 'fridge')
-      } else if (this.state.fridge.length > 0) {
-        this.fetchRecipes((_err) => {
-          if (_err) this.handleError(_err, 'recipes')
-          else this.setState({ ready: true })
+    this.fetchFridge().then(() => {
+      if (this.state.fridge.length > 0) {
+        this.fetchRecipes().then(() => {
+          this.setState({ ready: true })
         })
       } else {
         this.setState({ ready: true })
@@ -71,9 +68,7 @@ class MainContainer extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.fridge.length !== this.state.fridge.length) {
-      this.fetchRecipes((err) => {
-        if (err) this.handleError(err, 'recipes')
-      })
+      this.fetchRecipes()
     }
   }
 
@@ -85,29 +80,32 @@ class MainContainer extends React.Component {
     }
   }
 
-  fetchFridge(cb) {
-    getFridge((err, body) => {
-      if (!err) {
-        this.setState({ fridge: body })
-        cb(null)
-      } else {
-        this.handleError(err, 'fridge')
-      }
+  fetchFridge() {
+    return new Promise((resolve) => {
+      getFridge()
+        .then((results) => {
+          this.setState({ fridge: results })
+          resolve()
+        })
+        .catch((error) => {
+          this.handleError(error, 'fridge')
+        })
     })
   }
 
-  fetchRecipes(cb) {
-    this.setState({ isLoading: true, recipes: [] })
-    const fridgeList = this.state.fridge.map(item => item.name)
-    searchResults(fridgeList, this.state.recipePage, (err, body) => {
-      if (!err) {
-        const results = this.mapMissing(body.matches)
-        this.setState({ recipes: results })
-        cb(null)
-      } else {
-        this.handleError(err, 'recipes')
-      }
-      this.setState({ isLoading: false })
+  fetchRecipes() {
+    return new Promise((resolve) => {
+      const fridgeList = this.state.fridge.map(item => item.name)
+      this.setState({ isLoading: true, recipes: [] })
+      searchResults(fridgeList, this.state.recipePage)
+        .then((results) => {
+          this.setState({ recipes: results, isLoading: false })
+          resolve()
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false })
+          this.handleError(error, 'recipes')
+        })
     })
   }
 
@@ -126,36 +124,24 @@ class MainContainer extends React.Component {
     return found !== undefined
   }
 
-  mapMissing(recipeList) {
-    return recipeList.map((recipe) => {
-      const ingredients = recipe.ingredients
+  moreRecipes() {
+    return new Promise((resolve) => {
       const fridgeList = this.state.fridge.map(item => item.name)
-      recipe.missing = _.difference(ingredients, fridgeList)
-      return recipe
-    })
-  }
-
-  viewMore() {
-    const nextPage = this.state.recipePage + 1
-    const fridgeList = this.state.fridge.map(item => item.name)
-    this.setState({ isLoading: true, recipePage: nextPage })
-    const recipeList = $('.recipe-list-wrapper')
-    if (recipeList[0]) {
-      recipeList.animate(
-        { scrollTop: recipeList[0].scrollHeight },
-        { duration: 1000, specialEasing: { height: 'easeOutCirc', width: 'easeOutCirc' } }
-      )
-    }
-    searchResults(fridgeList, nextPage, (err, body) => {
-      if (!err) {
-        const recipeResults = this.mapMissing(body.matches)
-        this.setState({
-          recipes: this.state.recipes.concat(recipeResults),
-          isLoading: false
+      const nextPage = this.state.recipePage + 1
+      this.setState({isLoading: true, recipePage: nextPage})
+      anims.moreRecipes()
+      searchResults(fridgeList, nextPage)
+        .then((results) => {
+          this.setState({
+            recipes: this.state.recipes.concat(results),
+            isLoading: false
+          })
+          resolve()
         })
-      } else {
-        this.setState({ isLoading: false })
-      }
+        .catch((error) => {
+          this.setState({isLoading: false})
+          this.handleError(error, 'recipes')
+        })
     })
   }
 
@@ -169,6 +155,7 @@ class MainContainer extends React.Component {
       errorType[component] = 'SERVERERR'
       this.setState({ errorType: errorType })
     }
+    this.setState({ ready: true })
   }
 
   render() {
@@ -179,7 +166,7 @@ class MainContainer extends React.Component {
             ? React.cloneElement(this.props.children, {
               updateFridge: this.updateFridge,
               isInFridge: this.isInFridge,
-              viewMore: this.viewMore,
+              moreRecipes: this.moreRecipes,
               isLoading: this.state.isLoading,
               errorType: this.state.errorType
             })

@@ -9,8 +9,7 @@ class IngredientContainer extends React.Component {
     super(props)
     this.state = {
       message: null,
-      isLoading: false,
-      wait: false
+      isLoading: false
     }
     this.handleToggle = this.handleToggle.bind(this)
     this.showTooltip = this.showTooltip.bind(this)
@@ -22,42 +21,48 @@ class IngredientContainer extends React.Component {
     if (!this.props.isInFridge(this.props.ingredient)) {
       unmounting = this.context.display === 'index' &&
         this.context.fridge.length === REDIRECT_INGR_THRESHOLD - 1
-        setTimeout(() => {
-          if (!unmounting) this.setState({ isLoading: true })
-        }, 50)
-      addIngredient(this.props.ingredient, (err) => {
-        if (!err) {
-          const successMessage = `Added ${this.props.ingredient.name} to fridge!`
-          if (!unmounting) this.setState({ message: successMessage })
+      const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
+      addIngredient(this.props.ingredient)
+        .then(() => {
+          if (!unmounting) {
+            this.setState({
+              message: `Added ${this.props.ingredient.name} to fridge!`,
+              isLoading: false
+            })
+          }
+          clearTimeout(showPreloader)
           this.props.updateFridge('ADD', this.props.ingredient)
-        } else {
+        })
+        .catch(() => {
           this.setState({ message: 'Failed to add ingredient.' })
+          if (!unmounting) this.setState({ isLoading: false })
+          clearTimeout(showPreloader)
           failed = true
-        }
-        if (!unmounting) this.setState({ isLoading: false, wait: false })
-      })
+        })
     } else {
       unmounting = this.props.parent === 'fridge' ||
         (this.context.fridge.length === REDIRECT_INGR_THRESHOLD &&
         this.context.display === 'dash')
-      if (!unmounting) this.setState({ wait: true })
-      delIngredient(this.props.ingredient, (err) => {
-        if (!err) {
-          const successMessage = `Deleted ${this.props.ingredient.name} from fridge!`
-          if (!unmounting) this.setState({ message: successMessage })
+      const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
+      delIngredient(this.props.ingredient)
+        .then(() => {
+          if (!unmounting) {
+            this.setState({
+              message: `Deleted ${this.props.ingredient.name} from fridge!`,
+              isLoading: false
+            })
+          }
+          clearTimeout(showPreloader)
           this.props.updateFridge('DEL', this.props.ingredient)
-        } else {
+        })
+        .catch(() => {
           this.setState({ message: 'Failed to delete ingredient.' })
+          if (!unmounting) this.setState({ isLoading: false })
+          clearTimeout(showPreloader)
           failed = true
-        }
-        if (!unmounting) {
-          this.setState({ isLoading: false, wait: false })
-        }
-      })
+        })
     }
-    if (!unmounting || failed) {
-      this.showTooltip()
-    }
+    if (!unmounting || failed) this.showTooltip()
   }
 
   showTooltip() {

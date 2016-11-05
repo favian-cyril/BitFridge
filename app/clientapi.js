@@ -1,71 +1,51 @@
 const axios = require('axios')
 const append = require('append-query')
-const $ = require('jquery')
 
 // DEVELOPMENT ONLY
-const baseUrl = typeof document === 'object' ? $('body').data('baseurl') : 'http://localhost:3000/api/'
+const baseUrl = typeof document === 'object' ? document.body.dataset.baseurl : 'http://localhost:3000/api/'
 
-function searchIngredients(string, cb) {
+function searchIngredients(string) {
   const url = `${baseUrl}ingredients/autocomplete`
-  const params = {
-    metaInformation: true,
-    number: 5,
-    query: string
-  }
-  get(url, params, cb)
+  const params = { number: 5, query: string }
+  return get(url, params)
 }
 
-function searchResults(ingredients, page, cb) {
+function searchResults(ingredients, page) {
   const url = `${baseUrl}recipes/results`
-  const params = {
-    ingredients: JSON.stringify(ingredients),
-    page
-  }
-  get(url, params, cb)
+  const params = { ingredients: JSON.stringify(ingredients), page }
+  return get(url, params)
 }
 
-function addIngredient(ingredient, cb) {
+function addIngredient(ingredient) {
   const url = `${baseUrl}fridge/add`
   const form = { item: ingredient }
-  post(url, form, cb)
+  return post(url, form)
 }
 
-function delIngredient(ingredient, cb) {
+function delIngredient(ingredient) {
   const url = `${baseUrl}fridge/del`
   const form = { item: ingredient }
-  post(url, form, cb)
+  return post(url, form)
 }
 
-function getFridge(cb) {
+function getFridge() {
   const url = `${baseUrl}fridge/get`
-  get(url, null, cb)
+  return get(url)
 }
 
-function get(url, params, cb) {
-  if (params) {
-    url = append(url, params)
-  }
-  axios.get(url)
-    .then((res) => {
-      cb(null, res.data)
-    })
-    .catch((err) => {
-      cb(err)
-    })
+function get(url, params) {
+  const options = { params }
+  return new Promise((resolve, reject) => {
+    axios.get(url, options)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+  })
 }
 
-function post(url, obj, cb) {
-  const csrfToken = $("input[name='_csrf']").val()
-  const options = {
-    headers: { 'X-CSRF-Token': csrfToken }
-  }
-  axios.post(url, obj, options)
-    .then(() => {
-      cb(null)
-    })
-    .catch((err) => {
-      cb(err)
-    })
+function post(url, obj) {
+  const csrfToken = document.querySelector('input[name="_csrf"]').value
+  const options = { headers: { 'X-CSRF-Token': csrfToken } }
+  return axios.post(url, obj, options)
 }
 
 module.exports = {
@@ -73,5 +53,5 @@ module.exports = {
   searchResults,
   addIngredient,
   delIngredient,
-  getFridge
+  getFridge,
 }
