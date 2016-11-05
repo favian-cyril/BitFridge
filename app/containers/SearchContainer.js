@@ -67,8 +67,9 @@ class SearchContainer extends React.Component {
             })
             this.setState({ suggestionResults: results })
             resolve()
-          } else {
+          } else if (results.length === 0) {
             this.setState({ errorType: 'NOTFOUND' })
+            resolve()
           }
         })
         .catch((error) => {
