@@ -16,15 +16,6 @@ const RecipeResults = (props, context) => {
         <Preloader/>
       </div>
     )
-  } else if (context.recipes.length === 0) {
-    results = (
-      <li className="media">
-        <Error
-          msg="No Results Found"
-          desc="Sorry, there are no recipes found containing all the ingredients you want. Try removing one ingredient or two from your fridge."
-        />
-      </li>
-    )
   } else if (props.errorType === 'OFFLINE') {
     results = (
       <li className="media">
@@ -42,6 +33,15 @@ const RecipeResults = (props, context) => {
           desc="The server is having problems, please leave him alone and try again."
         />
         <button type="button" class="btn btn-outline-secondary">Try Again</button>
+      </li>
+    )
+  } else if (context.recipes.length === 0) {
+    results = (
+      <li className="media">
+        <Error
+          msg="No Results Found"
+          desc="Sorry, there are no recipes found containing all the ingredients you want. Try removing one ingredient or two from your fridge."
+        />
       </li>
     )
   }
