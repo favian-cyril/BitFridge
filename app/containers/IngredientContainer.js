@@ -1,5 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
+import _ from 'lodash'
 import Ingredient from '../components/Ingredient'
 import { addIngredient, delIngredient } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
@@ -72,11 +73,12 @@ class IngredientContainer extends React.Component {
   }
 
   render() {
+    const debouncedHandleToggle = _.debounce(this.handleToggle, 400, { leading: true })
     return (
       <Ingredient
         ingredient={this.props.ingredient}
         idName={this.props.idName}
-        handleToggle={this.handleToggle}
+        handleToggle={debouncedHandleToggle}
         display={this.context.display}
         isLoading={this.state.isLoading}
         isAdded={this.props.isInFridge(this.props.ingredient)}

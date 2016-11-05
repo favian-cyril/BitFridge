@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import Recipe from './Recipe'
 import Preloader from './Preloader'
 import Error from './Error'
@@ -45,6 +46,7 @@ const RecipeResults = (props, context) => {
       </li>
     )
   }
+  const debouncedMoreRecipes = _.debounce(props.moreRecipes, 1000, { leading: true })
   return (
     <div className="card">
       <div className="card-block recipe-card">
@@ -60,7 +62,7 @@ const RecipeResults = (props, context) => {
           <button
             type="button"
             className="btn btn-link view-more"
-            onClick={props.moreRecipes}
+            onClick={debouncedMoreRecipes}
           >
             View more...
           </button>
