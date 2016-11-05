@@ -59,13 +59,14 @@ class SearchContainer extends React.Component {
     return new Promise((resolve) => {
       searchIngredients(searchText)
         .then((results) => {
-          if (body.length !== 0 && lastTimestamp === this.state.timestamp) {
-            let results = _.uniqBy(body, 'id')
+          if (results.length !== 0 && lastTimestamp === this.state.timestamp) {
+            results = _.uniqBy(results, 'id')
             results = results.map((ingredient) => {
               ingredient.isAdded = this.props.isInFridge(ingredient)
               return ingredient
             })
             this.setState({ suggestionResults: results })
+            resolve()
           } else {
             this.setState({ errorType: 'NOTFOUND' })
           }

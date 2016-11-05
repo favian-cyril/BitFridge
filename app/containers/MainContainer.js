@@ -40,13 +40,10 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     this.fetchDisplay()
-    this.fetchFridge((err) => {
-      if (err) {
-        this.handleError(err, 'fridge')
-      } else if (this.state.fridge.length > 0) {
-        this.fetchRecipes((_err) => {
-          if (_err) this.handleError(_err, 'recipes')
-          else this.setState({ ready: true })
+    this.fetchFridge().then(() => {
+      if (this.state.fridge.length > 0) {
+        this.fetchRecipes().then(() => {
+          this.setState({ ready: true })
         })
       } else {
         this.setState({ ready: true })
@@ -71,9 +68,7 @@ class MainContainer extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.fridge.length !== this.state.fridge.length) {
-      this.fetchRecipes((err) => {
-        if (err) this.handleError(err, 'recipes')
-      })
+      this.fetchRecipes()
     }
   }
 
@@ -160,6 +155,7 @@ class MainContainer extends React.Component {
       errorType[component] = 'SERVERERR'
       this.setState({ errorType: errorType })
     }
+    this.setState({ ready: true })
   }
 
   render() {
