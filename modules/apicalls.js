@@ -4,8 +4,6 @@ var append = require('append-query')
 require('dotenv').config()
 
 var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
-var YUMMLY_APP_ID = process.env.YUMMLY_APP_ID
-var YUMMLY_API_KEY = process.env.YUMMLY_API_KEY
 
 /**
  * Performs ingredient search with ingredient metadata.
@@ -19,27 +17,30 @@ function searchIngredients (path, params, cb) {
 }
 
 function searchResults (ingredients, page, cb) {
-  var baseUrl = 'http://api.yummly.com/v1/api'
+  var baseUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/'
   var ingrParam = ''
   ingredients.forEach(function (i) {
-    ingrParam += '&allowedIngredient[]=' + i
+    ingrParam += i + ','
   })
+  ingrParam = ingrParam.substring(0,ingrParam.length-1)
+  const headers = { 'X-Mashape-Key': SPOONACULAR_API_KEY }
   var params = {
-    _app_id: YUMMLY_APP_ID,
-    _app_key: YUMMLY_API_KEY,
-    maxResult: '8',
-    start: page * 8
+    fillIngredients: true,
+    ingredients: ingrParam,
+    limitLicense: true,
+    number: 8 * page,
+    ranking: 2
   }
-  var resultsUrl = append(baseUrl + '/recipes', params) + ingrParam
-  axios.get(resultsUrl).then(function (response) {
-    var matches = response.data.matches
+  var resultsUrl = append(baseUrl + 'findByIngredients', params)
+  axios.get(resultsUrl, { headers: headers}).then(function (response) {
+    var matches = response.data
     var requests = matches.map(function (recipe) {
-      var url = baseUrl + '/recipe/' + recipe.id
-      return axios.get(append(url, { _app_id: YUMMLY_APP_ID, _app_key: YUMMLY_API_KEY }))
+      var url = baseUrl + recipe.id + '/information?includeNutrition=false'
+      return axios.get(url, { headers: headers})
     })
     axios.all(requests).then(function (args) {
       args.forEach(function (res, i) {
-        response.data.matches[i].sourceUrl = res.data.source.sourceRecipeUrl
+        response.data[i].sourceUrl = res.data.sourceUrl
       })
       cb(null, response.data)
     }).catch(function (error) {
