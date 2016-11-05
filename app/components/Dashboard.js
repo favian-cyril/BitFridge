@@ -22,13 +22,14 @@ const Dashboard = (props, context) => (
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-3 offset-xs-1">
+        <div className="col-xs-5 col-lg-3 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
               contents={context.fridge}
               updateFridge={props.updateFridge}
               isInFridge={props.isInFridge}
+              errorType={props.errorType.fridge}
             />
           </div>
         </div>
@@ -37,6 +38,7 @@ const Dashboard = (props, context) => (
             <RecipeResults
               isLoading={props.isLoading}
               viewMore={props.viewMore}
+              errorType={props.errorType.recipes}
             />
           </div>
         </div>
@@ -49,7 +51,11 @@ Dashboard.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
   isInFridge: React.PropTypes.func.isRequired,
   viewMore: React.PropTypes.func.isRequired,
-  isLoading: React.PropTypes.bool.isRequired
+  isLoading: React.PropTypes.bool.isRequired,
+  errorType: React.PropTypes.shape({
+    fridge: React.PropTypes.string.isRequired,
+    recipe: React.PropTypes.string.isRequired
+  })
 }
 
 // Default props for cloned children
