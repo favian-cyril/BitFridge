@@ -129,8 +129,8 @@ class MainContainer extends React.Component {
   mapMissing(recipeList) {
     return recipeList.map((recipe) => {
       const ingredients = recipe.ingredients
-      const fridge = this.state.fridge
-      recipe.missing = _.differenceBy(ingredients, fridge, 'name')
+      const fridgeList = this.state.fridge.map(item => item.name)
+      recipe.missing = _.difference(ingredients, fridgeList)
       return recipe
     })
   }
