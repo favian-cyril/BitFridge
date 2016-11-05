@@ -22,69 +22,108 @@ global.window = doc.defaultView
 
 describe('SearchContainer', function() {
   it('should have a SearchBar', function() {
-    var wrapper = shallow(<SearchContainer updateFridge={function(){}} inInFridge={function(){}}/>)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
     assert.equal(wrapper.find(SearchBar).length, 1)
   })
   it('should have a SuggestionsList', function() {
-    var wrapper = shallow(<SearchContainer updateFridge={function(){}} inInFridge={function(){}}/>)
+    const wrapper = shallow(
+      <SearchContainer
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
     assert.equal(wrapper.find(SuggestionsList).length, 1)
   })
 })
 describe('SearchBar', function() {
   it('should have an input form', function() {
-    var wrapper = shallow(<SearchBar handleInput={function(){}} handleToggleFocus={function(){}}/>)
+    const wrapper = shallow(
+      <SearchBar
+        handleInput={function() {}}
+        handleToggleFocus={function() {}}
+      />
+    )
     assert.equal(wrapper.find('input').length, 1)
   })
 })
 describe('SuggestionsList', function() {
+  const mockResults = [
+    { name: 'foo', image: 'foo' },
+    { name: 'bar', image: 'bar' }
+  ]
   it('should show SuggestionsList when parsed a text', sinon.test(function() {
-    var input = 'foo'
+    const input = 'foo'
     const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
-    var wrapper = mount(<SuggestionsList />)
-    wrapper.setProps({
-      searchText: input,
-      isFocused: true
-      })
-    function assertTest() {
-      assert.equal(wrapper.find(IngredientSuggestion).length, 1)
-    }
-    setTimeout(assertTest, 1)
+    const wrapper = mount(
+      <SuggestionsList
+        searchText={input}
+        isFocused={true}
+        isLoading={false}
+        suggestionResults={mockResults}
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
+    setTimeout(() => { assert.equal(wrapper.find(IngredientSuggestion).length, 1) }, 1)
   }))
   it('should show Preloader', sinon.test(function() {
-    var input = 'foo'
+    const input = 'foo'
     const mock = this.stub(searchIngredients, "searchIngredients").returns(null, 200, input)
-    var wrapper = mount(<SuggestionsList />)
-    wrapper.setProps({
-      searchText: input,
-      isFocused: true
-    })
-    function assertTest() {
-      assert.equal(wrapper.find(Preloader).length, 1)
-    }
-    setTimeout(assertTest, 1)
+    const wrapper = mount(
+      <SuggestionsList
+        searchText={input}
+        isFocused={true}
+        isLoading={false}
+        suggestionResults={mockResults}
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
+    setTimeout(() => { assert.equal(wrapper.find(Preloader).length, 1) }, 1)
   }))
   it('should show ErrorMsg', sinon.test(function() {
-    var input = 'foo'
+    const input = 'foo'
     const mock = this.stub(searchIngredients, "searchIngredients").returns('TypeError', 200, input)
-    var wrapper = mount(<SuggestionsList />)
-    wrapper.setProps({
-      searchText: input,
-      isFocused: true
-    })
-    function assertTest() {
-      assert.equal(wrapper.find(ErrorMsg).length, 1)
-    }
-    setTimeout(assertTest, 1)
+    const wrapper = mount(
+      <SuggestionsList
+        searchText={input}
+        isFocused={true}
+        isLoading={false}
+        suggestionResults={mockResults}
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
+    setTimeout(() => { assert.equal(wrapper.find(ErrorMsg).length, 1) }, 1)
   }))
 })
 describe('IngredientSuggestion', function() {
-  var mockItem = { name: 'foo', image: 'foo' }
+  const mockItem = { name: 'foo', image: 'foo' }
   it('should show title', function() {
-    var wrapper = shallow(<Ingredient ingredient={mockItem}/>)
+    const wrapper = shallow(
+      <Ingredient
+        ingredient={mockItem}
+        isLoading={true}
+        isAdded={false}
+        handleToggle={function() {}}
+      />
+    )
     assert.equal(wrapper.contains(<p className='media-heading'>foo</p>), true)
   })
   it('should show the image', function() {
-    var wrapper = shallow(<Ingredient ingredient={mockItem}/>)
+    const wrapper = shallow(
+      <Ingredient
+        ingredient={mockItem}
+        isLoading={true}
+        isAdded={false}
+        handleToggle={function() {}}
+      />
+    )
     assert.equal(
       wrapper.contains(
         <img className='img-rounded'

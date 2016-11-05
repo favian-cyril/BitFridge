@@ -15,16 +15,30 @@ global.document = doc
 global.window = doc.defaultView
 describe('Fridge', function() {
   var content = [
-    { item: 'foo', i: 123 },
-    { item: 'rza', i: 777 }
+    { name: 'foo', id: 123 },
+    { name: 'rza', id: 777 }
   ]
   var input = 'foo'
   it('should have a title', function() {
-    var wrapper = shallow(<Fridge title={input} contents={content} handleUpdate={function(){}}/>)
+    var wrapper = shallow(
+      <Fridge
+        title={input}
+        contents={content}
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+        />
+    )
     assert.equal(input, wrapper.instance().props.title)
   })
   it("should have content", function() {
-    var wrapper = shallow(<Fridge title={input} contents={content} handleUpdate={function(){}}/>)
+    var wrapper = shallow(
+      <Fridge
+        title={input}
+        contents={content}
+        updateFridge={function() {}}
+        isInFridge={function() {}}
+      />
+    )
     assert.equal(wrapper.find(IngredientContainer).length, 2)
   })
 })
