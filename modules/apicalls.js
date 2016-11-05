@@ -10,9 +10,10 @@ var SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY
  *
  * Callback receives (err, res, body)
  */
-function searchIngredients (path, params, cb) {
-  var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food' + path
+function searchIngredients (searchText, number, cb) {
+  var url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete'
   const headers = { 'X-Mashape-Key': SPOONACULAR_API_KEY }
+  const params = { query: searchText, number: number, metaInformation: true }
   _get(url, params, headers, cb)
 }
 
@@ -22,7 +23,7 @@ function searchResults (ingredients, page, cb) {
   ingredients.forEach(function (i) {
     ingrParam += i + ','
   })
-  ingrParam = ingrParam.substring(0,ingrParam.length-1)
+  ingrParam = ingrParam.substring(0, ingrParam.length-1)
   const headers = { 'X-Mashape-Key': SPOONACULAR_API_KEY }
   var params = {
     fillIngredients: true,
@@ -32,7 +33,7 @@ function searchResults (ingredients, page, cb) {
     ranking: 2
   }
   var resultsUrl = append(baseUrl + 'findByIngredients', params)
-  axios.get(resultsUrl, { headers: headers}).then(function (response) {
+  axios.get(resultsUrl, { headers: headers }).then(function (response) {
     var matches = response.data
     var requests = matches.map(function (recipe) {
       var url = baseUrl + recipe.id + '/information?includeNutrition=false'
@@ -40,9 +41,9 @@ function searchResults (ingredients, page, cb) {
     })
     axios.all(requests).then(function (args) {
       args.forEach(function (res, i) {
-        response.data[i].sourceUrl = res.data.sourceUrl
+        matches[i].sourceUrl = res.data.sourceUrl
       })
-      cb(null, response.data)
+      cb(null, matches)
     }).catch(function (error) {
       console.error('Failed to gather recipe sourceUrls.')
       cb(error)

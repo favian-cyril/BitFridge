@@ -2,11 +2,11 @@ const axios = require('axios')
 const append = require('append-query')
 
 // DEVELOPMENT ONLY
-const baseUrl = typeof document === 'object' ? $('body').data('baseurl') : 'http://localhost:3000/api/'
+const baseUrl = typeof document === 'object' ? document.body.dataset.baseurl : 'http://localhost:3000/api/'
 
 function searchIngredients(string) {
   const url = `${baseUrl}ingredients/autocomplete`
-  const params = { metaInformation: true, number: 5, query: string }
+  const params = { number: 5, query: string }
   return get(url, params)
 }
 
@@ -36,7 +36,7 @@ function getFridge() {
 function get(url, params) {
   const options = { params }
   return new Promise((resolve, reject) => {
-    axios.get(url)
+    axios.get(url, options)
       .then(res => resolve(res.data))
       .catch(err => reject(err))
   })
@@ -53,5 +53,5 @@ module.exports = {
   searchResults,
   addIngredient,
   delIngredient,
-  getFridge
+  getFridge,
 }
