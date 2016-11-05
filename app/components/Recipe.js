@@ -13,16 +13,16 @@ const Recipe = (props) => {
   return (
     <li className="media ingredient">
       <div className="media-left media-middle">
-        <img className="img-rounded" src={props.recipe.imageUrlsBySize['90']} alt="90x90" width="90" height="90"/>
+        <img className="img-rounded" src={props.recipe.image} alt={props.recipe.name} width="90" height="90"/>
       </div>
       <div className="media-body">
-        <h5 className="media-heading">{props.recipe.recipeName}</h5>
+        <h5 className="media-heading">{props.recipe.name}</h5>
         <small className="missing-str">Missing: {missingStr}</small>
       </div>
       <div className="media-right media-middle">
         <a
           className="btn btn-default btn-add"
-          href={props.recipe.sourceUrl}
+          href={props.recipe.url}
           target="_blank" rel="noopener noreferrer"
         >
           <i className="fa fa-2x fa-external-link"/>
@@ -34,9 +34,9 @@ const Recipe = (props) => {
 
 Recipe.propTypes = {
   recipe: React.PropTypes.shape({
-    recipeName: React.PropTypes.string.isRequired,
-    imageUrlsBySize: React.PropTypes.object,  // eslint-disable-line react/forbid-prop-types
-    sourceUrl: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
+    image: React.PropTypes.object,  // eslint-disable-line react/forbid-prop-types
+    url: React.PropTypes.string,
     missing: React.PropTypes.array
   }).isRequired
 }
