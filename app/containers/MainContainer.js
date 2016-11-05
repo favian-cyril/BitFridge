@@ -15,7 +15,11 @@ class MainContainer extends React.Component {
       recipes: [],
       display: null,
       isLoading: false,
-      recipePage: 1
+      recipePage: 1,
+      errorType: {
+        fridge: '',
+        recipes: ''
+      }
     }
     this.fetchFridge = this.fetchFridge.bind(this)
     this.updateFridge = this.updateFridge.bind(this)
@@ -38,10 +42,10 @@ class MainContainer extends React.Component {
     this.fetchDisplay()
     this.fetchFridge((err) => {
       if (err) {
-        this.handleError(err)
+        this.handleError(err, 'fridge')
       } else if (this.state.fridge.length > 0) {
         this.fetchRecipes((_err) => {
-          if (_err) this.handleError(_err)
+          if (_err) this.handleError(_err, 'recipes')
           else this.setState({ ready: true })
         })
       } else {
@@ -68,7 +72,7 @@ class MainContainer extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.fridge.length !== this.state.fridge.length) {
       this.fetchRecipes((err) => {
-        if (err) this.handleError(err)
+        if (err) this.handleError(err, 'recipes')
       })
     }
   }
@@ -87,7 +91,7 @@ class MainContainer extends React.Component {
         this.setState({ fridge: body })
         cb(null)
       } else {
-        this.handleError(err, cb)
+        this.handleError(err, 'fridge')
       }
     })
   }
@@ -101,7 +105,7 @@ class MainContainer extends React.Component {
         this.setState({ recipes: results })
         cb(null)
       } else {
-        this.handleError(err, cb)
+        this.handleError(err, 'recipes')
       }
       this.setState({ isLoading: false })
     })
@@ -125,8 +129,8 @@ class MainContainer extends React.Component {
   mapMissing(recipeList) {
     return recipeList.map((recipe) => {
       const ingredients = recipe.ingredients
-      const fridge = this.state.fridge
-      recipe.missing = _.differenceBy(ingredients, fridge, 'name')
+      const fridgeList = this.state.fridge.map(item => item.name)
+      recipe.missing = _.difference(ingredients, fridgeList)
       return recipe
     })
   }
@@ -155,10 +159,16 @@ class MainContainer extends React.Component {
     })
   }
 
-  handleError(err, cb = null) {  // eslint-disable-line class-methods-use-this
+  handleError(err, component) {  // eslint-disable-line class-methods-use-this
     /* TODO: Display error on fail to fetch fridge, recipe, etc. */
-    console.error(err) // eslint-disable-line no-console
-    if (cb) cb(err)
+    let errorType = this.state.errorType
+    if (err.message && err.message === 'Network Error') {
+      errorType[component] = 'OFFLINE'
+      this.setState({ errorType: errorType })
+    } else if (err.response && err.response.data.code === 'ENOTFOUND') {
+      errorType[component] = 'SERVERERR'
+      this.setState({ errorType: errorType })
+    }
   }
 
   render() {
@@ -170,7 +180,8 @@ class MainContainer extends React.Component {
               updateFridge: this.updateFridge,
               isInFridge: this.isInFridge,
               viewMore: this.viewMore,
-              isLoading: this.state.isLoading
+              isLoading: this.state.isLoading,
+              errorType: this.state.errorType
             })
             : <div className="absolute-center"><Preloader/></div>
         }

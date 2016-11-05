@@ -16,12 +16,31 @@ const RecipeResults = (props, context) => {
         <Preloader/>
       </div>
     )
+  } else if (props.errorType === 'OFFLINE') {
+    results = (
+      <li className="media">
+        <Error msg="Network Connection Error"
+               desc="Check your internet connection and try again."
+        />
+        <center><button type="button" className="btn btn-warning">Try Again</button></center>
+      </li>
+    )
+  } else if (props.errorType === 'SERVERERR') {
+    results = (
+      <li className="media">
+        <Error
+          msg="Server Error"
+          desc="The server is having problems, please leave him alone and try again later."
+        />
+        <button type="button" className="btn btn-warning">Try Again</button>
+      </li>
+    )
   } else if (context.recipes.length === 0) {
     results = (
       <li className="media">
         <Error
-          msg="No results"
-          desc="Your search did not return any results."
+          msg="No Results Found"
+          desc="Sorry, there are no recipes found containing all the ingredients you want. Try removing one ingredient or two from your fridge."
         />
       </li>
     )
@@ -53,7 +72,8 @@ const RecipeResults = (props, context) => {
 
 RecipeResults.propTypes = {
   viewMore: React.PropTypes.func.isRequired,
-  isLoading: React.PropTypes.bool.isRequired
+  isLoading: React.PropTypes.bool.isRequired,
+  errorType: React.PropTypes.string
 }
 
 RecipeResults.contextTypes = {

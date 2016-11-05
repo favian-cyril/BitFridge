@@ -1,3 +1,3 @@
 module.exports = {
-  REDIRECT_INGR_THRESHOLD: 2
+  REDIRECT_INGR_THRESHOLD: 1
 }
