@@ -60,7 +60,7 @@ const RecipeResults = (props, context) => {
           <button
             type="button"
             className="btn btn-link view-more"
-            onClick={props.viewMore}
+            onClick={props.moreRecipes}
           >
             View more...
           </button>
@@ -71,7 +71,7 @@ const RecipeResults = (props, context) => {
 }
 
 RecipeResults.propTypes = {
-  viewMore: React.PropTypes.func.isRequired,
+  moreRecipes: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.string
 }

@@ -125,24 +125,21 @@ class MainContainer extends React.Component {
   }
 
   moreRecipes() {
-    return new Promise((resolve) => {
-      const fridgeList = this.state.fridge.map(item => item.name)
-      const nextPage = this.state.recipePage + 1
-      this.setState({isLoading: true, recipePage: nextPage})
-      anims.moreRecipes()
-      searchResults(fridgeList, nextPage)
-        .then((results) => {
-          this.setState({
-            recipes: this.state.recipes.concat(results),
-            isLoading: false
-          })
-          resolve()
+    const fridgeList = this.state.fridge.map(item => item.name)
+    const nextPage = this.state.recipePage + 1
+    this.setState({ isLoading: true, recipePage: nextPage })
+    anims.moreRecipes()
+    searchResults(fridgeList, nextPage)
+      .then((results) => {
+        this.setState({
+          recipes: this.state.recipes.concat(results),
+          isLoading: false
         })
-        .catch((error) => {
-          this.setState({isLoading: false})
-          this.handleError(error, 'recipes')
-        })
-    })
+      })
+      .catch((error) => {
+        this.setState({isLoading: false})
+        this.handleError(error, 'recipes')
+      })
   }
 
   handleError(err, component) {  // eslint-disable-line class-methods-use-this

@@ -37,7 +37,7 @@ const Dashboard = (props, context) => (
           <div className="row">
             <RecipeResults
               isLoading={props.isLoading}
-              viewMore={props.viewMore}
+              moreRecipes={props.moreRecipes}
               errorType={props.errorType.recipes}
             />
           </div>
