@@ -105,7 +105,7 @@ class MainContainer extends React.Component {
         this.setState({ recipes: results })
         cb(null)
       } else {
-        this.handleError(err)
+        this.handleError(err, 'recipes')
       }
       this.setState({ isLoading: false })
     })
