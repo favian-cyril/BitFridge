@@ -93,6 +93,7 @@ button.view-more {
 
 .media-body > .ingr-name-wrapper {
   max-width: 0;
+  white-space: nowrap;
 }
 
 .media.ingredient {
@@ -129,7 +130,7 @@ button.btn-add:active > i.btn-add-icon {
   color: rgba(65, 117, 5, 1)
 }
 
-button.btn-add.success > i.btn-add-icon {
+button.btn-add.added > i.btn-add-icon {
   color: rgb(105, 187, 15)
 }
 
@@ -189,6 +190,9 @@ div.spinner-wrapper {
 .right-inner-addon i {
   line-height: normal;
 }
+
+/* TOOLTIP (INGREDIENTS) */
+.tooltip.
 
 /* UTILITY CLASSES */
 .centered {
