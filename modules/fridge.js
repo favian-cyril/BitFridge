@@ -57,6 +57,7 @@ function getFridge (req, cb) {
     }
     req.session.fridge.map((item) => {
       item.id = parseInt(item.id)
+      return item
     })
     cb(null, req.session.fridge)
   } else {

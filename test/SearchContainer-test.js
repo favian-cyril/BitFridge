@@ -2,6 +2,7 @@ import sinon from 'sinon'
 import {mount, shallow, render} from 'enzyme'
 import {assert} from 'chai'
 import React from 'react'
+import sinonStubPromise from 'sinon-stub-promise'
 import SearchContainer from '../app/containers/SearchContainer'
 import MainContainer from '../app/containers/MainContainer'
 import SuggestionsList from '../app/components/SuggestionList'
@@ -20,6 +21,7 @@ global.navigator = {
 };
 global.document = doc
 global.window = doc.defaultView
+sinonStubPromise(sinon)
 
 describe('SearchContainer', function() {
   it('should have a SearchBar', function() {
@@ -42,7 +44,7 @@ describe('SearchContainer', function() {
   })
   it('should change the result state based on the input', sinon.test(function() {
     var body = [{id: 1, name:'foo'}, {id: 2, name:'bar'}]
-    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(null, body)
+    const mock1 = this.stub(searchIngredients, "searchIngredients").returnsPromise().resolves(body)
     const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
     const wrapper = shallow(
       <SearchContainer
@@ -56,7 +58,7 @@ describe('SearchContainer', function() {
   }))
   it('should have error when the result is empty', sinon.test(function() {
     var body = []
-    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(null, body)
+    const mock1 = this.stub(searchIngredients, "searchIngredients").returnsPromise().resolves(body)
     const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
     const wrapper = shallow(
       <SearchContainer
@@ -69,9 +71,8 @@ describe('SearchContainer', function() {
     assert.equal(wrapper.state().errorType, 'NOTFOUND')
   }))
   it('should have error when server is offline', sinon.test(function() {
-    var body = []
     var err = {message: 'Network Error'}
-    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(err, body)
+    const mock1 = this.stub(searchIngredients, "searchIngredients").returnsPromise().rejects(err)
     const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
     const wrapper = shallow(
       <SearchContainer
@@ -84,9 +85,8 @@ describe('SearchContainer', function() {
     assert.equal(wrapper.state().errorType, 'OFFLINE')
   }))
   it('should have error when server is error', sinon.test(function() {
-    var body = []
     var err = {response: {data: {code: 'ENOTFOUND'}}}
-    const mock1 = this.stub(searchIngredients, "searchIngredients").yields(err, body)
+    const mock1 = this.stub(searchIngredients, "searchIngredients").returnsPromise().rejects(err)
     const mock2 = this.stub(MainContainer.prototype, "isInFridge").returns(true)
     const wrapper = shallow(
       <SearchContainer
