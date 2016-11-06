@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link rel="stylesheet" href="../stylesheets/bootstrap-social.css">
+    <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" href="./DashboardTest.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+    <script>
+        // POPOVER
+        var loginElement = '<button type="button" class="btn btn-block btn-facebook"><span class="fa fa-facebook"></span> | Log In with Facebook</button>' +
+                '<br><button type="button" class="btn btn-block btn-google"><span class="fa fa-google"></span> | Log In with Google</button>';
+        var logoutElement = '<div class="list-group">' +
+                '<a href="#" class="list-group-item list-group-item-action">History</a> ' +
+                '<a href="#" class="list-group-item list-group-item-action">My Recipes</a></div>' +
+                '<br><button class="btn btn-md btn-block btn-primary">Log Out</button>';
+
+        $(document).on('click', 'button.btn-secondary', function () {
+            $('#LI').popover({
+                content: loginElement,
+                html: true
+            });
+
+            $('#LO').popover({
+                content: logoutElement,
+                html: true
+            });
+        });
+
+        $(document).on('click', 'button.btn-block', function() {
+            $('.popover').popover('hide');
+            $('button.btn-secondary').toggle();
+        });
+
+        // ACCORDION
+        $(document).on('click', '.card .list-wrapper', function() {
+            $('button.accordion').each(function() {
+                $(this).on('click', function() {
+                    $(this).find('span.fa').toggle();
+                    this.classList.toggle('active');
+                    this.nextElementSibling.classList.toggle('show');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-fixed-top navbar-light clearfix">
+        <div class="row flex-items-xs-middle">
+            <div class="col-xs-2 offset-xs-1">
+                <img class="img-responsive index-logo" src="../images/logo-1x.png"/>
+            </div>
+            <div class="col-xs-4 offset-xs-2 vertical-center">
+                <div class="container">
+                    <div class="input-group form-group right-inner-addon pull-xs-left">
+                        <input class="form-control" type="text" placeholder="Search">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2 vertical-center">
+                <button id="LI" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom">Log In</button>
+                <button id="LO" type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom" style="display: none;">Hello, User! <span class="fa fa-user"></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 offset-xs-1">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-block">
+                            <h5 class="card-title">My Fridge</h5>
+                        </div>
+                            <div class="list-wrapper">
+                                <ul class="media-list">
+                                    <li class='media ingredient'>
+                                        <div class='media-left media-middle'>
+                                            <img class='img-rounded' src="https://spoonacular.com/cdn/ingredients_100x100/farro-or-spelt.jpg" alt='50x48' width='50' height='50'/>
+                                        </div>
+                                        <div class='media-body'>
+                                            <p>Farro</p>
+                                        </div>
+                                        <div class='media-right media-middle'>
+                                            <button class='btn btn-default btn-add'>
+                                                <i class="fa fa-2x fa-remove btn-add-icon"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <li class='media ingredient'>
+                                        <div class='media-left media-middle'>
+                                            <img class='img-rounded' src="https://spoonacular.com/cdn/ingredients_100x100/falsa-fruits.jpg" alt='50x48' width='50' height='50'/>
+                                        </div>
+                                        <div class='media-body'>
+                                            <p>Falsa</p>
+                                        </div>
+                                        <div class='media-right media-middle'>
+                                            <button class='btn btn-default btn-add'>
+                                                <i class="fa fa-2x fa-remove btn-add-icon"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <li class='media ingredient'>
+                                        <div class='media-left media-middle'>
+                                            <img class='img-rounded' src="https://spoonacular.com/cdn/ingredients_100x100/porridge-or-cream-of-wheat-isolated.jpg" alt='50x48' width='50' height='50'/>
+                                        </div>
+                                        <div class='media-body'>
+                                            <p>Farina</p>
+                                        </div>
+                                        <div class='media-right media-middle'>
+                                            <button class='btn btn-default btn-add'>
+                                                <i class="fa fa-2x fa-remove btn-add-icon"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <li class='media ingredient'>
+                                        <div class='media-left media-middle'>
+                                            <img class='img-rounded' src="https://spoonacular.com/cdn/ingredients_100x100/porridge-or-cream-of-wheat-isolated.jpg" alt='50x48' width='50' height='50'/>
+                                        </div>
+                                        <div class='media-body'>
+                                            <p>Farina</p>
+                                        </div>
+                                        <div class='media-right media-middle'>
+                                            <button class='btn btn-default btn-add'>
+                                                <i class="fa fa-2x fa-remove btn-add-icon"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card">
+                        <div class="card-block">
+                            <h5 class="card-title">Cooking Today</h5>
+                        </div>
+                        <div class="list-wrapper">
+                            <button class="accordion">
+                                <span class="fa fa-caret-right"></span>
+                                <span class="fa fa-caret-down" style="display: none;"></span>
+                                Rafa's Jolly Churros
+                                <a class="fa fa-2x fa-external-link btn-add-icon" href="#"></a>
+                            </button>
+                            <div class="panel">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="" checked>
+                                                Apple
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Melon
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Cinnamon
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="accordion">
+                                <span class="fa fa-caret-right"></span>
+                                <span class="fa fa-caret-down" style="display: none;"></span>
+                                Favian's Detestable Casserole
+                                <a class="fa fa-2x fa-external-link btn-add-icon" href="#"></a>
+                            </button>
+                            <div class="panel">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="" checked>
+                                                Apple
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Onion
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Salmon
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="accordion">
+                                <span class="fa fa-caret-right"></span>
+                                <span class="fa fa-caret-down" style="display: none;"></span>
+                                Irsyad's Delightful Surprise
+                                <a class="fa fa-2x fa-external-link btn-add-icon" href="#"></a>
+                            </button>
+                            <div class="panel">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="" checked>
+                                                Apple
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Edamame
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" value="">
+                                                Cheese
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <center>
+                                <button type="button" class="btn btn-success">Add to Shopping List</button>
+                                <button type="button" class="btn btn-danger">Clear All Recipes</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-block recipe-card">
+                            <h4 class="card-title">Recipe Results</h4>
+                        </div>
+                        <div class="recipe-list-wrapper">
+                            <ul class="media-list">
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class='media ingredient'>
+                                    <div class='media-left media-middle'>
+                                        <img class='img-rounded' src="http://placehold.it/90x90" alt='90x90' width='90' height='90'/>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">Media heading</h5>
+                                        <p><small class="text-muted">Missing: Melon</small></p>
+                                    </div>
+                                    <div class='media-right media-middle'>
+                                        <button class='btn btn-default btn-add'>
+                                            <i class="fa fa-2x fa-external-link btn-add-icon"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

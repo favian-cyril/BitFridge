@@ -1,0 +1,189 @@
+body {
+    padding-top: 70px;
+    background-color: #f3f5f6;
+}
+
+.row.top-gutter {
+	margin-top: 15px;
+}
+
+/* NAVBAR STUFF */
+
+div.form-group {
+    margin-bottom: 0;
+}
+
+nav.navbar-fixed-top {
+    background-color: #ffffff;
+    border-bottom: solid 1px #CCCCCC;
+    min-height: 60px !important;
+}
+
+/* LOGIN BUTTON */
+
+button.btn-login {
+    outline: none;
+    background-color: white;
+    color: #555860;
+}
+
+button.btn-login:hover {
+    text-decoration: underline;
+}
+
+/* CARD CONTAINER */
+
+div.card {
+    margin: 10px;
+}
+
+div.card-block {
+    padding: 15px 15px 5px 15px;
+    border-bottom: 1px solid #cccccc;
+    background-color: #e7e7e7;
+}
+
+div.card-block.recipe-card {
+    background-color: #ffffff;
+}
+
+/* INGREDIENTS */
+
+.media-body {
+    position: relative;
+    top: 50%;
+    transform: translateY(12.5%);
+    vertical-align: middle;
+}
+
+.media.ingredient {
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    background-color: #ffffff;
+}
+
+.list-wrapper {
+    max-height: 27vh;
+    overflow-y: auto;
+}
+
+.media.ingredient:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.media.ingredient p {
+    text-transform: capitalize;
+    line-height: 100%;
+}
+
+button.btn-add {
+    background-color: transparent;
+    padding: 10px;
+    color: #55595c;
+}
+
+button.btn-add:hover {
+    color: rgb(105, 187, 15)
+}
+
+button.btn-add:active {
+    color: rgba(65, 117, 5, 1)
+}
+
+button.btn-add.success {
+    color: rgb(105, 187, 15)
+}
+
+/* RECIPE RESULTS */
+
+.recipe-list-wrapper {
+    height: 75vh;
+    overflow-y: auto;
+}
+
+.card.recipe:hover {
+    cursor: pointer;
+    cursor: hand;
+    border: solid 1px cornflowerblue;
+    box-shadow: 3px 3px 5px #cccccc;
+}
+
+/* ICON IN INPUT */
+
+.right-inner-addon.pull-xs-right {
+    position: relative;
+}
+
+.right-inner-addon.pull-xs-right input {
+    padding-right: 60px;
+}
+
+.right-inner-addon.pull-xs-right i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 24px;
+    line-height: auto;
+}
+
+li.list-group-item {
+    border-right: none;
+    border-left: none;
+}
+
+/* VERTICAL CENTERING */
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* COOKING TODAY */
+
+button.accordion {
+  background-color: #f6f6f6;
+  color: #444;
+  cursor: pointer;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgb(204,204,204);
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+  background-color: #ddd;
+}
+
+button.accordion a.fa {
+  float: right;
+  color: #55595c;
+}
+
+button.accordion a.fa:hover {
+  color: rgb(105, 187, 15);
+  text-decoration: none;
+}
+
+div.panel {
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.6s ease-in-out;
+  -webkit-transition: 0.6s ease-in-out;
+  opacity: 0;
+}
+
+div.panel.show {
+  opacity: 1;
+  max-height: 500px;
+}
+
+div.panel ul li.list-group-item {
+  padding: 5px 10px 0px 30px;
+}

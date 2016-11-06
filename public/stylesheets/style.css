@@ -1,74 +1,183 @@
+/* GLOBALS */
 body {
-  padding: 50px;
-  font: 14px "Hind Vadodara", Helvetica, Arial, sans-serif;
-  color: rgba(102, 102, 102, 1);
+  background-color: #f3f5f6;
 }
 
-input:focus {
-  outline: none 0;
+/* INDEX CONTAINER */
+div.index-container {
+  margin-top: 30vh;
 }
 
-a {
-  color: #FED03D;
+/* DASH CONTAINER */
+div.dash-container > div {
+  padding-top: 70px;
+}
+
+/* IMAGES */
+img.index-logo {
+  padding: 20px;
+}
+
+/* NAVBAR STUFF */
+div.form-group {
+  margin-bottom: 0;
+}
+
+nav.navbar-fixed-top {
+  background-color: #ffffff;
+  border-bottom: solid 1px #CCCCCC;
+  min-height: 60px !important;
+}
+
+/* CARD CONTAINER */
+div.card {
+  margin: 10px;
+}
+
+div.card-block {
+  padding: 15px 15px 5px 15px;
+  border-bottom: 1px solid #cccccc;
+  background-color: #e7e7e7;
+}
+
+.list-wrapper {
+  height: 33vh;
+  overflow-y: auto;
+}
+
+/* RECIPE CONTAINER */
+div.card-block.recipe-card {
+  background-color: #ffffff;
+}
+
+.recipe-list-wrapper {
+  height: 70vh;
+  overflow-y: auto;
+}
+
+.recipe-list-wrapper > ul {
+  height: 100%;
+}
+
+/* RECIPE SUGGESTION */
+small.missing-str {
+  line-height: 1 !important;
+}
+
+button.view-more {
+  width: 100%;
+  border-top: 1px solid #ccc;
+}
+
+/* INGREDIENT SUGGESTION */
+.media-list {
+  margin-bottom: 0;
 }
 
 .media-body {
   vertical-align: middle;
+  position: relative;
+}
+
+.media-body > .ingr-name-overlay {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 10px;
+  z-index: 9999;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.media.ingredient:hover .ingr-name-overlay {
+  background-image: linear-gradient(to left, rgba(243, 243, 243, 1), rgba(243, 243, 243, 0));
+}
+
+.media-body > .ingr-name-wrapper {
+  max-width: 0;
+  white-space: nowrap;
 }
 
 .media.ingredient {
-  padding: 5px 10px;
-  margin-top: 0;
+  padding: 5px;
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+div.index-container .media.ingredient:last-child {
+  border: 0;
 }
 
 .media.ingredient:hover {
-  background-color: rgba(255, 233, 162, 1);
-  color: rgba(102, 102, 102, 1);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-.form-group {
-  margin-bottom: 5px;
+.media.ingredient p.media-heading {
+  text-transform: capitalize;
+  margin-bottom: 0;
 }
 
-input.form-control {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  -webkit-transition: all 120ms ease-out;
-  -moz-transition: all 120ms ease-out;
-  -ms-transition: all 120ms ease-out;
-  -o-transition: all 120ms ease-out;
-  transition: all 120ms ease-out;
+/* INGREDIENT BUTTON ACTIONS */
+button.btn-add {
+  background-color: transparent;
+  padding: 0 5px;
+  color: #55595c;
 }
 
-input.form-control:focus {
-  outline-color: rgba(251, 175, 65, 1);
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-bottom: 3px solid rgba(251, 175, 65, 1);
-  -webkit-transition: all 120ms ease-out;
-  -moz-transition: all 120ms ease-out;
-  -ms-transition: all 120ms ease-out;
-  -o-transition: all 120ms ease-out;
-  transition: all 120ms ease-out;
+button.btn-add:hover > i.btn-add-icon {
+  color: rgb(105, 187, 15)
 }
 
-.form-control {
-  border: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+button.btn-add:active > i.btn-add-icon {
+  color: rgba(65, 117, 5, 1)
 }
 
-.form-group-lg .form-control {
-  border-radius: 0;
+button.btn-add.added > i.btn-add-icon {
+  color: rgb(105, 187, 15)
 }
 
+i.btn-loading {
+  color: rgba(0, 0, 0, 0.3)
+}
+
+button.btn-remove {
+  background-color: transparent;
+  padding: 0 5px;
+  color: #55595c;
+}
+
+button.btn-remove:hover > i.btn-remove-icon {
+  color: rgb(255, 40, 62)
+}
+
+button.btn-remove:active > i.btn-remove-icon {
+  color: rgba(220, 30, 40, 1)
+}
+
+/* SEARCH BAR */
+input#search-input {
+  background: #FFFFFF;
+}
+
+input#search-input::-webkit-input-placeholder {
+  color: #CCCCCC;
+}
+
+/* SEARCH DROPDOWN */
 .dropdown-menu {
-  border-radius: 0px 0px 8px 8px;
+  margin-top: 5px;
+  padding: 0;
+  border-radius: 4px;
+  height: auto;
+  width: 100%;
 }
 
+/* ERROR MSGS, PRELOADER */
 div.search-error {
-  color: rgba(0, 0, 0, 0.4);
-  padding: 0 10px 10px 10px;
   width: 100%;
+  padding: 20px 0;
+}
+
+div.search-error p {
+  margin-bottom: 0;
 }
 
 div.preloader {
@@ -76,17 +185,54 @@ div.preloader {
   padding: 20px 0;
 }
 
-button.btn-add {
-  background-color: #EEEEEE;
-  color: #AAAAAA;
+div.spinner-wrapper {
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-button.btn-add:hover {
-  background-color: rgba(251, 175, 65, 1);
-  color: white;
+/* ICON IN INPUT */
+.right-inner-addon {
+  position: relative;
 }
 
-.centered{
+.right-inner-addon input {
+  padding-right: 60px;
+}
+
+.right-inner-addon i {
+  line-height: normal;
+}
+
+/* TOOLTIP (INGREDIENTS) */
+.tooltip-inner.success {
+  border-bottom: 2px solid #69bb0f;
+}
+
+.tooltip-inner.failure {
+  border-bottom: 2px solid #dd0000;
+}
+
+/* UTILITY CLASSES */
+.centered {
   float: none;
   margin: 0 auto;
+  display: block;
+}
+
+.search-bar-fix {
+  top: 2px;
+}
+
+.no-gutter > [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

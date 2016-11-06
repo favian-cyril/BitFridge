@@ -46,3 +46,6 @@ jspm_packages
 
 # Generated bundled JS
 public/index_bundle.js
+
+# Redis DB dump
+dump.rdb
