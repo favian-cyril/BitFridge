@@ -115,7 +115,7 @@ div.index-container .media.ingredient:last-child {
   margin-bottom: 0;
 }
 
-/* ADD TO FRIDGE */
+/* INGREDIENT BUTTON ACTIONS */
 button.btn-add {
   background-color: transparent;
   padding: 0 5px;
@@ -136,6 +136,20 @@ button.btn-add.added > i.btn-add-icon {
 
 i.btn-loading {
   color: rgba(0, 0, 0, 0.3)
+}
+
+button.btn-remove {
+  background-color: transparent;
+  padding: 0 5px;
+  color: #55595c;
+}
+
+button.btn-remove:hover > i.btn-remove-icon {
+  color: rgb(255, 40, 62)
+}
+
+button.btn-remove:active > i.btn-remove-icon {
+  color: rgba(220, 30, 40, 1)
 }
 
 /* SEARCH BAR */
