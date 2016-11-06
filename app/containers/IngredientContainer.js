@@ -1,5 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
+import _ from 'lodash'
 import Ingredient from '../components/Ingredient'
 import { addIngredient, delIngredient } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
@@ -17,6 +18,10 @@ class IngredientContainer extends React.Component {
     this.elemId = `#${this.props.idName}`
   }
 
+  componentWillMount() {
+    this.handleToggle = _.throttle(this.handleToggle, 1000, { leading: true })
+  }
+
   handleToggle(e) {
     let unmounting
     if (!this.props.isInFridge(this.props.ingredient)) {
@@ -25,34 +30,41 @@ class IngredientContainer extends React.Component {
       const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
       addIngredient(this.props.ingredient)
         .then(() => {
-          if (!unmounting) this.setState({ message: `Added to fridge!`, isLoading: false, success: true })
-          if (this.props.parent !== 'fridge') this.showTooltip()
+          if (!unmounting) {
+            this.setState({ message: `Added to fridge!`, isLoading: false, success: true })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
           this.props.updateFridge('ADD', this.props.ingredient)
         })
         .catch(() => {
           this.setState({ message: 'Failed to add ingredient.', success: false })
-          if (!unmounting) this.setState({ isLoading: false })
+          if (!unmounting) {
+            this.setState({ isLoading: false })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
-          this.showTooltip()
         })
     } else {
-      unmounting = this.props.parent === 'fridge' ||
-        (this.context.fridge.length === REDIRECT_INGR_THRESHOLD &&
-        this.context.display === 'dash')
+      unmounting = this.context.display === 'dash' &&
+        this.context.fridge.length === REDIRECT_INGR_THRESHOLD
       const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
       delIngredient(this.props.ingredient)
         .then(() => {
-          if (!unmounting) this.setState({ message: `Deleted from fridge!`, isLoading: false, success: true })
-          if (this.props.parent !== 'fridge') this.showTooltip()
+          if (!unmounting && this.props.parent !== 'fridge') {
+            this.setState({ message: `Deleted from fridge!`, isLoading: false, success: true })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
           this.props.updateFridge('DEL', this.props.ingredient)
         })
         .catch(() => {
           this.setState({ message: 'Failed to delete ingredient.', success: false })
-          if (!unmounting) this.setState({ isLoading: false })
+          if (!unmounting && this.props.parent !== 'fridge') {
+            this.setState({ isLoading: false })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
-          this.showTooltip()
         })
     }
   }

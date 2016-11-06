@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 
 const Ingredient = (props) => {
   const imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
@@ -25,7 +24,7 @@ const Ingredient = (props) => {
       <div className="media-right media-middle">
         <button
           id={props.idName}
-          onClick={_.throttle((e) => { props.handleToggle(e) }, 1000)}
+          onClick={props.handleToggle}
           className={`btn btn-default btn-add ${buttonClass}`}
           title={props.message}
           data-placement={dataPlacement}

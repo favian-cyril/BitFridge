@@ -27,6 +27,7 @@ class MainContainer extends React.Component {
     this.isInFridge = this.isInFridge.bind(this)
     this.fetchRecipes = this.fetchRecipes.bind(this)
     this.moreRecipes = this.moreRecipes.bind(this)
+    this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
   }
 
@@ -36,6 +37,10 @@ class MainContainer extends React.Component {
       display: this.state.display,
       recipes: this.state.recipes
     }
+  }
+
+  componentWillMount() {
+    this.moreRecipes = _.throttle(this.moreRecipes, 1000, { leading: true })
   }
 
   componentDidMount() {
@@ -137,9 +142,15 @@ class MainContainer extends React.Component {
         })
       })
       .catch((error) => {
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false })
         this.handleError(error, 'recipes')
       })
+  }
+  
+  retryRecipes() {
+    const clearedError = { fridge: this.state.errorType.fridge, recipes: '' }
+    this.setState({ errorType: clearedError })
+    this.fetchRecipes()
   }
 
   handleError(err, component) {  // eslint-disable-line class-methods-use-this
@@ -164,6 +175,7 @@ class MainContainer extends React.Component {
               updateFridge: this.updateFridge,
               isInFridge: this.isInFridge,
               moreRecipes: this.moreRecipes,
+              retryRecipes: this.retryRecipes,
               isLoading: this.state.isLoading,
               errorType: this.state.errorType
             })

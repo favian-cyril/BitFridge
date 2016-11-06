@@ -3,16 +3,16 @@ const tooltipConfig = {
   container: 'body',
   trigger: 'manual',
   placement: 'left',
-  offset: '3 0'
-};
+  offset: '3px 0'
+}
 
 function showTooltip(target) {
   $(target).tooltip(tooltipConfig);
   $(target).tooltip('show');
   setTimeout(function () {
     $(target).tooltip('hide');
-  }, 1000);
+  }, 800);
   $(target).on('hidden.bs.tooltip', function () {
-    $(target).tooltip('dispose');
-  });
+    $(target).tooltip('dispose')
+  })
 }
