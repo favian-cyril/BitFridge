@@ -206,7 +206,13 @@ div.spinner-wrapper {
 }
 
 /* TOOLTIP (INGREDIENTS) */
-.tooltip.
+.tooltip-inner.success {
+  border-bottom: 2px solid #69bb0f;
+}
+
+.tooltip-inner.failure {
+  border-bottom: 2px solid #dd0000;
+}
 
 /* UTILITY CLASSES */
 .centered {

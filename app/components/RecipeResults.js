@@ -46,7 +46,6 @@ const RecipeResults = (props, context) => {
       </li>
     )
   }
-  const debouncedMoreRecipes = _.debounce(props.moreRecipes, 1000, { leading: true })
   return (
     <div className="card">
       <div className="card-block recipe-card">
@@ -62,7 +61,7 @@ const RecipeResults = (props, context) => {
           <button
             type="button"
             className="btn btn-link view-more"
-            onClick={debouncedMoreRecipes}
+            onClick={_.throttle((e) => { props.moreRecipes() }, 1000)}
           >
             View more...
           </button>

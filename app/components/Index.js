@@ -10,6 +10,11 @@ const Index = (props) => {
       offset-xs-2 col-xs-8"
       src={logoUrl}
       alt="bitfridge-logo"
+      title="Hello!"
+      data-toggle="tooltip"
+      data-container="body"
+      data-placement="top"
+      data-trigger="click"
     />
   )
   return (
