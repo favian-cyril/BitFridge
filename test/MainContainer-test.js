@@ -4,6 +4,7 @@ import {mount, shallow} from 'enzyme'
 import {assert} from 'chai'
 import clientapi from '../app/clientapi'
 import * as router from 'react-router'
+import anims from '../app/utils/anims'
 import sinonStubPromise from 'sinon-stub-promise'
 import SearchContainer from '../app/containers/SearchContainer'
 import MainContainer from '../app/containers/MainContainer'
@@ -52,9 +53,6 @@ describe('MainContainer', function() {
     wrapper.setState({ready:true})
     setTimeout(() => { assert.equal(wrapper.find(Index).length, 1) }, 1)
   })
-  it('should get more recipes when moreRecipes is called ', sinon.test(function() {
-    var mock = sinon.stub(clientapi, 'searchResults').returnsPromise().resolves()
-  }))
   it('should load fridge and searchResults when mounted', sinon.test(function() {
     var location = {pathname:'/dash'}
     var fridge = [{id:1},{id:2}]
@@ -115,4 +113,57 @@ describe('MainContainer', function() {
     mock1.restore()
     mock2.restore()
   }))
+  it('should get more recipes when moreRecipes is called ', sinon.test(function() {
+    var moreResults = [{id:3},{id:4}]
+    var mock = sinon.stub(clientapi, 'searchResults').returnsPromise().resolves(moreResults)
+    var mock1 = sinon.stub(anims)
+    var children = new Object()
+    var location = {pathname:'/'}
+    var wrapper = shallow(
+      <MainContainer
+        children={children}
+        location={location}
+      />
+    )
+    wrapper.setState({recipes:[{id:1},{id:2}], fridge:[{name:'foo'},{name:'bar'}]})
+    var inst = wrapper.instance()
+    inst.moreRecipes()
+    assert.equal(wrapper.state().recipes.length, 4)
+    mock.restore()
+  }))
+  it('should be able to update the fridge', function() {
+    var fridge = [{id:1},{id:2}]
+    var children = new Object()
+    var location = {pathname:'/'}
+    var wrapper = shallow(
+      <MainContainer
+        children={children}
+        location={location}
+      />
+    )
+    wrapper.setState({fridge:fridge})
+    var inst = wrapper.instance()
+    inst.updateFridge('ADD',{id:3})
+    assert.equal(wrapper.state().fridge.length, 3)
+    inst.updateFridge('DEL',{id:2})
+    assert.equal(wrapper.state().fridge.indexOf({id:2}), -1)
+  })
+  it('should handle error according to the component parsed', function() {
+    var fridge = [{id:1},{id:2}]
+    var children = new Object()
+    var location = {pathname:'/'}
+    var wrapper = shallow(
+      <MainContainer
+        children={children}
+        location={location}
+      />
+    )
+    var err1 = {message:'Network Error'}
+    var inst = wrapper.instance()
+    inst.handleError(err1, 'recipes')
+    assert.equal(wrapper.state().errorType.recipes, 'OFFLINE')
+    var err2 = {response:{data:{code:'ENOTFOUND'}}}
+    inst.handleError(err2, 'fridge')
+    assert.equal(wrapper.state().errorType.fridge, 'SERVERERR')
+  })
 })
