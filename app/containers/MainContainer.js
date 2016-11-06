@@ -39,7 +39,7 @@ class MainContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchDisplay()
+    this.fetchDisplay(this.props.location.pathname)
     this.fetchFridge().then(() => {
       if (this.state.fridge.length > 0) {
         this.fetchRecipes().then(() => {
