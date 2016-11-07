@@ -7,3 +7,5 @@ node_js:
   - "node"
 notifications:
   slack: bitfridge:pBa4p3fKGmeuNSoNKSmDIctE
+after_script:
+  - npm run coveralls
