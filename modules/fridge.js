@@ -1,26 +1,26 @@
 var models = require('../models')
+var User = models.user
 
 function addIngredient (req, cb) {
-  if (req.session.id) {
+  if (req.session.user.id) {
     var item = req.body.item
     var index = -1
-    if (req.session.fridge === undefined) { req.session.fridge = [] }
-    req.session.fridge.forEach((res, i) => {
+    req.session.user.fridge.forEach((res, i) => {
       if (item.id === res.id) {
         index = i
       }
     })
     if (index === -1) {
-      req.session.fridge.push(item)
-      console.log(req.session.id)
-      models.guest.findById(req.session.id).then(function (guest) {
-        if (guest === null) {
-          models.guest.create({id: req.session.id, fridge: JSON.stringify(req.session.fridge)})
-        } else {
-          models.guest.update({fridge: JSON.stringify(req.session.fridge)}, {where: {id: req.session.id}})
-        }
+      req.session.user.fridge.push(item)
+      User.findOne({ id: req.session.user.id }, function (err, user) {
+        user.addToFridge(item, function (err) {
+          if (!err) {
+            cb(null)
+          } else {
+            cb(err)
+          }
+        })
       })
-      cb(null)
     } else {
       cb(null)  // no op
     }
@@ -30,18 +30,25 @@ function addIngredient (req, cb) {
 }
 
 function delIngredient (req, cb) {
-  if (req.session.id) {
+  if (req.session.user.id) {
     var item = req.body.item
     var index = -1
-    req.session.fridge.forEach((res, i) => {
+    req.session.user.fridge.forEach((res, i) => {
       if (item.id === res.id) {
         index = i
       }
     })
     if (index > -1) {
-      req.session.fridge.splice(index, 1)
-      models.guest.update({fridge: JSON.stringify(req.session.fridge)}, {where: {id: req.session.id}})
-      cb(null)
+      req.session.user.fridge.splice(index, 1)
+      User.findOne({ id: req.session.user.id }, function (err, user) {
+        user.delFromFridge(item, function (err) {
+          if (!err) {
+            cb(null)
+          } else {
+            cb(err)
+          }
+        })
+      })
     } else {
       cb(null)  // no op
     }
@@ -51,15 +58,12 @@ function delIngredient (req, cb) {
 }
 
 function getFridge (req, cb) {
-  if (req.session.id) {
-    if (req.session.fridge === undefined) {
-      req.session.fridge = []
-    }
-    req.session.fridge.map((item) => {
+  if (req.session.user.id) {
+    req.session.user.fridge = req.session.user.fridge.map((item) => {
       item.id = parseInt(item.id)
       return item
     })
-    cb(null, req.session.fridge)
+    cb(null, req.session.user.fridge)
   } else {
     var err = new Error('Session key lookup failed.')
     cb(err)

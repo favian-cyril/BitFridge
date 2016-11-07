@@ -9,6 +9,8 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
 var RedisStore = require('connect-redis')(session)
+var mongoose = require('mongoose')
+var dbConfig = require('./config/db_config')
 
 // fetch .env environment variables
 require('dotenv').config()
@@ -31,6 +33,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+
+// connect to mongoose
+mongoose.connect(dbConfig.url[app.get('env')])
+mongoose.connection.on('error', console.error.bind(console, 'Connection Error:'))
+mongoose.connection.on('open', function() {
+  console.log('Successfully connected to MongoDB database.')
+})
 
 // session store options depend on environment
 var options = {
