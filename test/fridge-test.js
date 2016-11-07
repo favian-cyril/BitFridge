@@ -13,28 +13,44 @@ describe('addIngredient()', function(){
     },
     body: {
       item: {
-        id: null,
-        name: null
+        id: 123,
+        name: 'apple'
       }
     }
   }
-  var _ = sinon.stub(models)
+  const user = sinon.mock(models, 'user')
   it('should add items to the fridge if it is not present', function() {
     req.body.item = {id: 1, name: 'foo'}
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
+    update.callsArgWith(2, [null])
+    findOne.callsArgWith(1, [null, user])
     addIngredient(req, function() {
       assert.equal(req.session.user.fridge[0], req.body.item)
     })
+    update.restore()
+    findOne.restore()
   })
   it('should not add if there is duplicate items', function() {
     req.session.user.fridge = [{id:1, name:'foo'}]
     req.body.item = {id: 1, name: 'foo'}
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
+    update.callsArgWith(2, [null])
+    findOne.callsArgWith(1, [null, user])
     addIngredient(req, function(err){})
     assert.equal(req.session.user.fridge.length, 1)
+    update.restore()
+    findOne.restore()
   })
   it('should throw error if session key is missing', function() {
     req.session.user.id = null
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
     addIngredient(req, function(err){})
     assert.throws(addIngredient)
+    update.restore()
+    findOne.restore()
   })
 })
 describe('delIngredient()', function() {
@@ -52,23 +68,36 @@ describe('delIngredient()', function() {
       }
     }
   }
+  const user = sinon.stub(models, 'user')
   it('should delete ingredient', function() {
     req.session.user.fridge = [{id:1, name:'foo'}]
     req.body.item = {id: 1, name: 'foo'}
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
     delIngredient(req, function(){
     })
     assert.equal(req.session.user.fridge.length, 0)
+    update.restore()
+    findOne.restore()
   })
   it('should throw error if ingredient doesnt exist', function() {
     req.session.user.fridge = [{id:1, name:'foo'}]
     req.body.item = {id: 2, name: 'foo'}
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
     delIngredient(req, function(){})
     assert.equal(req.session.user.fridge.length, 1)
+    update.restore()
+    findOne.restore()
   })
   it('should throw error if session key is missing', function() {
     req.session.user.id = null
+    const update = sinon.stub(models.user, 'update')
+    const findOne = sinon.stub(models.user, 'findOne')
     delIngredient(req, function(err){})
     assert.throws(delIngredient)
+    update.restore()
+    findOne.restore()
   })
 })
 describe('getFridge', function() {
