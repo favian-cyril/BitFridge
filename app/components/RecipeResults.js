@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import Recipe from './Recipe'
 import Preloader from './Preloader'
 import Error from './Error'
@@ -20,11 +19,18 @@ const RecipeResults = (props, context) => {
   } else if (props.errorType === 'OFFLINE') {
     results = (
       <li className="media">
-        <Error msg="Network Connection Error"
-               desc="Check your internet connection and try again."
+        <Error
+          msg="Network Connection Error"
+          desc="Check your internet connection and try again."
         />
         <center>
-          <button type="button" className="btn btn-warning" onClick={props.retryRecipes}>Try Again</button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={props.retryRecipes}
+          >
+            Try Again
+          </button>
         </center>
       </li>
     )
@@ -36,16 +42,24 @@ const RecipeResults = (props, context) => {
           desc="The server is having problems, please leave him alone and try again later."
         />
         <center>
-          <button type="button" className="btn btn-warning" onClick={props.retryRecipes}>Try Again</button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={props.retryRecipes}
+          >
+            Try Again
+          </button>
         </center>
       </li>
     )
   } else if (context.recipes.length === 0) {
+    const errorDesc = 'Sorry, there are no recipes found containing all the ingredients you want. ' +
+      'Try removing one ingredient or two from your fridge.'
     results = (
       <li className="media">
         <Error
           msg="No Results Found"
-          desc="Sorry, there are no recipes found containing all the ingredients you want. Try removing one ingredient or two from your fridge."
+          desc={errorDesc}
         />
       </li>
     )

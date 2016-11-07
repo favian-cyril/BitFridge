@@ -22,16 +22,18 @@ class IngredientContainer extends React.Component {
     this.handleToggle = _.throttle(this.handleToggle, 1000, { leading: true })
   }
 
-  handleToggle(e) {
+  handleToggle() {
     let unmounting
     if (!this.props.isInFridge(this.props.ingredient)) {
       unmounting = this.context.display === 'index' &&
         this.context.fridge.length === REDIRECT_INGR_THRESHOLD - 1
-      const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
+      const showPreloader = setTimeout(() => {
+        if (!unmounting) this.setState({ isLoading: true })
+      }, 50)
       addIngredient(this.props.ingredient)
         .then(() => {
           if (!unmounting) {
-            this.setState({ message: `Added to fridge!`, isLoading: false, success: true })
+            this.setState({ message: 'Added to fridge!', isLoading: false, success: true })
             this.showTooltip()
           }
           clearTimeout(showPreloader)
@@ -48,11 +50,13 @@ class IngredientContainer extends React.Component {
     } else {
       unmounting = this.context.display === 'dash' &&
         this.context.fridge.length === REDIRECT_INGR_THRESHOLD
-      const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
+      const showPreloader = setTimeout(() => {
+        if (!unmounting) this.setState({ isLoading: true })
+      }, 50)
       delIngredient(this.props.ingredient)
         .then(() => {
           if (!unmounting && this.props.parent !== 'fridge') {
-            this.setState({ message: `Deleted from fridge!`, isLoading: false, success: true })
+            this.setState({ message: 'Deleted from fridge!', isLoading: false, success: true })
             this.showTooltip()
           }
           clearTimeout(showPreloader)

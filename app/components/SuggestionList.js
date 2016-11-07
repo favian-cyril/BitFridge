@@ -15,15 +15,19 @@ const SuggestionList = (props) => {
   } else if (props.errorType === 'NOTFOUND') {
     results = (
       <div className="dropdown-menu">
-        <Error msg="No Results Found"
-               desc="Your search did not return any results."/>
+        <Error
+          msg="No Results Found"
+          desc="Your search did not return any results."
+        />
       </div>
     )
   } else if (props.errorType === 'OFFLINE') {
     results = (
       <div className="dropdown-menu">
-        <Error msg="Network Connection Error"
-               desc="Check your internet connection and try again."/>
+        <Error
+          msg="Network Connection Error"
+          desc="Check your internet connection and try again."
+        />
       </div>
     )
   } else if (props.errorType === 'SERVERERR') {

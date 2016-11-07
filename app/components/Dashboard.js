@@ -8,9 +8,9 @@ const Dashboard = (props, context) => (
     <nav className="navbar navbar-fixed-top navbar-light clearfix">
       <div className="row">
         <div className="col-xs-3 offset-xs-1">
-          <a className="navbar-brand" href="#">
+          <div className="navbar-brand" href="#">
             <img className="img-responsive" src="../images/logo-1x.png" alt="logo-nav"/>
-          </a>
+          </div>
         </div>
         <div className="col-xs-7 search-bar-fix">
           <div className="container">

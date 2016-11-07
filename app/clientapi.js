@@ -1,5 +1,4 @@
 const axios = require('axios')
-const append = require('append-query')
 
 // DEVELOPMENT ONLY
 const baseUrl = typeof document === 'object' ? document.body.dataset.baseurl : 'http://localhost:3000/api/'
@@ -53,5 +52,5 @@ module.exports = {
   searchResults,
   addIngredient,
   delIngredient,
-  getFridge,
+  getFridge
 }

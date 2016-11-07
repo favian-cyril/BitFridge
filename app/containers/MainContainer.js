@@ -1,5 +1,4 @@
 import React from 'react'
-import $ from 'jquery'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import Preloader from '../components/Preloader'
@@ -146,7 +145,7 @@ class MainContainer extends React.Component {
         this.handleError(error, 'recipes')
       })
   }
-  
+
   retryRecipes() {
     const clearedError = { fridge: this.state.errorType.fridge, recipes: '' }
     this.setState({ errorType: clearedError })
@@ -155,13 +154,13 @@ class MainContainer extends React.Component {
 
   handleError(err, component) {  // eslint-disable-line class-methods-use-this
     /* TODO: Display error on fail to fetch fridge, recipe, etc. */
-    let errorType = this.state.errorType
+    const errorType = this.state.errorType
     if (err.message && err.message === 'Network Error') {
       errorType[component] = 'OFFLINE'
-      this.setState({ errorType: errorType })
+      this.setState({ errorType })
     } else if (err.response && err.response.data.code === 'ENOTFOUND') {
       errorType[component] = 'SERVERERR'
-      this.setState({ errorType: errorType })
+      this.setState({ errorType })
     }
     this.setState({ ready: true })
   }

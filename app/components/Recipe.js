@@ -13,7 +13,13 @@ const Recipe = (props) => {
   return (
     <li className="media ingredient">
       <div className="media-left media-middle">
-        <img className="img-rounded" src={props.recipe.image} alt={props.recipe.title} width="90" height="90"/>
+        <img
+          className="img-rounded"
+          src={props.recipe.image}
+          alt={props.recipe.title}
+          width="90"
+          height="90"
+        />
       </div>
       <div className="media-body">
         <h5 className="media-heading">{props.recipe.title}</h5>

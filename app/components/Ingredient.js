@@ -5,10 +5,10 @@ const Ingredient = (props) => {
   const imageURL = imgBaseURL + props.ingredient.image
   const name = props.ingredient.name
   const dataPlacement = (props.display === 'index') ? 'right' : 'left'
-  const iconClass = !props.isLoading ? "fa-plus btn-add-icon" : "fa-spinner fa-pulse btn-loading"
+  const iconClass = !props.isLoading ? 'fa-plus btn-add-icon' : 'fa-spinner fa-pulse btn-loading'
   const buttonClass = props.isAdded && !props.isLoading ? 'added' : ''
   const tooltipClass = props.success ? 'success' : 'failure'
-  const tooltipHTML = `<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>` +
+  const tooltipHTML = '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>' +
     `<div class="tooltip-inner ${tooltipClass}"></div></div>`
   return (
     <li className="media ingredient" onMouseDown={e => e.preventDefault()}>

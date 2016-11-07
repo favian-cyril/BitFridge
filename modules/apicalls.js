@@ -23,7 +23,7 @@ function searchResults (ingredients, page, cb) {
   ingredients.forEach(function (i) {
     ingrParam += i + ','
   })
-  ingrParam = ingrParam.substring(0, ingrParam.length-1)
+  ingrParam = ingrParam.substring(0, ingrParam.length - 1)
   const headers = { 'X-Mashape-Key': SPOONACULAR_API_KEY }
   var params = {
     fillIngredients: true,
@@ -34,11 +34,11 @@ function searchResults (ingredients, page, cb) {
   }
   var resultsUrl = append(baseUrl + 'findByIngredients', params)
   axios.get(resultsUrl, { headers: headers }).then(function (response) {
-    var start = (page - 1)*8
+    var start = (page - 1) * 8
     var matches = response.data.slice(start)
     var requests = matches.map(function (recipe) {
       var url = baseUrl + recipe.id + '/information?includeNutrition=false'
-      return axios.get(url, { headers: headers})
+      return axios.get(url, { headers: headers })
     })
     axios.all(requests).then(function (args) {
       args.forEach(function (res, i) {
