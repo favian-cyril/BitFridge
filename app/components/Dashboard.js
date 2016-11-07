@@ -1,4 +1,5 @@
 import React from 'react'
+import CookingTodayList from './CookingTodayList'
 import Fridge from './Fridge'
 import RecipeResults from './RecipeResults'
 import SearchContainer from '../containers/SearchContainer'
@@ -24,7 +25,7 @@ const Dashboard = (props, context) => (
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-5 col-lg-3 offset-lg-1">
+        <div className="col-xs-4 offset-xs-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -34,8 +35,14 @@ const Dashboard = (props, context) => (
               errorType={props.errorType.fridge}
             />
           </div>
+          <div className="row">
+            <CookingTodayList
+              title="Cooking Today"
+              contents={context.cookingToday}
+            />
+          </div>
         </div>
-        <div className="col-xs-7">
+        <div className="col-xs-6">
           <div className="row">
             <RecipeResults
               isLoading={props.isLoading}
@@ -73,6 +80,7 @@ Dashboard.defaultProps = {
 
 Dashboard.contextTypes = {
   fridge: React.PropTypes.arrayOf(React.PropTypes.object)
+  cookingToday: React.PropTypes.arrayOf(React.PropTypes.object)
 }
 
 export default Dashboard
