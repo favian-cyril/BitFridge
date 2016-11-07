@@ -14,7 +14,7 @@ const Fridge = props => (
               <IngredientContainer
                 key={i}
                 idName={`ingr_${i}`}
-                parent="fridge"
+                parent={'fridge'}
                 ingredient={item}
                 updateFridge={props.updateFridge}
                 isInFridge={props.isInFridge}

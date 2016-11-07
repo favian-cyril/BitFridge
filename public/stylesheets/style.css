@@ -130,7 +130,13 @@ button.btn-add:active > i.btn-add-icon {
 }
 
 button.btn-add.success > i.btn-add-icon {
-  color: rgb(105, 187, 15)
+  color: rgb(255, 40, 62);
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+button.btn-add.success:hover > i.btn-add-icon {
+  color: rgba(220, 30, 40, 1)
 }
 
 i.btn-loading {
@@ -141,14 +147,6 @@ button.btn-remove {
   background-color: transparent;
   padding: 0 5px;
   color: #55595c;
-}
-
-button.btn-remove:hover > i.btn-remove-icon {
-  color: rgb(255, 40, 62)
-}
-
-button.btn-remove:active > i.btn-remove-icon {
-  color: rgba(220, 30, 40, 1)
 }
 
 /* SEARCH BAR */
