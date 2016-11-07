@@ -5,13 +5,11 @@ const Ingredient = (props) => {
   const imageURL = imgBaseURL + props.ingredient.image
   const name = props.ingredient.name
   const dataPlacement = (props.display === 'index') ? 'right' : 'left'
-  const icon = !props.isLoading
-    ? <i className="fa fa-2x fa-plus btn-add-icon"/>
-    : <i className="fa fa-2x fa-spinner fa-pulse btn-loading"/>
-  let buttonClass = ''
-  if (props.isAdded && !props.isLoading) {
-    buttonClass = `${buttonClass} success`
-  }
+  const iconClass = !props.isLoading ? "fa-plus btn-add-icon" : "fa-spinner fa-pulse btn-loading"
+  const buttonClass = props.isAdded && !props.isLoading ? 'added' : ''
+  const tooltipClass = props.success ? 'success' : 'failure'
+  const tooltipHTML = `<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>` +
+    `<div class="tooltip-inner ${tooltipClass}"></div></div>`
   return (
     <li className="media ingredient" onMouseDown={e => e.preventDefault()}>
       <div className="media-left media-middle">
@@ -20,21 +18,19 @@ const Ingredient = (props) => {
       <div className="media-body">
         <div className="ingr-name-overlay"></div>
         <div className="ingr-name-wrapper">
-          <p className="media-heading">{ name }</p>
+          <p className="media-heading">{name}</p>
         </div>
       </div>
       <div className="media-right media-middle">
         <button
           id={props.idName}
-          onMouseUp={props.handleToggle}
+          onClick={props.handleToggle}
           className={`btn btn-default btn-add ${buttonClass}`}
           title={props.message}
-          data-toggle="tooltip"
-          data-container="body"
           data-placement={dataPlacement}
-          data-trigger="manual"
+          data-template={tooltipHTML}
         >
-          {icon}
+          <i className={`fa fa-2x ${iconClass}`}/>
         </button>
       </div>
     </li>
@@ -48,7 +44,8 @@ Ingredient.propTypes = {
     name: React.PropTypes.string.isRequired,
     image: React.PropTypes.string.isRequired
   }).isRequired,
-  idName: React.PropTypes.string,
+  success: React.PropTypes.bool.isRequired,
+  idName: React.PropTypes.string.isRequired,
   message: React.PropTypes.string,
   handleToggle: React.PropTypes.func.isRequired,
   display: React.PropTypes.oneOf(['index', 'dash'])

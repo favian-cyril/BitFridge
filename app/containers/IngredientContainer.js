@@ -10,15 +10,20 @@ class IngredientContainer extends React.Component {
     super(props)
     this.state = {
       message: null,
-      isLoading: false
+      isLoading: false,
+      success: true
     }
     this.handleToggle = this.handleToggle.bind(this)
     this.showTooltip = this.showTooltip.bind(this)
+    this.elemId = `#${this.props.idName}`
   }
 
-  handleToggle() {
+  componentWillMount() {
+    this.handleToggle = _.throttle(this.handleToggle, 1000, { leading: true })
+  }
+
+  handleToggle(e) {
     let unmounting
-    let failed = false
     if (!this.props.isInFridge(this.props.ingredient)) {
       unmounting = this.context.display === 'index' &&
         this.context.fridge.length === REDIRECT_INGR_THRESHOLD - 1
@@ -26,62 +31,59 @@ class IngredientContainer extends React.Component {
       addIngredient(this.props.ingredient)
         .then(() => {
           if (!unmounting) {
-            this.setState({
-              message: `Added ${this.props.ingredient.name} to fridge!`,
-              isLoading: false
-            })
+            this.setState({ message: `Added to fridge!`, isLoading: false, success: true })
+            this.showTooltip()
           }
           clearTimeout(showPreloader)
           this.props.updateFridge('ADD', this.props.ingredient)
         })
         .catch(() => {
-          this.setState({ message: 'Failed to add ingredient.' })
-          if (!unmounting) this.setState({ isLoading: false })
+          this.setState({ message: 'Failed to add ingredient.', success: false })
+          if (!unmounting) {
+            this.setState({ isLoading: false })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
-          failed = true
         })
     } else {
-      unmounting = this.props.parent === 'fridge' ||
-        (this.context.fridge.length === REDIRECT_INGR_THRESHOLD &&
-        this.context.display === 'dash')
+      unmounting = this.context.display === 'dash' &&
+        this.context.fridge.length === REDIRECT_INGR_THRESHOLD
       const showPreloader = setTimeout(() => { if (!unmounting) this.setState({ isLoading: true }) }, 50)
       delIngredient(this.props.ingredient)
         .then(() => {
-          if (!unmounting) {
-            this.setState({
-              message: `Deleted ${this.props.ingredient.name} from fridge!`,
-              isLoading: false
-            })
+          if (!unmounting && this.props.parent !== 'fridge') {
+            this.setState({ message: `Deleted from fridge!`, isLoading: false, success: true })
+            this.showTooltip()
           }
           clearTimeout(showPreloader)
           this.props.updateFridge('DEL', this.props.ingredient)
         })
         .catch(() => {
-          this.setState({ message: 'Failed to delete ingredient.' })
-          if (!unmounting) this.setState({ isLoading: false })
+          this.setState({ message: 'Failed to delete ingredient.', success: false })
+          if (!unmounting && this.props.parent !== 'fridge') {
+            this.setState({ isLoading: false })
+            this.showTooltip()
+          }
           clearTimeout(showPreloader)
-          failed = true
         })
     }
-    if (!unmounting || failed) this.showTooltip()
   }
 
   showTooltip() {
-    const elemId = `#${this.props.idName}`
-    window.showTooltip($(elemId))
+    window.showTooltip($(this.elemId))
     $('.tooltip-inner').last().html(this.state.message)
   }
 
   render() {
-    const debouncedHandleToggle = _.debounce(this.handleToggle, 400, { leading: true })
     return (
       <Ingredient
         ingredient={this.props.ingredient}
         idName={this.props.idName}
-        handleToggle={debouncedHandleToggle}
+        handleToggle={this.handleToggle}
         display={this.context.display}
         isLoading={this.state.isLoading}
         isAdded={this.props.isInFridge(this.props.ingredient)}
+        success={this.state.success}
       />
     )
   }

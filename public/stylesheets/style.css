@@ -93,6 +93,7 @@ button.view-more {
 
 .media-body > .ingr-name-wrapper {
   max-width: 0;
+  white-space: nowrap;
 }
 
 .media.ingredient {
@@ -130,13 +131,15 @@ button.btn-add:active > i.btn-add-icon {
 }
 
 button.btn-add.success > i.btn-add-icon {
-  color: rgb(255, 40, 62);
+  color: #55595c;
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+  transition-duration: 0.8s;
+  transition-property: transform;
 }
 
 button.btn-add.success:hover > i.btn-add-icon {
-  color: rgba(220, 30, 40, 1)
+  color: rgb(255, 40, 62);
 }
 
 i.btn-loading {
@@ -200,6 +203,15 @@ div.spinner-wrapper {
 
 .right-inner-addon i {
   line-height: normal;
+}
+
+/* TOOLTIP (INGREDIENTS) */
+.tooltip-inner.success {
+  border-bottom: 2px solid #69bb0f;
+}
+
+.tooltip-inner.failure {
+  border-bottom: 2px solid #dd0000;
 }
 
 /* UTILITY CLASSES */

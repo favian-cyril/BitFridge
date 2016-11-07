@@ -40,6 +40,7 @@ const Dashboard = (props, context) => (
             <RecipeResults
               isLoading={props.isLoading}
               moreRecipes={props.moreRecipes}
+              retryRecipes={props.retryRecipes}
               errorType={props.errorType.recipes}
             />
           </div>
@@ -52,7 +53,8 @@ const Dashboard = (props, context) => (
 Dashboard.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
   isInFridge: React.PropTypes.func.isRequired,
-  viewMore: React.PropTypes.func.isRequired,
+  moreRecipes: React.PropTypes.func.isRequired,
+  retryRecipes: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
@@ -64,7 +66,8 @@ Dashboard.propTypes = {
 Dashboard.defaultProps = {
   updateFridge: () => {},
   isInFridge: () => {},
-  viewMore: () => {},
+  moreRecipes: () => {},
+  retryRecipes: () => {},
   isLoading: false
 }
 

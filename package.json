@@ -66,6 +66,7 @@
     "react-proxy": "1.1.8",
     "sequelize": "^3.24.3",
     "sinon": "^1.17.6",
+    "sinon-stub-promise": "^4.0.0",
     "watchify": "3.7.0"
   },
   "repository": {

@@ -34,7 +34,8 @@ function searchResults (ingredients, page, cb) {
   }
   var resultsUrl = append(baseUrl + 'findByIngredients', params)
   axios.get(resultsUrl, { headers: headers }).then(function (response) {
-    var matches = response.data
+    var start = (page - 1)*8
+    var matches = response.data.slice(start)
     var requests = matches.map(function (recipe) {
       var url = baseUrl + recipe.id + '/information?includeNutrition=false'
       return axios.get(url, { headers: headers})

@@ -23,7 +23,9 @@ const RecipeResults = (props, context) => {
         <Error msg="Network Connection Error"
                desc="Check your internet connection and try again."
         />
-        <center><button type="button" className="btn btn-warning">Try Again</button></center>
+        <center>
+          <button type="button" className="btn btn-warning" onClick={props.retryRecipes}>Try Again</button>
+        </center>
       </li>
     )
   } else if (props.errorType === 'SERVERERR') {
@@ -33,7 +35,9 @@ const RecipeResults = (props, context) => {
           msg="Server Error"
           desc="The server is having problems, please leave him alone and try again later."
         />
-        <button type="button" className="btn btn-warning">Try Again</button>
+        <center>
+          <button type="button" className="btn btn-warning" onClick={props.retryRecipes}>Try Again</button>
+        </center>
       </li>
     )
   } else if (context.recipes.length === 0) {
@@ -46,7 +50,6 @@ const RecipeResults = (props, context) => {
       </li>
     )
   }
-  const debouncedMoreRecipes = _.debounce(props.moreRecipes, 1000, { leading: true })
   return (
     <div className="card">
       <div className="card-block recipe-card">
@@ -62,7 +65,7 @@ const RecipeResults = (props, context) => {
           <button
             type="button"
             className="btn btn-link view-more"
-            onClick={debouncedMoreRecipes}
+            onClick={props.moreRecipes}
           >
             View more...
           </button>
@@ -74,6 +77,7 @@ const RecipeResults = (props, context) => {
 
 RecipeResults.propTypes = {
   moreRecipes: React.PropTypes.func.isRequired,
+  retryRecipes: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.string
 }
