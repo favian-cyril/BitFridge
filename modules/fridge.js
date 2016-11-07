@@ -59,7 +59,7 @@ function delIngredient (req, cb) {
 
 function getFridge (req, cb) {
   if (req.session.user.id) {
-    req.session.user.fridge.map((item) => {
+    req.session.user.fridge = req.session.user.fridge.map((item) => {
       item.id = parseInt(item.id)
       return item
     })
