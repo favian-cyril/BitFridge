@@ -116,30 +116,39 @@ div.index-container .media.ingredient:last-child {
 }
 
 /* INGREDIENT BUTTON ACTIONS */
+/* not added, general styling */
 button.btn-add {
   background-color: transparent;
   padding: 0 5px;
   color: #55595c;
 }
 
+/* not added, hover */
 button.btn-add:hover > i.btn-add-icon {
   color: rgb(105, 187, 15)
 }
 
+/* not added, click */
 button.btn-add:active > i.btn-add-icon {
   color: rgba(65, 117, 5, 1)
 }
 
-button.btn-add.success > i.btn-add-icon {
-  color: #55595c;
+/* added */
+button.btn-add.added > i.btn-add-icon {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   transition-duration: 0.8s;
   transition-property: transform;
 }
 
-button.btn-add.success:hover > i.btn-add-icon {
+/* added, hover */
+button.btn-add.added:hover > i.btn-add-icon {
   color: rgb(255, 40, 62);
+}
+
+/* added, click */
+button.btn-add.success:hover > i.btn-add-icon {
+  color: rgb(179, 27, 44);
 }
 
 i.btn-loading {
