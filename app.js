@@ -54,20 +54,7 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
-  User.findOne({ id: profile.id }, function (err, user) {
-    if (!err && user) {
-      cb(null, user)
-    } else if (!err && !user) {
-      User.findOne({id: req.session.user.id}, function (err, user) {
-        if (!err) {
-          user.id = profile.id
-          user.save(function (err, user) {
-            if (!err) cb(null, user)
-          })
-        } else cb(err)
-      })
-    } else cb(err)
-  })
+  cb(null, profile)
 });
 
 passport.deserializeUser(function(req, obj, cb) {
