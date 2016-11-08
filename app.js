@@ -51,6 +51,7 @@ mongoose.connection.on('open', function() {
 
 // Initialize Passport and restore auth state from session
 passport.use(authConfig.facebookStrategy)
+passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
   User.findOne({ id: profile.id }, function (err, user) {
