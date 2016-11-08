@@ -7,12 +7,12 @@ const Dashboard = (props, context) => (
   <div className="dash-container">
     <nav className="navbar navbar-fixed-top navbar-light clearfix">
       <div className="row">
-        <div className="col-xs-3 offset-xs-1">
+        <div className="col-xs-2 offset-xs-1">
           <div className="navbar-brand" href="#">
             <img className="img-responsive" src="../images/logo-1x.png" alt="logo-nav"/>
           </div>
         </div>
-        <div className="col-xs-7 search-bar-fix">
+        <div className="col-xs-4 offset-xs-2 search-bar-fix">
           <div className="container">
             <SearchContainer
               updateFridge={props.updateFridge}
@@ -20,11 +20,21 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
+        <div className="col-xs-2 vertical-center">
+          <div className="btn-group">
+            <a className="btn btn-facebook" href="/login/facebook">
+              <span className="fa fa-facebook"></span>
+            </a>
+            <a className="btn btn-google" href="/login/google">
+              <span className="fa fa-google"></span>
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-5 col-lg-3 offset-lg-1">
+        <div className="col-xs-4 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -35,7 +45,7 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-xs-7">
+        <div className="col-xs-6">
           <div className="row">
             <RecipeResults
               isLoading={props.isLoading}
