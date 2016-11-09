@@ -23,7 +23,7 @@ const verificationCallback = function (accountType) {
               name: profile.name.givenName,
               token: accessToken
             }
-            req.session.user = user
+            req.session.user = user.toObject()
             user.save(function (err, user) {
               if (err) {
                 cb(err)
