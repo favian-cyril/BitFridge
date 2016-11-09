@@ -20,7 +20,7 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-xs-2 vertical-center">
+        <div className="col-xs-2">
           <div className="btn-group">
             <a className="btn btn-facebook" href="/login/facebook">
               <span className="fa fa-facebook"></span>
