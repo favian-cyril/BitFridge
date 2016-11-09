@@ -19,6 +19,12 @@ img.index-logo {
 }
 
 /* NAVBAR STUFF */
+nav .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 div.form-group {
   margin-bottom: 0;
 }
@@ -228,10 +234,6 @@ div.spinner-wrapper {
   float: none;
   margin: 0 auto;
   display: block;
-}
-
-.search-bar-fix {
-  top: 2px;
 }
 
 .no-gutter > [class*='col-'] {

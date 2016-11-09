@@ -17,13 +17,13 @@ const verificationCallback = function (accountType) {
           if (err) {
             cb(err)
           } else {
-            console.log(profile)
             user.name = profile.name.givenName
             user[accountType] = {
               id: profile.id,
               name: profile.name.givenName,
               token: accessToken
             }
+            req.session.user = user
             user.save(function (err, user) {
               if (err) {
                 cb(err)
