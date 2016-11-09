@@ -86,6 +86,7 @@ describe('MainContainer', function() {
   it('should change the display when the prop is changed', sinon.test(function() {
     var location = { pathname: '/dash' }
     var fridge = [{ id: 1 }]
+    var recipes = [{ name: 'foo' }, { name: 'bar' }]
     var mock1 = sinon.stub(clientapi, 'getFridge').returnsPromise().resolves(fridge)
     var mock2 = sinon.stub(clientapi, 'searchResults').returnsPromise().resolves(recipes)
     var spy = sinon.stub(router.browserHistory, 'push', () => {})
