@@ -21,7 +21,8 @@ const verificationCallback = function (accountType) {
             user[accountType] = {
               id: profile.id,
               name: profile.name.givenName,
-              token: accessToken
+              token: accessToken,
+              picture: profile.photos[0].value
             }
             req.session.user = user.toObject()
             user.save(function (err, user) {
@@ -44,7 +45,7 @@ module.exports = {
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
     callbackURL: 'http://localhost:3000/login/facebook/return',
-    profileFields: ['name', 'id'],
+    profileFields: ['name', 'id', 'picture'],
     passReqToCallback: true
   }, verificationCallback('facebook')),
   googleStrategy: new GoogleStrategy({
