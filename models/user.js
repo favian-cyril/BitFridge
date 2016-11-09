@@ -5,6 +5,8 @@ var Schema = mongoose.Schema
 var userSchema = new Schema({
   name: { type: String, default: 'Guest' },
   id: { type: String, required: true, unique: true },
+  facebook: { type: Object, default: {} },
+  google: { type: Object, default: {} },
   fridge: { type: Array, default: [] },
   cookingToday: { type: Array, default: [] },
   shoppingCart: { type: Array, default: [] }

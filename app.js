@@ -27,9 +27,6 @@ var login = require('./routes/login')
 // initialize app
 var app = express()
 
-// get user model
-var User = require('./models').user
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
@@ -54,20 +51,7 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
-  User.findOne({ id: profile.id }, function (err, user) {
-    if (!err && user) {
-      cb(null, user)
-    } else if (!err && !user) {
-      User.findOne({id: req.session.user.id}, function (err, user) {
-        if (!err) {
-          user.id = profile.id
-          user.save(function (err, user) {
-            if (!err) cb(null, user)
-          })
-        } else cb(err)
-      })
-    } else cb(err)
-  })
+  cb(null, profile)
 });
 
 passport.deserializeUser(function(req, obj, cb) {
@@ -116,9 +100,20 @@ app.use('/', routes)
 app.use('/api', api)
 app.use('/login', login)
 
+// Authentication check
+app.get('/checklogin', function (req, res, next) {
+  const loginStatus = !(!req.session.user.facebook && !req.session.user.google)
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  })
+  res.json({ loggedIn: loginStatus })
+})
+
 // Logout from session
 app.get('/logout', function(req, res, next) {
-  if (req.isAuthenticated){
+  if (req.isAuthenticated || req.isAuthenticated()) {
     req.session.user = null
     req.logout()
   }
@@ -139,9 +134,9 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
-    res.json({
+    res.render('error', {
       message: err.message,
-      stack: err.stack
+      error: err
     })
   })
 }

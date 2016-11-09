@@ -7,7 +7,6 @@ var searchIngredients = apicalls.searchIngredients
 var searchResults = apicalls.searchResults
 
 router.get('/ingredients/autocomplete', function (req, res, next) {
-  console.log('route: /ingredients/autocomplete')
   var params = req.query
   var searchText = params.query
   var number = params.number

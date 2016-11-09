@@ -20,15 +20,15 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-xs-2">
-          <div className="btn-group">
-            <a className="btn btn-facebook" href="/login/facebook">
-              <span className="fa fa-facebook"></span>
-            </a>
-            <a className="btn btn-google" href="/login/google">
-              <span className="fa fa-google"></span>
-            </a>
-          </div>
+      </div>
+      <div className="col-xs-2">
+        <div className="btn-group">
+          <a className="btn btn-facebook" href="/login/facebook">
+            <span className="fa fa-facebook"></span>
+          </a>
+          <a className="btn btn-google" href="/login/google">
+            <span className="fa fa-google"></span>
+          </a>
         </div>
       </div>
     </nav>
@@ -69,7 +69,8 @@ Dashboard.propTypes = {
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
     recipes: React.PropTypes.string.isRequired
-  })
+  }),
+  loggedIn: React.PropTypes.bool.isRequired
 }
 
 // Default props for cloned children
@@ -78,7 +79,8 @@ Dashboard.defaultProps = {
   isInFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
-  isLoading: false
+  isLoading: false,
+  loggedIn: false
 }
 
 Dashboard.contextTypes = {

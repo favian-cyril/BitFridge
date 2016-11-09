@@ -32,6 +32,11 @@ function getFridge() {
   return get(url)
 }
 
+function fetchLogin() {
+  const url = 'http://localhost:3000/checklogin'
+  return get(url)
+}
+
 function get(url, params) {
   const options = { params }
   return new Promise((resolve, reject) => {
@@ -52,5 +57,6 @@ module.exports = {
   searchResults,
   addIngredient,
   delIngredient,
-  getFridge
+  getFridge,
+  fetchLogin
 }
