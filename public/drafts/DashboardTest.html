@@ -13,8 +13,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
     <script>
         // POPOVER
-        var loginElement = '<button type="button" class="btn btn-block btn-facebook"><span class="fa fa-facebook"></span> | Log In with Facebook</button>' +
-                '<br><button type="button" class="btn btn-block btn-google"><span class="fa fa-google"></span> | Log In with Google</button>';
+        var loginElement = '<div class="btn-group">' +
+                '<a class="btn btn-facebook" href="/login/facebook">' +
+                '<span class="fa fa-facebook"></span>' +
+                '</a>' +
+                '<a class="btn btn-google" href="/login/google">' +
+                '<span class="fa fa-google"></span>' +
+                '</a></div>';
         var logoutElement = '<div class="list-group">' +
                 '<a href="#" class="list-group-item list-group-item-action">History</a> ' +
                 '<a href="#" class="list-group-item list-group-item-action">My Recipes</a></div>' +
