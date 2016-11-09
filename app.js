@@ -27,9 +27,6 @@ var login = require('./routes/login')
 // initialize app
 var app = express()
 
-// get user model
-var User = require('./models').user
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
