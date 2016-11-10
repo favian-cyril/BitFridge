@@ -109,7 +109,6 @@ describe('MainContainer', function() {
     wrapper.setState({ loggedIn: true })
     wrapper.setState({ fridge: fridge })
     wrapper.setState({ fridge: newFridge })
-    console.log({ called: spy.called, callCount: spy.callCount })
     assert.equal(spy.calledWith('/'), true)
     mock1.restore()
     mock2.restore()

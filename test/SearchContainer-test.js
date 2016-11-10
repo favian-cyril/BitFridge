@@ -170,6 +170,8 @@ describe('IngredientSuggestion', function() {
         isLoading={true}
         isAdded={false}
         handleToggle={function() {}}
+        success={true}
+        idName={'foo'}
       />
     )
     assert.equal(wrapper.contains(<p className='media-heading'>foo</p>), true)
@@ -181,6 +183,8 @@ describe('IngredientSuggestion', function() {
         isLoading={true}
         isAdded={false}
         handleToggle={function() {}}
+        success={true}
+        idName={'foo'}
       />
     )
     assert.equal(
