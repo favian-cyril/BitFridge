@@ -1,20 +1,45 @@
 import React from 'react'
+import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 import Fridge from './Fridge'
 import RecipeResults from './RecipeResults'
 import SearchContainer from '../containers/SearchContainer'
 
 const Dashboard = (props, context) => {
+  const popoverLogin = (
+    <Popover id="popover-login" style={{ marginTop : 4 }}>
+      <div className="btn-group">
+        <a className="btn btn-facebook" href="/login/facebook">
+          <span className="fa fa-facebook"></span>
+        </a>
+        <a className="btn btn-google" href="/login/google">
+          <span className="fa fa-google"></span>
+        </a>
+      </div>
+    </Popover>
+  )
+  const popoverLogout = (
+    <Popover id="popover-logout" style={{ marginTop : 4 }}>
+      <div className="list-group">
+        <a className="list-group-item list-group-item-action" href="#">History</a>
+        <a className="list-group-item list-group-item-action" href="#">My Recipes</a>
+        <a className="list-group-item list-group-item-action active" href="/logout">Log Out</a>
+      </div>
+    </Popover>
+  )
   const loggedIn = props.loggedIn
-    ? <a className="btn btn-secondary" href="/logout">Logout</a>
+    ? (
+    <ButtonToolbar>
+      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
+        <a className="btn btn-block btn-secondary">Hello, User!</a>
+      </OverlayTrigger>
+    </ButtonToolbar>
+  )
     : (
-    <div className="btn-group">
-      <a className="btn btn-facebook" href="/login/facebook">
-        <span className="fa fa-facebook"></span>
-      </a>
-      <a className="btn btn-google" href="/login/google">
-        <span className="fa fa-google"></span>
-      </a>
-    </div>
+    <ButtonToolbar>
+      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogin}>
+        <a className="btn btn-block btn-secondary">Log In</a>
+      </OverlayTrigger>
+    </ButtonToolbar>
   )
   return (
     <div className="dash-container">
