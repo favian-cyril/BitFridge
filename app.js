@@ -100,17 +100,6 @@ app.use('/', routes)
 app.use('/api', api)
 app.use('/login', login)
 
-// Authentication check
-app.get('/checklogin', function (req, res, next) {
-  const loginStatus = !(!req.session.user.facebook && !req.session.user.google)
-  res.set({
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma': 'no-cache',
-    'Expires': '0'
-  })
-  res.json({ loggedIn: loginStatus })
-})
-
 // Logout from session
 app.get('/logout', function(req, res, next) {
   if (req.isAuthenticated || req.isAuthenticated()) {

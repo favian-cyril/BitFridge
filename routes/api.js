@@ -71,4 +71,12 @@ router.get('/fridge/get', function (req, res, next) {
   })
 })
 
+router.post('/user/data', function (req, res, next) {
+  if (req.session.user.facebook || req.session.user.google) {
+    res.json({ user: req.session.user })
+  } else {
+    res.status(404).end()
+  }
+})
+
 module.exports = router

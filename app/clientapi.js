@@ -32,8 +32,8 @@ function getFridge() {
   return get(url)
 }
 
-function fetchLogin() {
-  const url = 'http://localhost:3000/checklogin'
+function fetchUser() {
+  const url = `${baseUrl}user/data`
   return get(url)
 }
 
@@ -58,5 +58,5 @@ module.exports = {
   addIngredient,
   delIngredient,
   getFridge,
-  fetchLogin
+  fetchUser
 }
