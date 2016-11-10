@@ -26,11 +26,13 @@ const Dashboard = (props, context) => {
       </div>
     </Popover>
   )
-  const loggedIn = props.loggedIn
+  const loggedIn = props.user.facebook || props.user.google
+  const accountType = props.user.facebook ? 'facebook' : 'google'
+  const navUser = loggedIn
     ? (
     <ButtonToolbar>
       <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
-        <a className="btn btn-block btn-secondary">Hello, User!</a>
+        <a className="btn btn-block btn-secondary">Hello, {props.user[accountType].name}!</a>
       </OverlayTrigger>
     </ButtonToolbar>
   )
@@ -59,7 +61,7 @@ const Dashboard = (props, context) => {
             </div>
           </div>
           <div className="col-xs-2">
-            {loggedIn}
+            {navUser}
           </div>
         </div>
       </nav>
@@ -102,7 +104,10 @@ Dashboard.propTypes = {
     fridge: React.PropTypes.string.isRequired,
     recipes: React.PropTypes.string.isRequired
   }),
-  loggedIn: React.PropTypes.bool.isRequired
+  user: React.PropTypes.shape({
+    id: React.PropTypes.string,
+    name: React.PropTypes.string
+  }).isRequired
 }
 
 // Default props for cloned children
@@ -112,7 +117,7 @@ Dashboard.defaultProps = {
   moreRecipes: () => {},
   retryRecipes: () => {},
   isLoading: false,
-  loggedIn: false
+  user: {}
 }
 
 Dashboard.contextTypes = {

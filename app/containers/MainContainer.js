@@ -182,7 +182,7 @@ class MainContainer extends React.Component {
               retryRecipes: this.retryRecipes,
               isLoading: this.state.isLoading,
               errorType: this.state.errorType,
-              loggedIn: this.state.loggedIn
+              user: this.state.user
             })
             : <div className="absolute-center"><Preloader/></div>
         }
