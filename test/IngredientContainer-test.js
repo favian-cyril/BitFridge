@@ -25,13 +25,21 @@ sinonStubPromise(sinon)
 
 describe('IngredientContainer', function() {
   it('should add ingredient to the fridge', sinon.test(function() {
-    var context = {fridge:[{name:'foo'},{name:'bar'},{name:'baz'}], recipes:[{}],display:'dash'}
+    var context = {
+      fridge: [
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz'}
+      ],
+      recipes: [{}],
+      display: 'dash'
+    }
     var parent = 'fridge'
     var idName = '1'
-    var updateFridge = { method: function (a, b) {} }
-    var spy = sinon.spy(updateFridge, 'method')
+    var updateFridge = () => {}
+    var spy = sinon.spy(updateFridge)
     var isInFridge = () => {return false}
-    var ingredient = [{name:'foo'}]
+    var ingredient = { name: 'ping', image: 'pong' }
     var mock1 = sinon.stub(clientapi, 'addIngredient').returnsPromise().resolves()
     var wrapper = mount(
       <IngredientContainer
@@ -50,12 +58,20 @@ describe('IngredientContainer', function() {
     mock2.restore()
   }))
   it('should show error if failed to add', sinon.test(function () {
-    var context = {fridge:[{name:'foo'},{name:'bar'},{name:'baz'}], recipes:[{}],display:'dash'}
+    var context = {
+      fridge: [
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz'}
+      ],
+      recipes: [{}],
+      display: 'dash'
+    }
     var parent = 'fridge'
     var idName = '1'
-    var updateFridge = { method: function (a, b) {} }
+    var updateFridge = () => {}
     var isInFridge = () => {return false}
-    var ingredient = [{name:'foo'}]
+    var ingredient = { name: 'ping', image: 'pong' }
     var mock1 = sinon.stub(clientapi, 'addIngredient').returnsPromise().rejects()
     var wrapper = mount(
       <IngredientContainer
@@ -75,12 +91,20 @@ describe('IngredientContainer', function() {
     mock2.restore()
   }))
   it('should show error if failed to delete', sinon.test(function () {
-    var context = {fridge:[{name:'foo'},{name:'bar'},{name:'baz'}], recipes:[{}],display:'dash'}
+    var context = {
+      fridge: [
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz'}
+      ],
+      recipes: [{}],
+      display: 'dash'
+    }
     var parent = ''
     var idName = '1'
-    var updateFridge = { method: function (a, b) {} }
+    var updateFridge = () => {}
     var isInFridge = () => {return true}
-    var ingredient = [{name:'foo'}]
+    var ingredient = { name: 'ping', image: 'pong' }
     var mock1 = sinon.stub(clientapi, 'delIngredient').returnsPromise().rejects()
     var wrapper = mount(
       <IngredientContainer
@@ -100,12 +124,20 @@ describe('IngredientContainer', function() {
     mock2.restore()
   }))
   it('should delete ingredient if already in fridge', sinon.test(function() {
-    var context = {fridge:[{name:'foo'},{name:'bar'},{name:'baz'}], recipes:[{}],display:'index'}
+    var context = {
+      fridge: [
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz'}
+      ],
+      recipes: [{}],
+      display: 'dash'
+    }
     var parent = ''
     var idName = '1'
     var updateFridge = function (a, b) {}
     var isInFridge = () => {return true}
-    var ingredient = [{name:'foo'}]
+    var ingredient = { name: 'ping', image: 'pong' }
     var mock1 = sinon.stub(clientapi, 'delIngredient').returnsPromise().resolves()
     var wrapper = mount(
       <IngredientContainer

@@ -7,7 +7,6 @@ var searchIngredients = apicalls.searchIngredients
 var searchResults = apicalls.searchResults
 
 router.get('/ingredients/autocomplete', function (req, res, next) {
-  console.log('route: /ingredients/autocomplete')
   var params = req.query
   var searchText = params.query
   var number = params.number
@@ -70,6 +69,20 @@ router.get('/fridge/get', function (req, res, next) {
       next(err)
     }
   })
+})
+
+router.get('/user/data', function (req, res, next) {
+  if (req.session.user) {
+    const userData = {
+      name: req.session.user.name,
+      id: req.session.user.id,
+      facebook: req.session.user.facebook,
+      google: req.session.user.google
+    }
+    res.json({ user: userData })
+  } else {
+    res.status(404).end()
+  }
 })
 
 module.exports = router

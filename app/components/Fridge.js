@@ -38,7 +38,8 @@ Fridge.propTypes = {
 }
 
 Fridge.defaultProps = {
-  title: 'My Fridge'
+  title: 'My Fridge',
+  contents: []
 }
 
 export default Fridge

@@ -60,10 +60,20 @@ describe('Recipe', function() {
 })
 describe('RecipeResults', function() {
   it('should show Preloader', function() {
-    const context = {recipes:[{}]}
+    const context = {
+      recipes: [
+        {
+          title: 'foo',
+          image: 'bar',
+          sourceUrl: 'baz',
+          missedIngredients: []
+        }
+      ]
+    }
     var wrapper = shallow(
       <RecipeResults
         moreRecipes = {() => {}}
+        retryRecipes = {() => {}}
         isLoading = {true}
         errorType = {''}
       />
@@ -71,21 +81,41 @@ describe('RecipeResults', function() {
     assert.equal(wrapper.find(Preloader).length, 1)
   })
   it('should show Recipes', function() {
-    const context = {recipes:[{item:'foo'},{item:'bar'}]}
+    const context = {
+      recipes: [
+        {
+          title: 'foo',
+          image: 'bar',
+          sourceUrl: 'baz',
+          missedIngredients: []
+        }
+      ]
+    }
     var wrapper = shallow(
       <RecipeResults
         moreRecipes = {() => {}}
-        isLoading = {true}
+        retryRecipes = {() => {}}
+        isLoading = {false}
         errorType = {''}
       />
     , { context })
-    assert.equal(wrapper.find(Recipe).length, 2)
+    assert.equal(wrapper.find(Recipe).length, 1)
   })
   it('should show error when offline', function() {
-    const context = {recipes:[{}]}
+    const context = {
+      recipes: [
+        {
+          title: 'foo',
+          image: 'bar',
+          sourceUrl: 'baz',
+          missedIngredients: []
+        }
+      ]
+    }
     var wrapper = shallow(
       <RecipeResults
         moreRecipes = {() => {}}
+        retryRecipes = {() => {}}
         isLoading = {false}
         errorType = {'OFFLINE'}
       />
@@ -97,10 +127,20 @@ describe('RecipeResults', function() {
       />), true)
   })
   it('should show error when SERVERERR', function() {
-    const context = {recipes:[{}]}
+    const context = {
+      recipes: [
+        { 
+          title: 'foo',
+          image: 'bar',
+          sourceUrl: 'baz',
+          missedIngredients: []
+        }
+      ]
+    }
     var wrapper = shallow(
       <RecipeResults
         moreRecipes = {() => {}}
+        retryRecipes = {() => {}}
         isLoading = {false}
         errorType = {'SERVERERR'}
       />
@@ -112,10 +152,11 @@ describe('RecipeResults', function() {
       />), true)
   })
   it('should show error when empty', function() {
-    const context = {recipes:[]}
+    const context = { recipes: [] }
     var wrapper = shallow(
       <RecipeResults
         moreRecipes = {() => {}}
+        retryRecipes = {() => {}}
         isLoading = {false}
         errorType = {''}
       />

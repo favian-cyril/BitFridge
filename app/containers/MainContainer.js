@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import Preloader from '../components/Preloader'
-import { getFridge, searchResults } from '../clientapi'
+import { getFridge, searchResults, fetchUser } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 import anims from '../utils/anims'
 
@@ -19,7 +19,8 @@ class MainContainer extends React.Component {
       errorType: {
         fridge: '',
         recipes: ''
-      }
+      },
+      user: null
     }
     this.fetchFridge = this.fetchFridge.bind(this)
     this.updateFridge = this.updateFridge.bind(this)
@@ -43,16 +44,20 @@ class MainContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchDisplay(this.props.location.pathname)
-    this.fetchFridge().then(() => {
-      if (this.state.fridge.length > 0) {
-        this.fetchRecipes().then(() => {
-          this.setState({ ready: true })
+    fetchUser()
+      .then((data) => {
+        this.setState({ user: data.user })
+        this.fetchDisplay(this.props.location.pathname)
+        this.fetchFridge().then(() => {
+          if (this.state.fridge.length > 0) {
+            this.fetchRecipes().then(() => {
+              this.setState({ ready: true })
+            })
+          } else {
+            this.setState({ ready: true })
+          }
         })
-      } else {
-        this.setState({ ready: true })
-      }
-    })
+      })
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -176,7 +181,8 @@ class MainContainer extends React.Component {
               moreRecipes: this.moreRecipes,
               retryRecipes: this.retryRecipes,
               isLoading: this.state.isLoading,
-              errorType: this.state.errorType
+              errorType: this.state.errorType,
+              user: this.state.user
             })
             : <div className="absolute-center"><Preloader/></div>
         }

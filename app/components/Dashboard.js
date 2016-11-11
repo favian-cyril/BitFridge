@@ -1,5 +1,6 @@
 import React from 'react'
 import Fridge from './Fridge'
+import NavUser from './NavUser'
 import RecipeResults from './RecipeResults'
 import SearchContainer from '../containers/SearchContainer'
 
@@ -7,12 +8,12 @@ const Dashboard = (props, context) => (
   <div className="dash-container">
     <nav className="navbar navbar-fixed-top navbar-light clearfix">
       <div className="row">
-        <div className="col-xs-3 offset-xs-1">
+        <div className="col-xs-2 offset-xs-1">
           <div className="navbar-brand" href="#">
             <img className="img-responsive" src="../images/logo-1x.png" alt="logo-nav"/>
           </div>
         </div>
-        <div className="col-xs-7 search-bar-fix">
+        <div className="col-xs-4 offset-xs-2 search-bar-fix">
           <div className="container">
             <SearchContainer
               updateFridge={props.updateFridge}
@@ -20,11 +21,12 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
+        <NavUser user={props.user}/>
       </div>
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-5 col-lg-3 offset-lg-1">
+        <div className="col-xs-4 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -35,7 +37,7 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-xs-7">
+        <div className="col-xs-6">
           <div className="row">
             <RecipeResults
               isLoading={props.isLoading}
@@ -59,7 +61,11 @@ Dashboard.propTypes = {
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
     recipes: React.PropTypes.string.isRequired
-  })
+  }),
+  user: React.PropTypes.shape({
+    id: React.PropTypes.string,
+    name: React.PropTypes.string
+  }).isRequired
 }
 
 // Default props for cloned children
@@ -68,7 +74,8 @@ Dashboard.defaultProps = {
   isInFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
-  isLoading: false
+  isLoading: false,
+  user: {}
 }
 
 Dashboard.contextTypes = {

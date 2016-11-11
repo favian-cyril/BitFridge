@@ -19,6 +19,15 @@ img.index-logo {
 }
 
 /* NAVBAR STUFF */
+nav .row div {
+  top: 2px;
+}
+
+nav .row div.navbar-brand {
+  top: 0;
+  padding-top: 0;
+}
+
 div.form-group {
   margin-bottom: 0;
 }
@@ -67,6 +76,10 @@ small.missing-str {
 button.view-more {
   width: 100%;
   border-top: 1px solid #ccc;
+}
+
+.recipe-list-wrapper .media.ingredient:last-child {
+  border: 0;
 }
 
 /* INGREDIENT SUGGESTION */
@@ -228,10 +241,6 @@ div.spinner-wrapper {
   float: none;
   margin: 0 auto;
   display: block;
-}
-
-.search-bar-fix {
-  top: 2px;
 }
 
 .no-gutter > [class*='col-'] {

@@ -10,14 +10,19 @@ var session = require('express-session')
 var csrf = require('csurf')
 var RedisStore = require('connect-redis')(session)
 var mongoose = require('mongoose')
-var dbConfig = require('./config/db_config')
+var passport = require('passport')
 
 // fetch .env environment variables
 require('dotenv').config()
 
+// fetch app config files
+var dbConfig = require('./config/db')
+var authConfig = require('./config/auth')
+
 // routes middleware
 var routes = require('./routes/index')
 var api = require('./routes/api')
+var login = require('./routes/login')
 
 // initialize app
 var app = express()
@@ -40,6 +45,21 @@ mongoose.connection.on('error', console.error.bind(console, 'Connection Error:')
 mongoose.connection.on('open', function() {
   console.log('Successfully connected to MongoDB database.')
 })
+
+// Initialize Passport and restore auth state from session
+passport.use(authConfig.facebookStrategy)
+passport.use(authConfig.googleStrategy)
+
+passport.serializeUser(function(req, profile, cb) {
+  cb(null, profile)
+});
+
+passport.deserializeUser(function(req, obj, cb) {
+  cb(null, obj)
+});
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 // session store options depend on environment
 var options = {
@@ -78,6 +98,16 @@ app.use(csrf({ cookie: false }))
 // router middleware
 app.use('/', routes)
 app.use('/api', api)
+app.use('/login', login)
+
+// Logout from session
+app.get('/logout', function(req, res, next) {
+  if (req.isAuthenticated || req.isAuthenticated()) {
+    req.session.user = null
+    req.logout()
+  }
+  res.redirect('/')
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -93,9 +123,9 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
-    res.json({
+    res.render('error', {
       message: err.message,
-      stack: err.stack
+      error: err
     })
   })
 }
