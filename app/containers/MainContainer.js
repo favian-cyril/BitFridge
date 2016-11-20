@@ -40,10 +40,19 @@ class MainContainer extends React.Component {
   }
 
   componentWillMount() {
+    /**
+     * Debounces the moreRecipes() handler.
+     */
     this.moreRecipes = _.throttle(this.moreRecipes, 1000, { leading: true })
   }
 
   componentDidMount() {
+    /**
+     * Initially sets state.ready to false for displaying preloader. Fetches
+     * user data and updates state.user, then fetches display and fridge,
+     * then fetches recipe results. Finally sets state.ready to true and
+     * displays the children view (Index/Dashboard).
+     */
     fetchUser()
       .then((data) => {
         this.setState({ user: data.user })
@@ -61,6 +70,11 @@ class MainContainer extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
+    /**
+     * On state change, updates display and changes view depending on
+     * the redirect ingredient threshold (how many ingredients in fridge
+     * until the view changes from Index to Dash, and vice versa).
+     */
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.fetchDisplay(nextProps.location.pathname)
     }
@@ -76,12 +90,19 @@ class MainContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    /**
+     * Updates recipe results every time fridge contents change.
+     */
     if (prevState.fridge.length !== this.state.fridge.length) {
       this.fetchRecipes()
     }
   }
 
   fetchDisplay(pathname) {
+    /**
+     * Sets state.display according to the view of the app.
+     * App view is either 'index' or 'dash'.
+     */
     if (pathname === '/') {
       this.setState({ display: 'index' })
     } else if (pathname === '/dash') {
@@ -90,6 +111,10 @@ class MainContainer extends React.Component {
   }
 
   fetchFridge() {
+    /**
+     * Returns a Promise that fetches fridge contents on success and
+     * updates it, and calls error handler on failure.
+     */
     return new Promise((resolve) => {
       getFridge()
         .then((results) => {
@@ -103,6 +128,11 @@ class MainContainer extends React.Component {
   }
 
   fetchRecipes() {
+    /**
+     * Returns a Promise that initially clears recipe results and
+     * toggles loading status, then fetches recipe results on success
+     * and calls error handler on failure.
+     */
     return new Promise((resolve) => {
       const fridgeList = this.state.fridge.map(item => item.name)
       this.setState({ isLoading: true, recipes: [] })
@@ -119,6 +149,9 @@ class MainContainer extends React.Component {
   }
 
   updateFridge(action, ingredient) {
+    /**
+     * Updates fridge contents depending on the action (ADD, DEL).
+     */
     const newFridge = this.state.fridge.slice()
     if (action === 'ADD') {
       newFridge.push(ingredient)
@@ -129,11 +162,19 @@ class MainContainer extends React.Component {
   }
 
   isInFridge(ingredient) {
+    /**
+     * Checks if an ingredients is in state.contents.fridge.
+     */
     const found = _.find(this.state.fridge, item => item.id === ingredient.id)
     return found !== undefined
   }
 
   moreRecipes() {
+    /**
+     * Toggles loading status and increments recipePage, then
+     * fetches the next page of Recipe Results. Calls error handler
+     * on failure.
+     */
     const fridgeList = this.state.fridge.map(item => item.name)
     const nextPage = this.state.recipePage + 1
     this.setState({ isLoading: true, recipePage: nextPage })
@@ -152,12 +193,19 @@ class MainContainer extends React.Component {
   }
 
   retryRecipes() {
+    /**
+     * Clears state.fridge.errorType, then retries fetching recipes.
+     */
     const clearedError = { fridge: this.state.errorType.fridge, recipes: '' }
     this.setState({ errorType: clearedError })
     this.fetchRecipes()
   }
 
   handleError(err, component) {  // eslint-disable-line class-methods-use-this
+    /**
+     * Catches error from various components (mostly API call/network related errors).
+     * Updates errorType state for a given component.
+     */
     /* TODO: Display error on fail to fetch fridge, recipe, etc. */
     const errorType = this.state.errorType
     if (err.message && err.message === 'Network Error') {
