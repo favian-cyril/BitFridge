@@ -71,6 +71,7 @@
     "mocha-lcov-reporter": "^1.2.0",
     "mysql2": "^1.1.1",
     "node-mocks-http": "^1.5.4",
+    "react-addons-test-utils": "15.4.0",
     "react-proxy": "1.1.8",
     "sequelize": "^3.24.3",
     "sinon": "^1.17.6",
