@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 
 const NavUser = (props, context) => {
-  const offset = (context.display === 'index') ? 'offset-xs-9' : ''
+  const offset = (context.display === 'index') ? 'offset-xs-9' : 'row'
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -27,12 +27,12 @@ const NavUser = (props, context) => {
   const loggedIn = props.user.facebook || props.user.google
   const accountType = props.user.facebook ? 'facebook' : 'google'
   return (
-    <div className={`col-xs-2 ${offset}`}>
+    <div className={`${offset}`}>
       {
         loggedIn ? (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
-              <a className="btn btn-block btn-secondary btn-login">
+              <a className="btn btn-secondary btn-login">
                 Hello, {props.user[accountType].name}!
                 <img src={props.user[accountType].picture}></img>
               </a>
@@ -41,7 +41,7 @@ const NavUser = (props, context) => {
         ) : (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogin}>
-              <a className="btn btn-block btn-secondary btn-login">
+              <a className="btn btn-secondary btn-login">
                 Log In
               </a>
             </OverlayTrigger>
