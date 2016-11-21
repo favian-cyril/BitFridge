@@ -32,7 +32,7 @@ const NavUser = (props, context) => {
         loggedIn ? (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
-              <a className="btn btn-block btn-secondary">
+              <a className="btn btn-block btn-secondary btn-login">
                 Hello, {props.user[accountType].name}!
                 <img src={props.user[accountType].picture}></img>
               </a>
@@ -41,7 +41,9 @@ const NavUser = (props, context) => {
         ) : (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogin}>
-              <a className="btn btn-block btn-secondary">Log In</a>
+              <a className="btn btn-block btn-secondary btn-login">
+                Log In
+              </a>
             </OverlayTrigger>
           </ButtonToolbar>
         )
