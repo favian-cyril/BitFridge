@@ -12,7 +12,7 @@ router.get('/facebook/return',
   })
 
 router.get('/google',
-  passport.authenticate('google', { scope: ['profile'] }))
+  passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 router.get('/google/return',
   passport.authenticate('google', { failureRedirect: '/' }),
