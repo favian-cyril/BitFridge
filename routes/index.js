@@ -21,6 +21,9 @@ router.get('/', function (req, res, next) {
       }
     })
   }
+  if (req.session.user.fridge.length > 0) {
+    res.redirect('/dash')
+  }
   res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
 })
 
