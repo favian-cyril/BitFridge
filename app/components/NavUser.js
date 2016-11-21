@@ -1,8 +1,8 @@
 import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 
-const NavUser = (props) => {
-  const offset = (props.display === 'index') ? 'offset-xs-9' : ''
+const NavUser = (props, context) => {
+  const offset = (context.display === 'index') ? 'offset-xs-9' : ''
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -54,7 +54,10 @@ NavUser.propTypes = {
   user: React.PropTypes.shape({
     id: React.PropTypes.string,
     name: React.PropTypes.string
-  }).isRequired,
+  }).isRequired
+}
+
+NavUser.contextTypes = {
   display: React.PropTypes.oneOf(['index', 'dash'])
 }
 
