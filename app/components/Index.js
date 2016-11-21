@@ -1,4 +1,5 @@
 import React from 'react'
+import NavUser from './NavUser'
 import SearchContainer from '../containers/SearchContainer'
 
 const Index = (props) => {
@@ -18,12 +19,20 @@ const Index = (props) => {
   )
   return (
     <div className="index-container">
+      <nav className="navbar navbar-fixed-top navbar-index clearfix">
+        <div className="row">
+          <NavUser
+            user={props.user}
+            display="index"
+          />
+        </div>
+      </nav>
       <div className="container-fluid">
         <div className="row">
           {logoImage}
         </div>
         <div className="row">
-          <div className="offset-xs-3 col-xs-6">
+          <div className="col-xs-6 offset-xs-3">
             <SearchContainer
               updateFridge={props.updateFridge}
               isInFridge={props.isInFridge}
@@ -37,12 +46,17 @@ const Index = (props) => {
 
 Index.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired
+  isInFridge: React.PropTypes.func.isRequired,
+  user: React.PropTypes.shape({
+    id: React.PropTypes.string,
+    name: React.PropTypes.string
+  }).isRequired
 }
 
 Index.defaultProps = {
   updateFridge: () => {},
-  isInFridge: () => {}
+  isInFridge: () => {},
+  user: {}
 }
 
 export default Index

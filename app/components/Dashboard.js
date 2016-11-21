@@ -21,7 +21,10 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <NavUser user={props.user}/>
+        <NavUser
+          user={props.user}
+          display="dash"
+        />
       </div>
     </nav>
     <div className="container-fluid">

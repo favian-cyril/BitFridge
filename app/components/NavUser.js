@@ -2,6 +2,7 @@ import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 
 const NavUser = (props) => {
+  const offset = (props.display === 'index') ? 'offset-xs-9' : ''
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -26,12 +27,15 @@ const NavUser = (props) => {
   const loggedIn = props.user.facebook || props.user.google
   const accountType = props.user.facebook ? 'facebook' : 'google'
   return (
-    <div className="col-xs-2">
+    <div className={`col-xs-2 ${offset}`}>
       {
         loggedIn ? (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
-              <a className="btn btn-block btn-secondary">Hello, {props.user[accountType].name}!</a>
+              <a className="btn btn-block btn-secondary">
+                Hello, {props.user[accountType].name}!
+                <img src={props.user[accountType].picture}></img>
+              </a>
             </OverlayTrigger>
           </ButtonToolbar>
         ) : (
@@ -50,7 +54,8 @@ NavUser.propTypes = {
   user: React.PropTypes.shape({
     id: React.PropTypes.string,
     name: React.PropTypes.string
-  }).isRequired
+  }).isRequired,
+  display: React.PropTypes.oneOf(['index', 'dash'])
 }
 
 export default NavUser
