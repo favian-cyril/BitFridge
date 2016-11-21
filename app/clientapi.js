@@ -37,6 +37,23 @@ function fetchUser() {
   return get(url)
 }
 
+function addCookToday(recipe) {
+  const url = `${baseUrl}cooktoday/add`
+  const form = { item: recipe }
+  return post(url, form)
+}
+
+function getCookToday() {
+  const url = `${baseUrl}cooktoday/get`
+  return get(url)
+}
+
+function clearCookToday() {
+  const url = `${baseUrl}cooktoday/clear`
+  const form = { foo: 'foo'}
+  return post(url, form)
+}
+
 function get(url, params) {
   const options = { params }
   return new Promise((resolve, reject) => {
@@ -58,5 +75,8 @@ module.exports = {
   addIngredient,
   delIngredient,
   getFridge,
-  fetchUser
+  fetchUser,
+  addCookToday,
+  getCookToday,
+  clearCookToday
 }

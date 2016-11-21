@@ -5,7 +5,7 @@ import Error from './Error'
 
 const RecipeResults = (props, context) => {
   let results = context.recipes.map((item, i) =>
-    <Recipe key={i} recipe={item}/>
+    <Recipe key={i} recipe={item} addCookToday={props.addCookToday}/>
   )
   if (props.isLoading && context.recipes.length === 0) {
     results = <Preloader/>
@@ -92,12 +92,13 @@ const RecipeResults = (props, context) => {
 RecipeResults.propTypes = {
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
+  addCookToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.string
 }
 
 RecipeResults.contextTypes = {
-  recipes: React.PropTypes.arrayOf(React.PropTypes.object)
+  recipes: React.PropTypes.arrayOf(React.PropTypes.object),
 }
 
 export default RecipeResults
