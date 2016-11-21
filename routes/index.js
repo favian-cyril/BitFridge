@@ -11,7 +11,7 @@ const baseurl = process.env.NODE_ENV === 'production'
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.user) {
-    const newUser = new User({ id: uuid.v1() })
+    const newUser = new User({ id: uuid.v1() }, { minimize: false })
     req.session.user = newUser.toObject()
     newUser.save(function (err, product, numAffected) {
       if (!err) {

@@ -25,13 +25,19 @@ const Recipe = (props) => {
         <h5 className="media-heading">{props.recipe.title}</h5>
         <small className="missing-str">Missing: {missingStr}</small>
       </div>
-      <div className="media-right media-middle">
+      <div className="media-right media-middle btn-group-vertical">
         <a
-          className="btn btn-default btn-add"
+          className="btn btn-block btn-lg btn-info"
           href={props.recipe.sourceUrl}
           target="_blank" rel="noopener noreferrer"
         >
-          <i className="fa fa-2x fa-external-link"/>
+          <span className="fa fa-arrow-right"></span>
+        </a>
+        <a
+          className="btn btn-block btn-success"
+          onClick={function(){ props.addCookToday(props.recipe)}}
+        >
+          <span className="bf bf-lg bf-pan-add"></span>
         </a>
       </div>
     </li>
@@ -48,7 +54,8 @@ Recipe.propTypes = {
         name: React.PropTypes.string.isRequired
       }).isRequired
     ).isRequired
-  }).isRequired
+  }).isRequired,
+  addCookToday: React.PropTypes.func.isRequired
 }
 
 export default Recipe

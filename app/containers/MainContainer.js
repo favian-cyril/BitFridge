@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import Preloader from '../components/Preloader'
-import { getFridge, searchResults, fetchUser } from '../clientapi'
+import { getFridge, searchResults, fetchUser, addCookToday, getCookToday, clearCookToday } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 import anims from '../utils/anims'
 
@@ -13,8 +13,10 @@ class MainContainer extends React.Component {
       ready: false,
       fridge: [],
       recipes: [],
+      cookingToday: [],
       display: null,
       isLoading: false,
+      isExpanded: {expand:false, id:0},
       recipePage: 1,
       errorType: {
         fridge: '',
@@ -29,13 +31,19 @@ class MainContainer extends React.Component {
     this.moreRecipes = this.moreRecipes.bind(this)
     this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
+    this.toggleAccordion = this.toggleAccordion.bind(this)
+    this.fetchCookToday = this.fetchCookToday.bind(this)
+    this.addCookingToday = this.addCookingToday.bind(this)
+    this.clearCookToday = this.clearCookToday.bind(this)
+    this.cookingTodayUpdateFromFridge = this.cookingTodayUpdateFromFridge.bind(this)
   }
 
   getChildContext() {
     return {
       fridge: this.state.fridge,
       display: this.state.display,
-      recipes: this.state.recipes
+      recipes: this.state.recipes,
+      cookingToday: this.state.cookingToday
     }
   }
 
@@ -53,20 +61,24 @@ class MainContainer extends React.Component {
      * then fetches recipe results. Finally sets state.ready to true and
      * displays the children view (Index/Dashboard).
      */
-    fetchUser()
-      .then((data) => {
-        this.setState({ user: data.user })
-        this.fetchDisplay(this.props.location.pathname)
-        this.fetchFridge().then(() => {
-          if (this.state.fridge.length > 0) {
-            this.fetchRecipes().then(() => {
-              this.setState({ ready: true })
-            })
-          } else {
+    fetchUser().then((data) => {
+      this.setState({ user: data.user })
+      Promise.all([
+        this.fetchDisplay(),
+        this.fetchFridge(),
+        this.fetchCookToday()
+      ]).then(() => {
+        if (this.state.fridge.length > 0) {
+          this.fetchRecipes().then(() => {
             this.setState({ ready: true })
-          }
-        })
+          })
+        } else {
+          this.setState({ ready: true })
+        }
+      }).catch((err) => {
+        console.error(err)   // TODO: Display error on failure in fetching initial data
       })
+    })
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -94,15 +106,18 @@ class MainContainer extends React.Component {
      * Updates recipe results every time fridge contents change.
      */
     if (prevState.fridge.length !== this.state.fridge.length) {
-      this.fetchRecipes()
+      this.fetchRecipes().then(() => {
+        this.cookingTodayUpdateFromFridge()
+      })
     }
   }
 
-  fetchDisplay(pathname) {
+  fetchDisplay() {
     /**
      * Sets state.display according to the view of the app.
      * App view is either 'index' or 'dash'.
      */
+    const pathname = this.props.location.pathname
     if (pathname === '/') {
       this.setState({ display: 'index' })
     } else if (pathname === '/dash') {
@@ -146,6 +161,34 @@ class MainContainer extends React.Component {
           this.handleError(error, 'recipes')
         })
     })
+  }
+
+  fetchCookToday() {
+    return new Promise((resolve) => {
+      getCookToday()
+        .then((results) => {
+          if (results.length > 0) {
+            this.setState({ cookingToday: results })
+          }
+          resolve()
+        })
+        .catch((error) => {
+          console.log(error)
+          //this.handleError(error, 'cooktoday') TODO
+        })
+    })
+  }
+
+  addCookingToday(recipe) {
+    if (!(_.find(this.state.cookingToday, item => item.id === recipe.id))) {
+      addCookToday(recipe)
+        .then(() => {
+          this.setState({ cookingToday: this.state.cookingToday.concat(recipe) })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   updateFridge(action, ingredient) {
@@ -218,6 +261,44 @@ class MainContainer extends React.Component {
     this.setState({ ready: true })
   }
 
+  toggleAccordion(id) {
+    if (!this.state.isExpanded.expand || this.state.isExpanded.id !== id) {
+      this.setState({ isExpanded : {expand: true, id:id} })
+    } else {
+      this.setState({ isExpanded : {expand: false, id:id} })
+    }
+  }
+
+  clearCookToday() {
+    if (this.state.cookingToday.length > 0) {
+      clearCookToday().then(() => {
+        this.setState({ cookingToday : []})
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  }
+
+  cookingTodayUpdateFromFridge() {
+    var temp = this.state.cookingToday.map(recipe => recipe.missedIngredients)
+    var that = this
+    var results = temp.map(function(missed) {
+      return _.differenceBy(missed, that.state.fridge, 'id')
+    })
+    var newCookToday = this.state.cookingToday.map(function(ingredients, i) {
+      ingredients.missedIngredients = results[i]
+      return ingredients
+    })
+    clearCookToday().then(() => {
+      this.setState({ cookingToday : []})
+      newCookToday.forEach(function(recipe) {
+        that.addCookingToday(recipe)
+      })
+      this.fetchCookToday()
+    })
+
+  }
+
   render() {
     return (
       <div className="main-container">
@@ -230,7 +311,11 @@ class MainContainer extends React.Component {
               retryRecipes: this.retryRecipes,
               isLoading: this.state.isLoading,
               errorType: this.state.errorType,
-              user: this.state.user
+              user: this.state.user,
+              toggleAccordion: this.toggleAccordion,
+              isExpanded: this.state.isExpanded,
+              addCookToday: this.addCookingToday,
+              clearCookToday: this.clearCookToday
             })
             : <div className="absolute-center"><Preloader/></div>
         }
@@ -249,6 +334,7 @@ MainContainer.propTypes = {
 MainContainer.childContextTypes = {
   fridge: React.PropTypes.arrayOf(React.PropTypes.object),
   recipes: React.PropTypes.arrayOf(React.PropTypes.object),
+  cookingToday: React.PropTypes.arrayOf(React.PropTypes.object),
   display: React.PropTypes.oneOf(['index', 'dash'])
 }
 

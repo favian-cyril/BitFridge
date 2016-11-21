@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'bitfridge webfont';
+    src: url('../fonts/bitfridge-webfont.eot');
+    src: url('../fonts/bitfridge-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/bitfridge-webfont.woff2') format('woff2'),
+         url('../fonts/bitfridge-webfont.woff') format('woff'),
+         url('../fonts/bitfridge-webfont.ttf') format('truetype'),
+         url('../fonts/bitfridge-webfont.svg#bitfridge-webfont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.bf:before{
+	display: inline-block;
+   font-family: 'bitfridge webfont';
+   font-style: normal;
+   font-weight: normal;
+   line-height: 1;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale
+}
+.bf-lg:before{font-size: 1.25em; margin-bottom: 0;}
+.bf-pan:before{content:'\0041';}
+.bf-pan-add:before{content:'\0042';}
+.bf-fridge:before{content:'\0043';}
+.bf-shopping-basket:before{content:'\0044';}
+.bf-shopping-basket-add:before{content:'\0045';}

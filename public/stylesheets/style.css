@@ -49,8 +49,12 @@ div.card-block {
   background-color: #e7e7e7;
 }
 
+h5.card-title span.bf {
+  margin-right: 10px;
+}
+
 .list-wrapper {
-  height: 33vh;
+  height: 27vh;
   overflow-y: auto;
 }
 
@@ -66,6 +70,16 @@ div.card-block.recipe-card {
 
 .recipe-list-wrapper > ul {
   height: 100%;
+}
+
+.btn-group-vertical > [class*='btn-'] {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.media-right a.btn-block, .media-right a.btn-block:hover, .media-right a.btn-block:active {
+  color: white;
 }
 
 /* RECIPE SUGGESTION */
@@ -225,6 +239,53 @@ div.spinner-wrapper {
 
 .right-inner-addon i {
   line-height: normal;
+}
+
+/* COOKING TODAY */
+
+button.accordion {
+  background-color: #f6f6f6;
+  color: #444;
+  cursor: pointer;
+  padding: 15px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgb(204,204,204);
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+  background-color: #ddd;
+}
+
+button.accordion a {
+  padding-left: 10px;
+}
+
+button.accordion a:hover, button.accordion a:visited, button.accordion a:link, button.accordion a:active {
+  text-decoration: none !important;
+}
+
+div.panel {
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.6s ease-in-out;
+  -webkit-transition: 0.6s ease-in-out;
+  opacity: 0;
+}
+
+div.panel.show {
+  opacity: 1;
+  max-height: 500px;
+}
+
+div.panel ul li.list-group-item {
+  text-transform: capitalize;
 }
 
 /* TOOLTIP (INGREDIENTS) */
