@@ -76,6 +76,7 @@ module.exports = {
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
     callbackURL: 'http://localhost:3000/login/facebook/return',
+    profileFields: ['name', 'email', 'picture'],
     passReqToCallback: true
   }, verificationCallback('facebook')),
   googleStrategy: new GoogleStrategy({
