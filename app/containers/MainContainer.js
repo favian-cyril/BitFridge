@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
 import Preloader from '../components/Preloader'
-import { getFridge, searchResults, fetchUser, addCookToday, getCookToday, clearCookToday } from '../clientapi'
+import { getFridge, searchResults, fetchUser, addCookingToday, getCookingToday, clearCookingToday } from '../clientapi'
 import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 import anims from '../utils/anims'
 
@@ -32,10 +32,10 @@ class MainContainer extends React.Component {
     this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
     this.toggleAccordion = this.toggleAccordion.bind(this)
-    this.fetchCookToday = this.fetchCookToday.bind(this)
+    this.fetchCookingToday = this.fetchCookingToday.bind(this)
     this.addCookingToday = this.addCookingToday.bind(this)
-    this.clearCookToday = this.clearCookToday.bind(this)
-    this.cookingTodayUpdateFromFridge = this.cookingTodayUpdateFromFridge.bind(this)
+    this.clearCookingToday = this.clearCookingToday.bind(this)
+    this.updateMissingCookingToday = this.updateMissingCookingToday.bind(this)
   }
 
   getChildContext() {
@@ -66,7 +66,7 @@ class MainContainer extends React.Component {
       Promise.all([
         this.fetchDisplay(),
         this.fetchFridge(),
-        this.fetchCookToday()
+        this.fetchCookingToday()
       ]).then(() => {
         if (this.state.fridge.length > 0) {
           this.fetchRecipes().then(() => {
@@ -107,7 +107,7 @@ class MainContainer extends React.Component {
      */
     if (prevState.fridge.length !== this.state.fridge.length) {
       this.fetchRecipes().then(() => {
-        this.cookingTodayUpdateFromFridge()
+        this.updateMissingCookingToday()
       })
     }
   }
@@ -163,9 +163,9 @@ class MainContainer extends React.Component {
     })
   }
 
-  fetchCookToday() {
+  fetchCookingToday() {
     return new Promise((resolve) => {
-      getCookToday()
+      getCookingToday()
         .then((results) => {
           if (results.length > 0) {
             this.setState({ cookingToday: results })
@@ -181,7 +181,7 @@ class MainContainer extends React.Component {
 
   addCookingToday(recipe) {
     if (!(_.find(this.state.cookingToday, item => item.id === recipe.id))) {
-      addCookToday(recipe)
+      addCookingToday(recipe)
         .then(() => {
           this.setState({ cookingToday: this.state.cookingToday.concat(recipe) })
         })
@@ -269,9 +269,9 @@ class MainContainer extends React.Component {
     }
   }
 
-  clearCookToday() {
+  clearCookingToday() {
     if (this.state.cookingToday.length > 0) {
-      clearCookToday().then(() => {
+      clearCookingToday().then(() => {
         this.setState({ cookingToday : []})
       }).catch((err) => {
         console.log(err)
@@ -279,22 +279,22 @@ class MainContainer extends React.Component {
     }
   }
 
-  cookingTodayUpdateFromFridge() {
+  updateMissingCookingToday() {
     var temp = this.state.cookingToday.map(recipe => recipe.missedIngredients)
     var that = this
     var results = temp.map(function(missed) {
       return _.differenceBy(missed, that.state.fridge, 'id')
     })
-    var newCookToday = this.state.cookingToday.map(function(ingredients, i) {
+    var newCookingToday = this.state.cookingToday.map(function(ingredients, i) {
       ingredients.missedIngredients = results[i]
       return ingredients
     })
-    clearCookToday().then(() => {
+    clearCookingToday().then(() => {
       this.setState({ cookingToday : []})
-      newCookToday.forEach(function(recipe) {
+      newCookingToday.forEach(function(recipe) {
         that.addCookingToday(recipe)
       })
-      this.fetchCookToday()
+      this.fetchCookingToday()
     })
 
   }
@@ -314,8 +314,8 @@ class MainContainer extends React.Component {
               user: this.state.user,
               toggleAccordion: this.toggleAccordion,
               isExpanded: this.state.isExpanded,
-              addCookToday: this.addCookingToday,
-              clearCookToday: this.clearCookToday
+              addCookingToday: this.addCookingToday,
+              clearCookingToday: this.clearCookingToday
             })
             : <div className="absolute-center"><Preloader/></div>
         }
