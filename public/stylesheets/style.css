@@ -44,6 +44,10 @@ nav.navbar-index {
 }
 
 /* LOGIN */
+.margin-login {
+  margin-right: 10px;
+}
+
 a.btn-secondary img {
   width: 30px;
   height: 30px;

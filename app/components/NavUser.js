@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 
 const NavUser = (props, context) => {
-  const offset = (context.display === 'index') ? 'offset-xs-9' : 'row'
+  const placement = (context.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -27,7 +27,7 @@ const NavUser = (props, context) => {
   const loggedIn = props.user.facebook || props.user.google
   const accountType = props.user.facebook ? 'facebook' : 'google'
   return (
-    <div className={`${offset}`}>
+    <div className={`${placement}`}>
       {
         loggedIn ? (
           <ButtonToolbar>
