@@ -51,6 +51,7 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
+  console.log({ serializedUser: profile })
   cb(null, profile)
 });
 
@@ -103,10 +104,10 @@ app.use('/login', login)
 // Logout from session
 app.get('/logout', function(req, res, next) {
   if (req.isAuthenticated || req.isAuthenticated()) {
-    req.session.user = null
-    req.logout()
+    req.session.destroy(function (err) {
+      res.redirect('/')
+    })
   }
-  res.redirect('/')
 })
 
 // catch 404 and forward to error handler
