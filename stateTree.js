@@ -1,7 +1,7 @@
 const state = {
   ready: false,
   display: null,
-  searchBar: {
+  search: {
     searchText: '',
     isFocused: false,
     isLoading: false,
