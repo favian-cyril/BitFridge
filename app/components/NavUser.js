@@ -1,7 +1,8 @@
 import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 
-const NavUser = (props) => {
+const NavUser = (props, context) => {
+  const placement = (context.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -26,18 +27,23 @@ const NavUser = (props) => {
   const loggedIn = props.user.facebook || props.user.google
   const accountType = props.user.facebook ? 'facebook' : 'google'
   return (
-    <div className="col-xs-2">
+    <div className={`${placement}`}>
       {
         loggedIn ? (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
-              <a className="btn btn-block btn-secondary">Hello, {props.user[accountType].name}!</a>
+              <a className="btn btn-secondary btn-login">
+                Hello, {props.user[accountType].name}!
+                <img className="img-circle" src={props.user[accountType].picture}></img>
+              </a>
             </OverlayTrigger>
           </ButtonToolbar>
         ) : (
           <ButtonToolbar>
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogin}>
-              <a className="btn btn-block btn-secondary">Log In</a>
+              <a className="btn btn-secondary btn-login">
+                Log In
+              </a>
             </OverlayTrigger>
           </ButtonToolbar>
         )
@@ -51,6 +57,10 @@ NavUser.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string
   }).isRequired
+}
+
+NavUser.contextTypes = {
+  display: React.PropTypes.oneOf(['index', 'dash'])
 }
 
 export default NavUser

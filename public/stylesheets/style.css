@@ -38,6 +38,26 @@ nav.navbar-fixed-top {
   min-height: 60px !important;
 }
 
+nav.navbar-index {
+  background-color: rgba(255, 255, 255, 0);
+  border-bottom: none;
+}
+
+/* LOGIN */
+.margin-login {
+  margin-right: 3em;
+}
+
+a.btn-secondary img {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.btn-login {
+  background-color: rgba(255, 255, 255, 0);
+}
+
 /* CARD CONTAINER */
 div.card {
   margin: 10px;
