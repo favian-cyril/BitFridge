@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var apicalls = require('../modules/apicalls')
 var fridge = require('../modules/fridge')
+var cooktoday = require('../modules/cookingtoday')
 
 var searchIngredients = apicalls.searchIngredients
 var searchResults = apicalls.searchResults
@@ -71,18 +72,63 @@ router.get('/fridge/get', function (req, res, next) {
   })
 })
 
+router.post('/cooktoday/add', function(req, res, next) {
+  cooktoday.addCookToday(req, function (err) {
+    if (!err) {
+      if (req.body.item > 0) {
+        console.log(`Added ${req.body.item.title} to Cooking Today`)
+      }
+      res.status(200).end()
+    } else {
+      console.log('Failed to add')
+    }
+  })
+})
+
 router.get('/user/data', function (req, res, next) {
   if (req.session.user) {
-    const userData = {
-      name: req.session.user.name,
-      id: req.session.user.id,
-      facebook: req.session.user.facebook,
-      google: req.session.user.google
-    }
-    res.json({ user: userData })
+    res.json({ user: req.session.user })
   } else {
     res.status(404).end()
   }
+})
+
+router.post('/cooktoday/add', function(req, res, next) {
+  cooktoday.addCookToday(req, function(err) {
+    if (!err) {
+      if (req.body.item.length > 0) {
+        console.log(`Added ${req.body.item.title} to Cooking Today!`)
+      }
+      res.status(200).end()
+    } else {
+      console.log('Failed to save to database.')
+      next(err)
+    }
+  })
+})
+
+router.get('/cooktoday/get', function(req, res, next) {
+  cooktoday.getCookToday(req, function(err, cooktoday) {
+    if (!err) {
+      console.log('CookingToday fetched from database!')
+      res.json(cooktoday)
+    } else {
+      console.log('Failed to fetch from database.')
+      next(err)
+    }
+  })
+})
+
+router.post('/cooktoday/clear', function(req, res, next) {
+  cooktoday.clearCookToday(req, function(err) {
+    if (!err) {
+      console.log('CookingToday cleared')
+      res.status(200).end()
+    } else {
+      console.log('CookingToday fail to clear')
+      next(err)
+    }
+  })
 })
 
 module.exports = router
