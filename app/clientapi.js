@@ -37,18 +37,18 @@ function fetchUser() {
   return get(url)
 }
 
-function addCookToday(recipe) {
+function addCookingToday(recipe) {
   const url = `${baseUrl}cooktoday/add`
   const form = { item: recipe }
   return post(url, form)
 }
 
-function getCookToday() {
+function getCookingToday() {
   const url = `${baseUrl}cooktoday/get`
   return get(url)
 }
 
-function clearCookToday() {
+function clearCookingToday() {
   const url = `${baseUrl}cooktoday/clear`
   const form = { foo: 'foo'}
   return post(url, form)
@@ -76,7 +76,7 @@ module.exports = {
   delIngredient,
   getFridge,
   fetchUser,
-  addCookToday,
-  getCookToday,
-  clearCookToday
+  addCookingToday,
+  getCookingToday,
+  clearCookingToday
 }
