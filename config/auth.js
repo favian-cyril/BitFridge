@@ -48,12 +48,12 @@ function verificationCallback (accountType) {
   return function (req, accessToken, refreshToken, profile, cb) {
     // find user that account type (facebook/google)
     const accountEmail = `${accountType}.email`
+    console.log({ reqUser: req.session.user, profile })
     if (!profile.emails) {
       cb(new Error("Failed to retrieve e-mail from your account. " +
         "Please allow BitFridge access to your e-mail."))
     }
     User.findOne({ accountEmail: profile.emails[0].value }, function (err, user) {
-      console.log({ user, reqUser: req.session.user })
       if (err) {
         cb(err)   // something bad
       } else if (!user) {
