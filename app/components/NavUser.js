@@ -34,7 +34,7 @@ const NavUser = (props, context) => {
             <OverlayTrigger trigger="click" placement="bottom" overlay={popoverLogout}>
               <a className="btn btn-secondary btn-login">
                 Hello, {props.user[accountType].name}!
-                <img src={props.user[accountType].picture}></img>
+                <img className="img-circle" src={props.user[accountType].picture}></img>
               </a>
             </OverlayTrigger>
           </ButtonToolbar>

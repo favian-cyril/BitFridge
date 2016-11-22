@@ -45,14 +45,9 @@ nav.navbar-index {
 
 /* LOGIN */
 a.btn-secondary img {
-  height: auto;
-  width: auto;
-  max-width: 30px;
-  max-height: 30px;
-  border-radius: 50%;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  padding-left: 10px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
 }
 
 .btn-login {
