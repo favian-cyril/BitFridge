@@ -48,7 +48,10 @@ function verificationCallback (accountType) {
   return function (req, accessToken, refreshToken, profile, cb) {
     // find user that account type (facebook/google)
     const accountEmail = `${accountType}.email`
-    console.log(profile);
+    if (!profile.emails) {
+      cb(new Error("Failed to retrieve e-mail from your account. " +
+        "Please allow BitFridge access to your e-mail."))
+    }
     User.findOne({ accountEmail: profile.emails[0].value }, function (err, user) {
       console.log({ user, reqUser: req.session.user })
       if (err) {
@@ -73,7 +76,6 @@ module.exports = {
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
     callbackURL: 'http://localhost:3000/login/facebook/return',
-    profileFields: ['name', 'email', 'picture'],
     passReqToCallback: true
   }, verificationCallback('facebook')),
   googleStrategy: new GoogleStrategy({
