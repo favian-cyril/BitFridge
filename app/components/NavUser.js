@@ -1,5 +1,6 @@
 import React from 'react'
 import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
+import { syncUser } from '../clientapi'
 
 const NavUser = (props, context) => {
   const placement = (context.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
@@ -11,6 +12,9 @@ const NavUser = (props, context) => {
         </a>
         <a className="btn btn-google" href="/login/google">
           <span className="fa fa-google"></span>
+        </a>
+        <a className="btn btn-secondary" onClick={() => syncUser(props.user)}>
+          Test sync user
         </a>
       </div>
     </Popover>

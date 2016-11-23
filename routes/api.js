@@ -1,8 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var apicalls = require('../modules/apicalls')
-var fridge = require('../modules/fridge')
-var cooktoday = require('../modules/cookingtoday')
+var User = require('../models/user')
 
 var searchIngredients = apicalls.searchIngredients
 var searchResults = apicalls.searchResults
@@ -36,55 +35,6 @@ router.get('/recipes/results', function (req, res, next) {
   })
 })
 
-router.post('/fridge/add', function (req, res, next) {
-  fridge.addIngredient(req, function (err) {
-    if (!err) {
-      console.log(`Added ${req.body.item.name} to fridge!`)
-      res.status(200).end()
-    } else {
-      console.log('Failed to save to database.')
-      next(err)
-    }
-  })
-})
-
-router.post('/fridge/del', function (req, res, next) {
-  fridge.delIngredient(req, function (err) {
-    if (!err) {
-      console.log(`Deleted ${req.body.item.name} from fridge!`)
-      res.status(200).end()
-    } else {
-      console.log('Failed to delete from database.')
-      next(err)
-    }
-  })
-})
-
-router.get('/fridge/get', function (req, res, next) {
-  fridge.getFridge(req, function (err, fridge) {
-    if (!err) {
-      console.log('Fridge fetched from database!')
-      res.json(fridge)
-    } else {
-      console.log('Failed to fetch from database.')
-      next(err)
-    }
-  })
-})
-
-router.post('/cooktoday/add', function(req, res, next) {
-  cooktoday.addCookToday(req, function (err) {
-    if (!err) {
-      if (req.body.item > 0) {
-        console.log(`Added ${req.body.item.title} to Cooking Today`)
-      }
-      res.status(200).end()
-    } else {
-      console.log('Failed to add')
-    }
-  })
-})
-
 router.get('/user/data', function (req, res, next) {
   if (req.session.user) {
     res.json({ user: req.session.user })
@@ -93,40 +43,19 @@ router.get('/user/data', function (req, res, next) {
   }
 })
 
-router.post('/cooktoday/add', function(req, res, next) {
-  cooktoday.addCookToday(req, function(err) {
+router.post('/user/sync', function (req, res, next) {
+  const userData = req.body
+  User.findOne({ id: req.session.user.id }, function (err, user) {
     if (!err) {
-      if (req.body.item.length > 0) {
-        console.log(`Added ${req.body.item.title} to Cooking Today!`)
-      }
-      res.status(200).end()
+      user.syncUser(userData, function (err, status) {
+        if (!err && status.ok) {
+          res.status(200).end()
+        } else {
+          res.status(500).end()
+        }
+      })
     } else {
-      console.log('Failed to save to database.')
-      next(err)
-    }
-  })
-})
-
-router.get('/cooktoday/get', function(req, res, next) {
-  cooktoday.getCookToday(req, function(err, cooktoday) {
-    if (!err) {
-      console.log('CookingToday fetched from database!')
-      res.json(cooktoday)
-    } else {
-      console.log('Failed to fetch from database.')
-      next(err)
-    }
-  })
-})
-
-router.post('/cooktoday/clear', function(req, res, next) {
-  cooktoday.clearCookToday(req, function(err) {
-    if (!err) {
-      console.log('CookingToday cleared')
-      res.status(200).end()
-    } else {
-      console.log('CookingToday fail to clear')
-      next(err)
+      res.status(500).end()
     }
   })
 })

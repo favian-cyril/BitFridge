@@ -1,9 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
-import { browserHistory } from 'react-router'
+import {browserHistory} from 'react-router'
 import Preloader from '../components/Preloader'
-import { getFridge, searchResults, fetchUser, addCookToday, getCookToday, clearCookToday } from '../clientapi'
-import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
+import {searchResults, fetchUser} from '../clientapi'
+import {REDIRECT_INGR_THRESHOLD} from '../config/constants'
 import anims from '../utils/anims'
 
 class MainContainer extends React.Component {
@@ -16,7 +16,7 @@ class MainContainer extends React.Component {
       cookingToday: [],
       display: null,
       isLoading: false,
-      isExpanded: {expand:false, id:0},
+      isExpanded: {expand: false, id: 0},
       recipePage: 1,
       errorType: {
         fridge: '',
@@ -32,10 +32,10 @@ class MainContainer extends React.Component {
     this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
     this.toggleAccordion = this.toggleAccordion.bind(this)
-    this.fetchCookToday = this.fetchCookToday.bind(this)
+    this.fetchCookingToday = this.fetchCookingToday.bind(this)
     this.addCookingToday = this.addCookingToday.bind(this)
-    this.clearCookToday = this.clearCookToday.bind(this)
-    this.cookingTodayUpdateFromFridge = this.cookingTodayUpdateFromFridge.bind(this)
+    this.clearCookingToday = this.clearCookingToday.bind(this)
+    this.updateMissingCookingToday = this.updateMissingCookingToday.bind(this)
   }
 
   getChildContext() {
@@ -49,9 +49,9 @@ class MainContainer extends React.Component {
 
   componentWillMount() {
     /**
-     * Debounces the moreRecipes() handler. 
+     * Debounces the moreRecipes() handler.
      */
-    this.moreRecipes = _.throttle(this.moreRecipes, 1000, { leading: true })
+    this.moreRecipes = _.throttle(this.moreRecipes, 1000, {leading: true})
   }
 
   componentDidMount() {
@@ -62,18 +62,16 @@ class MainContainer extends React.Component {
      * displays the children view (Index/Dashboard).
      */
     fetchUser().then((data) => {
-      this.setState({ user: data.user })
+      this.setState({user: data.user})
       Promise.all([
-        this.fetchDisplay(),
-        this.fetchFridge(),
-        this.fetchCookToday()
+        this.fetchDisplay()
       ]).then(() => {
         if (this.state.fridge.length > 0) {
           this.fetchRecipes().then(() => {
-            this.setState({ ready: true })
+            this.setState({ready: true})
           })
         } else {
-          this.setState({ ready: true })
+          this.setState({ready: true})
         }
       }).catch((err) => {
         console.error(err)   // TODO: Display error on failure in fetching initial data
@@ -107,7 +105,7 @@ class MainContainer extends React.Component {
      */
     if (prevState.fridge.length !== this.state.fridge.length) {
       this.fetchRecipes().then(() => {
-        this.cookingTodayUpdateFromFridge()
+        this.updateMissingCookingToday()
       })
     }
   }
@@ -119,9 +117,9 @@ class MainContainer extends React.Component {
      */
     const pathname = this.props.location.pathname
     if (pathname === '/') {
-      this.setState({ display: 'index' })
+      this.setState({display: 'index'})
     } else if (pathname === '/dash') {
-      this.setState({ display: 'dash' })
+      this.setState({display: 'dash'})
     }
   }
 
@@ -133,7 +131,7 @@ class MainContainer extends React.Component {
     return new Promise((resolve) => {
       getFridge()
         .then((results) => {
-          this.setState({ fridge: results })
+          this.setState({fridge: results})
           resolve()
         })
         .catch((error) => {
@@ -150,25 +148,25 @@ class MainContainer extends React.Component {
      */
     return new Promise((resolve) => {
       const fridgeList = this.state.fridge.map(item => item.name)
-      this.setState({ isLoading: true, recipes: [] })
+      this.setState({isLoading: true, recipes: []})
       searchResults(fridgeList, this.state.recipePage)
         .then((results) => {
-          this.setState({ recipes: results, isLoading: false })
+          this.setState({recipes: results, isLoading: false})
           resolve()
         })
         .catch((error) => {
-          this.setState({ isLoading: false })
+          this.setState({isLoading: false})
           this.handleError(error, 'recipes')
         })
     })
   }
 
-  fetchCookToday() {
+  fetchCookingToday() {
     return new Promise((resolve) => {
-      getCookToday()
+      getCookingToday()
         .then((results) => {
           if (results.length > 0) {
-            this.setState({ cookingToday: results })
+            this.setState({cookingToday: results})
           }
           resolve()
         })
@@ -181,9 +179,9 @@ class MainContainer extends React.Component {
 
   addCookingToday(recipe) {
     if (!(_.find(this.state.cookingToday, item => item.id === recipe.id))) {
-      addCookToday(recipe)
+      addCookingToday(recipe)
         .then(() => {
-          this.setState({ cookingToday: this.state.cookingToday.concat(recipe) })
+          this.setState({cookingToday: this.state.cookingToday.concat(recipe)})
         })
         .catch((err) => {
           console.log(err)
@@ -201,7 +199,7 @@ class MainContainer extends React.Component {
     } else if (action === 'DEL') {
       _.remove(newFridge, item => item.id === ingredient.id)
     }
-    this.setState({ fridge: newFridge })
+    this.setState({fridge: newFridge})
   }
 
   isInFridge(ingredient) {
@@ -220,7 +218,7 @@ class MainContainer extends React.Component {
      */
     const fridgeList = this.state.fridge.map(item => item.name)
     const nextPage = this.state.recipePage + 1
-    this.setState({ isLoading: true, recipePage: nextPage })
+    this.setState({isLoading: true, recipePage: nextPage})
     anims.moreRecipes()
     searchResults(fridgeList, nextPage)
       .then((results) => {
@@ -230,7 +228,7 @@ class MainContainer extends React.Component {
         })
       })
       .catch((error) => {
-        this.setState({ isLoading: false })
+        this.setState({isLoading: false})
         this.handleError(error, 'recipes')
       })
   }
@@ -239,8 +237,8 @@ class MainContainer extends React.Component {
     /**
      * Clears state.fridge.errorType, then retries fetching recipes.
      */
-    const clearedError = { fridge: this.state.errorType.fridge, recipes: '' }
-    this.setState({ errorType: clearedError })
+    const clearedError = {fridge: this.state.errorType.fridge, recipes: ''}
+    this.setState({errorType: clearedError})
     this.fetchRecipes()
   }
 
@@ -253,48 +251,60 @@ class MainContainer extends React.Component {
     const errorType = this.state.errorType
     if (err.message && err.message === 'Network Error') {
       errorType[component] = 'OFFLINE'
-      this.setState({ errorType })
+      this.setState({errorType})
     } else if (err.response && err.response.data.code === 'ENOTFOUND') {
       errorType[component] = 'SERVERERR'
-      this.setState({ errorType })
+      this.setState({errorType})
     }
-    this.setState({ ready: true })
+    this.setState({ready: true})
   }
 
   toggleAccordion(id) {
+    /**
+     * Opens or closes the accordion depending on whether
+     * it was opened or closed in the previous state.
+     */
     if (!this.state.isExpanded.expand || this.state.isExpanded.id !== id) {
-      this.setState({ isExpanded : {expand: true, id:id} })
+      this.setState({isExpanded: {expand: true, id: id}})
     } else {
-      this.setState({ isExpanded : {expand: false, id:id} })
+      this.setState({isExpanded: {expand: false, id: id}})
     }
   }
 
-  clearCookToday() {
+  clearCookingToday() {
+    /**
+     * Clears all recipes from Cooking Today by
+     * setting the cookingToday list to empty.
+     */
     if (this.state.cookingToday.length > 0) {
-      clearCookToday().then(() => {
-        this.setState({ cookingToday : []})
+      clearCookingToday().then(() => {
+        this.setState({cookingToday: []})
       }).catch((err) => {
         console.log(err)
       })
     }
   }
 
-  cookingTodayUpdateFromFridge() {
+  updateMissingCookingToday() {
+    /**
+     * Updates the list of missing ingredients in a Cooking Today recipe when the
+     * fridge is updated. It clears the old list first before appending the new one.
+     */
     var temp = this.state.cookingToday.map(recipe => recipe.missedIngredients)
     var that = this
-    var results = temp.map(function(missed) {
+    var results = temp.map(function (missed) {
       return _.differenceBy(missed, that.state.fridge, 'id')
     })
-    var newCookToday = this.state.cookingToday.map(function(ingredients, i) {
+    var newCookingToday = this.state.cookingToday.map(function (ingredients, i) {
       ingredients.missedIngredients = results[i]
       return ingredients
     })
-    clearCookToday().then(() => {
-      this.setState({ cookingToday : []})
-      newCookToday.forEach(function(recipe) {
+    clearCookingToday().then(() => {
+      this.setState({cookingToday: []})
+      newCookingToday.forEach(function (recipe) {
         that.addCookingToday(recipe)
       })
-      this.fetchCookToday()
+      this.fetchCookingToday()
     })
 
   }
@@ -305,18 +315,18 @@ class MainContainer extends React.Component {
         {
           this.state.ready
             ? React.cloneElement(this.props.children, {
-              updateFridge: this.updateFridge,
-              isInFridge: this.isInFridge,
-              moreRecipes: this.moreRecipes,
-              retryRecipes: this.retryRecipes,
-              isLoading: this.state.isLoading,
-              errorType: this.state.errorType,
-              user: this.state.user,
-              toggleAccordion: this.toggleAccordion,
-              isExpanded: this.state.isExpanded,
-              addCookToday: this.addCookingToday,
-              clearCookToday: this.clearCookToday
-            })
+            updateFridge: this.updateFridge,
+            isInFridge: this.isInFridge,
+            moreRecipes: this.moreRecipes,
+            retryRecipes: this.retryRecipes,
+            isLoading: this.state.isLoading,
+            errorType: this.state.errorType,
+            user: this.state.user,
+            toggleAccordion: this.toggleAccordion,
+            isExpanded: this.state.isExpanded,
+            addCookingToday: this.addCookingToday,
+            clearCookingToday: this.clearCookingToday
+          })
             : <div className="absolute-center"><Preloader/></div>
         }
       </div>
