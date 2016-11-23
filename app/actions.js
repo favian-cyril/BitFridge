@@ -1,13 +1,15 @@
+import { searchResults, fetchUser, syncUser } from './clientapi'
+
 // User interaction governed
 export const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
 export const DEL_FROM_FRIDGE = 'DEL_FROM_FRIDGE'
 
+export const MORE_RECIPES = 'MORE_RECIPES'
+export const RETRY_RECIPES = 'RETRY_RECIPES'
+
 export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
 export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
 export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
-
-export const MORE_RECIPES = 'MORE_RECIPES'
-export const RETRY_RECIPES = 'RETRY_RECIPES'
 //
 
 // Network governed, independent
@@ -26,97 +28,102 @@ export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 export const HANDLE_ERROR = 'HANDLE_ERROR'
 //
 
-export function addToFridge(ingredient) {
-  return {
-    type: ADD_TO_FRIDGE,
-    ingredient
-  }
+export const addToFridge = ingredient => ({
+  type: ADD_TO_FRIDGE,
+  ingredient
+})
+
+export const delFromFridge = ingredient => ({
+  type: DEL_FROM_FRIDGE,
+  ingredient
+})
+
+export const moreRecipes = timestamp => ({
+  type: MORE_RECIPES,
+  timestamp
+})
+
+export const retryRecipes = timestamp => ({
+  type: RETRY_RECIPES,
+  timestamp
+})
+
+export const addToCookingToday = recipe => ({
+  type: ADD_TO_COOKING_TODAY,
+  recipe
+})
+
+export const toggleCookingToday = index => ({
+  type: TOGGLE_COOKING_TODAY,
+  index
+})
+
+export const clearCookingToday = () => ({
+  type: CLEAR_COOKING_TODAY
+})
+
+export const receiveUserData = () => ({
+  type: REQUEST_USER_DATA
+})
+
+export const receiveUserData = userData => ({
+  type: RECEIVE_USER_DATA,
+  userData
+})
+
+export const syncUserData = () => ({
+  type: SYNC_USER_DATA
+})
+
+export const setDisplay = pathname => ({
+  type: SET_DISPLAY,
+  pathname
+})
+
+export const setReady = () => ({
+  type: SET_READY
+})
+
+export const requestRecipes = timestamp => ({
+  type: REQUEST_RECIPES,
+  timestamp
+})
+
+export const receiveRecipes = recipes => ({
+  type: RECEIVE_RECIPES,
+  recipes
+})
+
+export const fetchRecipes = store => next => action => {
+  const state = store.getState()
+  const ingredientList = state.fridge.contents.map(i => i.name)
+  const timestamp = (new Date()).getTime()
+  requestRecipes(timestamp)
+  searchResults(ingredientList, state.recipes.page)
+    .then((recipes) => {
+      receiveRecipes(timestamp)
+      return next(action)
+    })
+    .catch((err) => {
+      handleError(err, 'recipes')
+      return next(action)
+    })
 }
 
-export function delFromFridge(ingredient) {
-  return {
-    type: DEL_FROM_FRIDGE,
-    ingredient
-  }
+export const fetchUserData = store => next => action => {
+  const state = store.getState()
+  fetchUser()
+    .then((userData) => {
+      receiveUserData(userData)
+      return next(action)
+    })
+    .catch((err) => {
+      handleError(err, 'userData')
+      return next(action)
+    })
 }
 
-export function addToCookingToday(recipe) {
-  return {
-    type: ADD_TO_COOKING_TODAY,
-    recipe
-  }
-}
-
-export function toggleCookingToday(index) {
-  return {
-    type: TOGGLE_COOKING_TODAY,
-    index
-  }
-}
-
-export function clearCookingToday() {
-  return {
-    type: CLEAR_COOKING_TODAY
-  }
-}
-
-export function moreRecipes() {
-  return {
-    type: MORE_RECIPES
-  }
-}
-
-export function retryRecipes() {
-  return {
-    type: RETRY_RECIPES
-  }
-}
-
-export function receiveUserData() {
-  return {
-    type: REQUEST_USER_DATA
-  }
-}
-
-export function receiveUserData(userData) {
-  return {
-    type: RECEIVE_USER_DATA,
-    userData
-  }
-}
-
-export function syncUserData() {
-  return {
-    type: SYNC_USER_DATA
-  }
-}
-
-export function setDisplay() {
-  return {
-    type: SET_DISPLAY
-  }
-}
-
-export function setReady() {
-  return {
-    type: SET_READY
-  }
-}
-
-export function receiveRecipes() {
-  return {
-    type: REQUEST_RECIPES
-  }
-}
-
-export function receiveRecipes(recipes) {
-  return {
-    type: RECEIVE_RECIPES,
-    recipes
-  }
-}
-
-export function handleError(error, component) {
+export const handleError(error, component) {
   return {
     type: HANDLE_ERROR,
     error,

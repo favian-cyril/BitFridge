@@ -9,6 +9,7 @@ const state = {
   recipes: {
     contents: ['Recipes'],
     page: 1,
+    timestamp: -1,
     isLoading: false,
     errorType: ''
   },
@@ -21,5 +22,8 @@ const state = {
     isLoading: false, 
     errorType: ''
   },
-  userData: null
+  userData: {
+    isLoading: false,
+    user: null
+  }
 }

@@ -14,7 +14,7 @@ router.get('/ingredients/autocomplete', function (req, res, next) {
     if (!err) {
       res.json(body)
     } else {
-      res.status(500).json(err)
+      next(err)
       console.error(err)
       console.log(err.stack)
     }
@@ -29,7 +29,7 @@ router.get('/recipes/results', function (req, res, next) {
     if (!err) {
       res.json(body)
     } else {
-      res.status(500).json(err)
+      next(err)
       console.error(err)
     }
   })
@@ -51,11 +51,11 @@ router.post('/user/sync', function (req, res, next) {
         if (!err && status.ok) {
           res.status(200).end()
         } else {
-          res.status(500).end()
+          next(err)
         }
       })
     } else {
-      res.status(500).end()
+      next(err)
     }
   })
 })
