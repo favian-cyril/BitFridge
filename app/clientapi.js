@@ -15,43 +15,14 @@ function searchResults(ingredients, page) {
   return get(url, params)
 }
 
-function addIngredient(ingredient) {
-  const url = `${baseUrl}fridge/add`
-  const form = { item: ingredient }
-  return post(url, form)
-}
-
-function delIngredient(ingredient) {
-  const url = `${baseUrl}fridge/del`
-  const form = { item: ingredient }
-  return post(url, form)
-}
-
-function getFridge() {
-  const url = `${baseUrl}fridge/get`
-  return get(url)
-}
-
 function fetchUser() {
   const url = `${baseUrl}user/data`
   return get(url)
 }
 
-function addCookToday(recipe) {
-  const url = `${baseUrl}cooktoday/add`
-  const form = { item: recipe }
-  return post(url, form)
-}
-
-function getCookToday() {
-  const url = `${baseUrl}cooktoday/get`
-  return get(url)
-}
-
-function clearCookToday() {
-  const url = `${baseUrl}cooktoday/clear`
-  const form = { foo: 'foo'}
-  return post(url, form)
+function syncUser(user) {
+  const url = `${baseUrl}user/sync`
+  return post(url, user)
 }
 
 function get(url, params) {
@@ -72,11 +43,6 @@ function post(url, obj) {
 module.exports = {
   searchIngredients,
   searchResults,
-  addIngredient,
-  delIngredient,
-  getFridge,
   fetchUser,
-  addCookToday,
-  getCookToday,
-  clearCookToday
+  syncUser
 }
