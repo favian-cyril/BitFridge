@@ -24,16 +24,11 @@ class MainContainer extends React.Component {
       },
       user: null
     }
-    this.fetchFridge = this.fetchFridge.bind(this)
-    this.updateFridge = this.updateFridge.bind(this)
     this.isInFridge = this.isInFridge.bind(this)
-    this.fetchRecipes = this.fetchRecipes.bind(this)
     this.moreRecipes = this.moreRecipes.bind(this)
     this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
     this.toggleAccordion = this.toggleAccordion.bind(this)
-    this.fetchCookingToday = this.fetchCookingToday.bind(this)
-    this.addCookingToday = this.addCookingToday.bind(this)
     this.clearCookingToday = this.clearCookingToday.bind(this)
     this.updateMissingCookingToday = this.updateMissingCookingToday.bind(this)
   }
@@ -120,72 +115,6 @@ class MainContainer extends React.Component {
       this.setState({display: 'index'})
     } else if (pathname === '/dash') {
       this.setState({display: 'dash'})
-    }
-  }
-
-  fetchFridge() {
-    /**
-     * Returns a Promise that fetches fridge contents on success and
-     * updates it, and calls error handler on failure.
-     */
-    return new Promise((resolve) => {
-      getFridge()
-        .then((results) => {
-          this.setState({fridge: results})
-          resolve()
-        })
-        .catch((error) => {
-          this.handleError(error, 'fridge')
-        })
-    })
-  }
-
-  fetchRecipes() {
-    /**
-     * Returns a Promise that initially clears recipe results and
-     * toggles loading status, then fetches recipe results on success
-     * and calls error handler on failure.
-     */
-    return new Promise((resolve) => {
-      const fridgeList = this.state.fridge.map(item => item.name)
-      this.setState({isLoading: true, recipes: []})
-      searchResults(fridgeList, this.state.recipePage)
-        .then((results) => {
-          this.setState({recipes: results, isLoading: false})
-          resolve()
-        })
-        .catch((error) => {
-          this.setState({isLoading: false})
-          this.handleError(error, 'recipes')
-        })
-    })
-  }
-
-  fetchCookingToday() {
-    return new Promise((resolve) => {
-      getCookingToday()
-        .then((results) => {
-          if (results.length > 0) {
-            this.setState({cookingToday: results})
-          }
-          resolve()
-        })
-        .catch((error) => {
-          console.log(error)
-          //this.handleError(error, 'cooktoday') TODO
-        })
-    })
-  }
-
-  addCookingToday(recipe) {
-    if (!(_.find(this.state.cookingToday, item => item.id === recipe.id))) {
-      addCookingToday(recipe)
-        .then(() => {
-          this.setState({cookingToday: this.state.cookingToday.concat(recipe)})
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   }
 
@@ -277,11 +206,8 @@ class MainContainer extends React.Component {
      * setting the cookingToday list to empty.
      */
     if (this.state.cookingToday.length > 0) {
-      clearCookingToday().then(() => {
-        this.setState({cookingToday: []})
-      }).catch((err) => {
-        console.log(err)
-      })
+      
+      this.setState({ cookingToday: [] })
     }
   }
 
@@ -306,7 +232,6 @@ class MainContainer extends React.Component {
       })
       this.fetchCookingToday()
     })
-
   }
 
   render() {
