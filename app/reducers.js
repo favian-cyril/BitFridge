@@ -5,7 +5,7 @@ import defaults from './config/defaultStates'
 import {
   ADD_TO_FRIDGE, DEL_FROM_FRIDGE,
   MORE_RECIPES, RETRY_RECIPES,
-  ADD_TO_COOKING_TODAY, TOGGLE_COOKING_TODAY, CLEAR_COOKING_TODAY,
+  ADD_TO_COOKING_TODAY, TOGGLE_COOKING_TODAY, CLEAR_COOKING_TODAY, UPDATE_MISSING_COOKING_TODAY
   REQUEST_USER_DATA, RECEIVE_USER_DATA, SYNC_USER_DATA,
   SET_DISPLAY, SET_READY,
   REQUEST_RECIPES, RECEIVE_RECIPES,
@@ -94,6 +94,19 @@ function cookingToday(state = defaults.cookingToday, action) {
         ...state,
         contents: []
       }
+    case UPDATE_MISSING_COOKING_TODAY:
+      const temp = state.cookingToday.map(recipe => recipe.missedIngredients)
+      const results = temp.map(function (missed) {
+        return _.differenceBy(missed, state.fridge, 'id')
+      })
+      var newCookingToday = state.cookingToday.map(function (ingredients, i) {
+        ingredients.missedIngredients = results[i]
+        return ingredients
+      })
+      return {
+        ...state,
+        contents: newCookingToday
+      }
     default: return state
   }
 }
@@ -146,4 +159,3 @@ const rootReducer = combineReducers({
 })
 
 export default rootReducer
-

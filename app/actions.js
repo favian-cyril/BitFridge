@@ -4,30 +4,6 @@ import { searchResults, fetchUser, syncUser } from './clientapi'
 export const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
 export const DEL_FROM_FRIDGE = 'DEL_FROM_FRIDGE'
 
-export const MORE_RECIPES = 'MORE_RECIPES'
-export const RETRY_RECIPES = 'RETRY_RECIPES'
-
-export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
-export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
-export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
-//
-
-// Network governed, independent
-export const REQUEST_USER_DATA = 'REQUEST_USER_DATA'
-export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA'
-export const SYNC_USER_DATA = 'SYNC_USER_DATA'
-
-export const SET_DISPLAY = 'SET_DISPLAY'
-export const SET_READY = 'SET_READY'
-
-export const REQUEST_RECIPES = 'REQUEST_RECIPES'
-export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
-//
-
-// Error handler
-export const HANDLE_ERROR = 'HANDLE_ERROR'
-//
-
 export const addToFridge = ingredient => ({
   type: ADD_TO_FRIDGE,
   ingredient
@@ -38,6 +14,9 @@ export const delFromFridge = ingredient => ({
   ingredient
 })
 
+export const MORE_RECIPES = 'MORE_RECIPES'
+export const RETRY_RECIPES = 'RETRY_RECIPES'
+
 export const moreRecipes = timestamp => ({
   type: MORE_RECIPES,
   timestamp
@@ -47,6 +26,11 @@ export const retryRecipes = timestamp => ({
   type: RETRY_RECIPES,
   timestamp
 })
+
+export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
+export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
+export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
+export const UPDATE_MISSING_COOKING_TODAY = 'UPDATE_MISSING_COOKING_TODAY'
 
 export const addToCookingToday = recipe => ({
   type: ADD_TO_COOKING_TODAY,
@@ -62,6 +46,15 @@ export const clearCookingToday = () => ({
   type: CLEAR_COOKING_TODAY
 })
 
+export const updateMissingCookingToday = () => ({
+  type: UPDATE_MISSING_COOKING_TODAY
+})
+
+// Network governed, independent
+export const REQUEST_USER_DATA = 'REQUEST_USER_DATA'
+export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA'
+export const SYNC_USER_DATA = 'SYNC_USER_DATA'
+
 export const receiveUserData = () => ({
   type: REQUEST_USER_DATA
 })
@@ -75,6 +68,9 @@ export const syncUserData = () => ({
   type: SYNC_USER_DATA
 })
 
+export const SET_DISPLAY = 'SET_DISPLAY'
+export const SET_READY = 'SET_READY'
+
 export const setDisplay = pathname => ({
   type: SET_DISPLAY,
   pathname
@@ -83,6 +79,9 @@ export const setDisplay = pathname => ({
 export const setReady = () => ({
   type: SET_READY
 })
+
+export const REQUEST_RECIPES = 'REQUEST_RECIPES'
+export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 
 export const requestRecipes = timestamp => ({
   type: REQUEST_RECIPES,
@@ -93,6 +92,17 @@ export const receiveRecipes = recipes => ({
   type: RECEIVE_RECIPES,
   recipes
 })
+
+// Error handler
+export const HANDLE_ERROR = 'HANDLE_ERROR'
+
+export const handleError(error, component) {
+  return {
+    type: HANDLE_ERROR,
+    error,
+    component
+  }
+}
 
 export const fetchRecipes = store => next => action => {
   const state = store.getState()
@@ -121,12 +131,4 @@ export const fetchUserData = store => next => action => {
       handleError(err, 'userData')
       return next(action)
     })
-}
-
-export const handleError(error, component) {
-  return {
-    type: HANDLE_ERROR,
-    error,
-    component
-  }
 }
