@@ -128,7 +128,7 @@ export const clearError = (error, component) => ({
 
 import { searchResults, fetchUser, syncUser } from './clientapi'
 
-export const fetchRecipes = () => {
+export const preFetchRecipes = () => {
   return (dispatch, getState) => {
     const state = getState()
     const ingredients = state.fridge.contents
@@ -151,12 +151,12 @@ export const fetchMoreRecipes = () => {
   return dispatch => {
     dispatch(moreRecipes())
       .then(() => {
-        dispatch(fetchRecipes())
+        dispatch(preFetchRecipes())
       })
   }
 }
 
-export const retryFetchRecipes = () => {
+export const refreshRecipes = () => {
   return (dispatch, getState) => {
     const lastPage = getState().recipes.page
     dispatch(retryRecipes())
