@@ -121,3 +121,75 @@ export const clearError = (error, component) => ({
   error,
   component
 })
+
+/**
+ * Asynchronous thunks
+ */
+
+import { searchResults, fetchUser, syncUser } from './clientapi'
+
+export const fetchRecipes = () => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const ingredients = state.fridge.contents
+    const page = state.recipes.page
+    if (ingredients.length > 0) {
+      const timestamp = (new Date()).getTime()
+      dispatch(requestRecipes())
+        .then(() => {
+          searchResults(ingredients, page)
+            .then(
+              recipes => dispatch(receiveRecipes(recipes, timestamp)),
+              error => dispatch(handleError(error, 'recipes'))
+            )
+        })
+    }
+  }
+}
+
+export const fetchMoreRecipes = () => {
+  return dispatch => {
+    dispatch(moreRecipes())
+      .then(() => {
+        dispatch(fetchRecipes())
+      })
+  }
+}
+
+export const retryFetchRecipes = () => {
+  return (dispatch, getState) => {
+    const lastPage = getState().recipes.page
+    dispatch(retryRecipes())
+      .then(() => {
+        while (getState().recipes.page <= lastPage) {
+          dispatch(fetchMoreRecipes())
+        }
+      })
+  }
+}
+
+export const fetchUserData = () => {
+  return dispatch => {
+    dispatch(requestUserData())
+      .then(() => {
+        fetchUser()
+          .then(
+            userData => dispatch(receiveUserData(userData)),
+            error => dispatch(handleError(error, 'userData'))
+          )
+      })
+  }
+}
+
+export const syncUserData = userData => {
+  return dispatch => {
+    dispatch(sendSync())
+      .then(() => {
+        syncUser(userData)
+          .then(
+            () => dispatch(ackSync()),
+            error => dispatch(handleError(error, 'userData'))
+          )
+      })
+  }
+}

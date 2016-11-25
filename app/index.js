@@ -1,21 +1,20 @@
 import React from 'react'  // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
-import logger from 'redux-logger'
-import routes from './config/routes'
-import rootReducer from './reducers'
-import middleware from './middleware'
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk, logger, ...middleware)
-)
+import App from './containers/App'
+import Index from './components/Index'
+import Dashboard from './components/Dashboard'
+import store from './store'
 
 const Root = () => (
   <Provider store={store}>
-    {routes}
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Index}/>
+        <Route path="/dash" component={Dashboard}/>
+      </Route>
+    </Router>
   </Provider>
 )
 
