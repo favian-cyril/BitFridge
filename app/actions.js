@@ -1,9 +1,4 @@
-import $ from 'jquery'
-
-/**
- * User interaction governed
- */
-// Fridge
+/** Fridge **/
 export const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
 export const DEL_FROM_FRIDGE = 'DEL_FROM_FRIDGE'
 
@@ -17,7 +12,9 @@ export const delFromFridge = ingredient => ({
   ingredient
 })
 
-// Recipes
+/** Recipes **/
+export const REQUEST_RECIPES = 'REQUEST_RECIPES'
+export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 export const MORE_RECIPES = 'MORE_RECIPES'
 export const RETRY_RECIPES = 'RETRY_RECIPES'
 
@@ -29,7 +26,7 @@ export const retryRecipes = () => ({
   type: RETRY_RECIPES
 })
 
-// CookingToday
+/** Fridge **/
 export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
 export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
 export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
@@ -53,10 +50,8 @@ export const updateMissingCookingToday = (fridge) => ({
   type: UPDATE_MISSING_COOKING_TODAY,
   fridge
 })
-/**
- * Network governed, independent
- */
-// User data
+
+/** User data **/
 export const REQUEST_USER_DATA = 'REQUEST_USER_DATA'
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA'
 export const SEND_SYNC = 'SEND_SYNC'
@@ -79,7 +74,7 @@ export const ackSync = () => ({
   type: ACK_SYNC
 })
 
-// Display, ready
+/** Display, ready **/
 export const SET_DISPLAY = 'SET_DISPLAY'
 export const SET_READY = 'SET_READY'
 
@@ -92,24 +87,7 @@ export const setReady = () => ({
   type: SET_READY
 })
 
-// Recipe request and receive
-export const REQUEST_RECIPES = 'REQUEST_RECIPES'
-export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
-
-export const requestRecipes = (timestamp) => ({
-  type: REQUEST_RECIPES,
-  timestamp
-})
-
-export const receiveRecipes = (recipes, timestamp) => ({
-  type: RECEIVE_RECIPES,
-  recipes,
-  timestamp
-})
-
-/**
- * Error handler
- */
+/** Error handler **/
 export const HANDLE_ERROR = 'HANDLE_ERROR'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 
