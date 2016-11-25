@@ -47,8 +47,9 @@ export const clearCookingToday = () => ({
   type: CLEAR_COOKING_TODAY
 })
 
-export const updateMissingCookingToday = () => ({
-  type: UPDATE_MISSING_COOKING_TODAY
+export const updateMissingCookingToday = (fridge) => ({
+  type: UPDATE_MISSING_COOKING_TODAY,
+  fridge
 })
 /**
  * Network governed, independent

@@ -79,10 +79,9 @@ function cookingToday(state = defaults.cookingToday, action) {
         contents: newContents
       }
     case TOGGLE_COOKING_TODAY:
-      const index = _.findIndex(state.contents,
-        i => i.id === action.recipe.id)
-      const isExpanded = !state.accordion.isExpanded
-      const newAccordion = { ...state, isExpanded, index }
+      const isExpanded = !state.accordion.isExpanded || state.accordion.id !== action.index
+      const index = action.index
+      const newAccordion = { isExpanded, index }
       return {
         ...state,
         accordion: newAccordion
@@ -93,11 +92,11 @@ function cookingToday(state = defaults.cookingToday, action) {
         contents: []
       }
     case UPDATE_MISSING_COOKING_TODAY:
-      const temp = state.cookingToday.map(recipe => recipe.missedIngredients)
+      const temp = state.contents.map(recipe => recipe.missedIngredients)
       const results = temp.map(function (missed) {
-        return _.differenceBy(missed, state.fridge, 'id')
+        return _.differenceBy(missed, action.fridge, 'id')
       })
-      const newCookingToday = state.cookingToday.map(function (ingredients, i) {
+      const newCookingToday = state.contents.map(function (ingredients, i) {
         ingredients.missedIngredients = results[i]
         return ingredients
       })

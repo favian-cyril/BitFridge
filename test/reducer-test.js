@@ -145,6 +145,52 @@ describe('cooking today', () => {
             id: 1
           }
         ]
+      )
+  })
+  it('should toggle accordion', () => {
+    assert.deepEqual(
+      reducer(
+        {cookingToday: {
+          accordion: {isExpanded: false, index: 1}
+        }},
+        {
+          type: types.TOGGLE_COOKING_TODAY,
+          index: 1
+        }
+      ).cookingToday.accordion,
+      {isExpanded: true, index:1}
     )
+  })
+  it('should clear cooking today', () => {
+    assert.equal(
+      reducer(
+        {cookingToday: {
+          contents: [{name: 'foo', id: 1}]
+        }},
+        {
+          type: types.CLEAR_COOKING_TODAY
+        }
+      ).cookingToday.contents.length, 0
+    )
+  })
+  it('should update the missing today based on fridge', () => {
+    assert.deepEqual(
+      reducer(
+        {
+          cookingToday:{
+          contents: [{missedIngredients: [{id: 1}, {id: 2}]}]
+          }
+        },
+        {
+          type: types.UPDATE_MISSING_COOKING_TODAY,
+          fridge: [{id: 1}]
+        }
+      ).cookingToday.contents, [{missedIngredients: [{id: 2}]}]
+    )
+  })
+})
+describe('userData', () => {
+  it('should able to request user data', () => {
+    
   })
 })
