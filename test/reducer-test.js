@@ -191,6 +191,114 @@ describe('cooking today', () => {
 })
 describe('userData', () => {
   it('should able to request user data', () => {
-    
+    assert.equal(
+      reducer(
+        [],
+        {
+          type: types.REQUEST_USER_DATA,
+        }
+      ).userData.isLoading, true
+    )
+  })
+  it('should receive user data', () => {
+    assert.deepEqual(
+      reducer(
+        {
+          userData: {
+            isLoading: true
+          }
+        },
+        {
+          type: types.RECEIVE_USER_DATA,
+          userData: 'foo'
+        }
+      ).userData, {isLoading: false, user: 'foo'}
+    )
+  })
+  it('should send sync', () => {
+    assert.equal(
+      reducer(
+        {
+          userData: {
+            didInvalidate: false
+          }
+        },
+        {
+          type: types.SEND_SYNC,
+        }
+      ).userData.didInvalidate, true
+    )
+  })
+  it('should ack sync', () => {
+    assert.equal(
+      reducer(
+          {
+            userData: {
+              didInvalidate: true
+            }
+          },
+          {
+            type: types.ACK_SYNC,
+          }
+        ).userData.didInvalidate, false
+    )
+  })
+})
+describe('display', () => {
+  it('should set display', () => {
+    assert.equal(
+      reducer(
+        [],
+        {
+          type: types.SET_DISPLAY,
+          pathname: '/'
+        }
+      ).display, 'index'
+    )
+    assert.equal(
+      reducer(
+        [],
+        {
+          type: types.SET_DISPLAY,
+          pathname: '/dash'
+        }
+      ).display, 'dash'
+    )
+  })
+})
+describe('ready', () => {
+  it('should set ready', () => {
+    assert.equal(
+      reducer([],
+      {
+        type: types.SET_READY,
+      }
+    ).ready, true)
+  })
+})
+describe('errorType', () => {
+  it('should handle error', () => {
+    assert.equal(
+      reducer([],
+        {
+          type: types.HANDLE_ERROR,
+          component: 'fridge',
+          error: 'fooerror'
+        }
+      ).errorType.fridge, 'fooerror'
+    )
+  })
+  it('should clear error', () => {
+    assert.equal(
+      reducer(
+        {
+          errorType: {fridge: 'fooerror'}
+        },
+        {
+          type: types.CLEAR_ERROR,
+          component: 'fridge'
+        }
+      ).errorType.fridge, null
+    )
   })
 })
