@@ -124,19 +124,21 @@ export const clearError = (error, component) => ({
 import { searchResults, fetchUser, syncUser } from './clientapi'
 
 export const fetchRecipes = () => {
-  const timestamp = (new Date()).getTime()
   return (dispatch, getState) => {
     const state = getState()
     const ingredients = state.fridge.contents
     const page = state.recipes.page
-    dispatch(requestRecipes())
-      .then(() => {
-        searchResults(ingredients, page)
-          .then(
-            recipes => dispatch(receiveRecipes(recipes, timestamp)),
-            error => dispatch(handleError(error, 'recipes'))
-          )
-      })
+    if (ingredients.length > 0) {
+      const timestamp = (new Date()).getTime()
+      dispatch(requestRecipes())
+        .then(() => {
+          searchResults(ingredients, page)
+            .then(
+              recipes => dispatch(receiveRecipes(recipes, timestamp)),
+              error => dispatch(handleError(error, 'recipes'))
+            )
+        })
+    }
   }
 }
 
