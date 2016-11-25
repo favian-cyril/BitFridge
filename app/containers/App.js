@@ -8,9 +8,9 @@ import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    // bindings
+    this.mapStoreToUserDataAndSync = this.mapStoreToUserDataAndSync.bind(this)
   }
-  
+
   componentDidMount() {
     const { dispatch, fridge, location } = this.props
     dispatch(actions.fetchUserData())
@@ -19,7 +19,7 @@ export default class App extends React.Component {
         Promise.resolves(fridge.contents.length > 0)
           .then((shouldFetchRecipes) => {
             if (shouldFetchRecipes) {
-              dispatch(actions.fetchRecipes())
+              dispatch(actions.preFetchRecipes())
             }
           })
           .then(() => {
@@ -29,22 +29,50 @@ export default class App extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
+    const { dispatch, fridge, cookingToday } = nextProps
+    const onThreshold = this.props.fridge.contents.length === REDIRECT_INGR_THRESHOLD
+    const shouldTransitionToIndex = fridge.length < REDIRECT_INGR_THRESHOLD && onThreshold
+    const shouldTransitionToDash = fridge.length > REDIRECT_INGR_THRESHOLD && onThreshold
+    const pathname = shouldTransitionToIndex ? '/' : shouldTransitionToDash ? '/dash' : null
+    
+    // Fridge change
     if (this.props.fridge.contents.length !== nextProps.fridge.contents.length) {
-      const { dispatch, fridge } = nextProps
-      // Determine which path the router should transition into and which display should be set
-      const onThreshold = this.props.fridge.contents.length === REDIRECT_INGR_THRESHOLD
-      const shouldTransitionToIndex = fridge.length < REDIRECT_INGR_THRESHOLD && onThreshold
-      const shouldTransitionToDash = fridge.length > REDIRECT_INGR_THRESHOLD && onThreshold
-      const pathname = shouldTransitionToIndex ? '/' : shouldTransitionToDash ? '/dash' : null
-      // Make router transition then set appropriate display
-      Promise.resolves(pathname)
-        .then((pathname) => {
-          browserHistory.push(pathname)
-        })
-        .then(() => {
-          dispatch(actions.setDisplay(pathname))
-        })
+      // Transition between screens
+      if (pathname !== null) {
+        browserHistory.push(pathname)
+      }
+      // Refresh recipes on fridge change, then update missing
+      // ingredients in cookingToday
+      dispatch(actions.refreshRecipes())
+        .then(
+          () => dispatch(actions.updateMissingCookingToday(fridge)),
+          error => dispatch(actions.handleError(error, 'cookingToday'))
+        )
+        .then(
+          () => this.mapStoreToUserDataAndSync(),
+          error => dispatch(actions.handleError(error, 'userData'))
+        )
+        .catch(error => dispatch(actions.handleError(error, 'recipes')))
     }
+    
+    // Location path change
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      dispatch(actions.setDisplay(pathname))
+    }
+   
+    // CookingToday change
+    if (this.props.cookingToday.length !== nextProps.cookingToday.length) {
+      this.mapStoreToUserDataAndSync()
+    } 
+  }
+
+  mapStoreToUserDataAndSync() {
+    const { dispatch, getState, userData } = this.props
+    const { fridge, cookingToday } = getState()
+    const newFridge = fridge.map(f => f.contents)
+    const newCookingToday = cookingToday.map(c => c.contents)
+    const newUserData = { ...userData.user, newFridge, newCookingToday }
+    dispatch(actions.syncUserData(newUserData))
   }
 
   render() {
@@ -53,7 +81,13 @@ export default class App extends React.Component {
         {
           this.state.ready
             ? React.cloneElement(this.props.children, {
-            // props
+            /*
+            * PROPS:
+            * updateFridge, isInFridge,
+            * moreRecipes, retryRecipes
+            * toggleAccordion,
+            * addCookingToday, clearCookingToday
+            */
             })
             : <div className="absolute-center"><Preloader/></div>
         }
