@@ -70,6 +70,8 @@ export default class App extends React.Component {
     const { dispatch, userData } = this.props
     dispatch(actions.syncUserData(userData))
   }
+  
+  
 
   render() {
     return (
@@ -99,3 +101,4 @@ App.propTypes = {
 App.childContextTypes = {
 
 }
+

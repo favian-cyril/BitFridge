@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router'
 import Preloader from '../components/Preloader'
 import {searchResults, fetchUser} from '../clientapi'
 import {REDIRECT_INGR_THRESHOLD} from '../config/constants'
-import anims from '../utils/anims'
+import anims from '../utils/ui'
 
 class MainContainer extends React.Component {
   constructor(props) {

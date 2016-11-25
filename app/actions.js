@@ -184,7 +184,7 @@ export const fetchUserData = () => {
   }
 }
 
-export const mapStateToUserData = () {
+export const mapStateToUserData = () => {
   return (dispatch, getState) => {
     const { fridge, cookingToday, userData } = getState()
     const newFridge = fridge.map(f => f.contents)
@@ -214,11 +214,3 @@ export const syncUserData = userData => {
       })
   }
 }
-
-export const showTooltip = idName, message => ({
-  return dispatch => {
-    const elemId = `#${idName}`
-    window.showTooltip($(elemId))
-    $('.tooltip-inner').last().html(message)
-  }
-})

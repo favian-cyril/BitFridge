@@ -10,8 +10,17 @@ const moreRecipes = () => {
   }
 }
 
-const anims = {
-  moreRecipes
+const showTooltip = (idName, message) => {
+  const elemId = `#${idName}`
+  window.showTooltip($(elemId))
+  $('.tooltip-inner').last().html(message)
 }
 
-export default anims
+export default {
+  tooltips: {
+    showTooltip
+  },
+  anims: {
+    moreRecipes
+  }
+}
