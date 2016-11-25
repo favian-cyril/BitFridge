@@ -13,7 +13,7 @@ const fetchRecipes = () => {
     const state = getState()
     const ingredients = state.fridge.contents
     const page = state.recipes.page
-    dispatch(requestRecipes())
+    dispatch(requestRecipes(timestamp))
       .then(() => {
         searchResults(ingredients, page)
           .then(

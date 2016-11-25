@@ -1,5 +1,5 @@
 /**
- * User interaction governed 
+ * User interaction governed
  */
 // Fridge
 export const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
@@ -31,6 +31,7 @@ export const retryRecipes = () => ({
 export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
 export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
 export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
+export const UPDATE_MISSING_COOKING_TODAY = 'UPDATE_MISSING_COOKING_TODAY'
 
 export const addToCookingToday = recipe => ({
   type: ADD_TO_COOKING_TODAY,
@@ -46,6 +47,9 @@ export const clearCookingToday = () => ({
   type: CLEAR_COOKING_TODAY
 })
 
+export const updateMissingCookingToday = () => ({
+  type: UPDATE_MISSING_COOKING_TODAY
+})
 /**
  * Network governed, independent
  */
@@ -89,8 +93,9 @@ export const setReady = () => ({
 export const REQUEST_RECIPES = 'REQUEST_RECIPES'
 export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 
-export const requestRecipes = () => ({
-  type: REQUEST_RECIPES
+export const requestRecipes = (timestamp) => ({
+  type: REQUEST_RECIPES,
+  timestamp
 })
 
 export const receiveRecipes = (recipes, timestamp) => ({
