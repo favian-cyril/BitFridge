@@ -1,32 +1,33 @@
-const fridge = {
-  contents: [],
-  isLoading: false,
-  errorType: ''
-}
-
-const recipes = {
-  contents: [],
-  page: 1,
-  isLoading: false,
-  errorType: ''
-}
-
-const cookingToday = {
-  contents: [],
-  accordion: {
-    isExpanded: false,
-    index: -1
+export default {
+  ready: false,
+  display: null,
+  fridge: {
+    contents: [],
+    isLoading: false
   },
-  isLoading: false,
-  errorType: ''
+  recipes: {
+    contents: [],
+    page: 1,
+    timestamp: null,
+    isLoading: false
+  },
+  cookingToday: {
+    contents: [],
+    accordion: {
+      isExpanded: false,
+      index: 0
+    },
+    isLoading: false
+  },
+  userData: {
+    isLoading: false,
+    didInvalidate: false,
+    user: null
+  },
+  errorType: {
+    fridge: null,
+    recipes: null,
+    cookingToday: null,
+    userData: null
+  }
 }
-
-const userData = {
-  user: null,
-  isLoading: false,
-  errorType: ''
-}
-
-const defaults = { fridge, recipes, cookingToday, userData }
-
-export default defaults

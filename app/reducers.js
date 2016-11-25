@@ -6,16 +6,17 @@ import {
   ADD_TO_FRIDGE, DEL_FROM_FRIDGE,
   MORE_RECIPES, RETRY_RECIPES,
   ADD_TO_COOKING_TODAY, TOGGLE_COOKING_TODAY, CLEAR_COOKING_TODAY,
-  REQUEST_USER_DATA, RECEIVE_USER_DATA, SYNC_USER_DATA,
+  REQUEST_USER_DATA, RECEIVE_USER_DATA, SEND_SYNC, ACK_SYNC,
   SET_DISPLAY, SET_READY,
   REQUEST_RECIPES, RECEIVE_RECIPES,
-  HANDLE_ERROR
+  HANDLE_ERROR, CLEAR_ERROR
 } from './actions'
 
 function fridge(state = defaults.fridge, action) {
+  let newContents
   switch (action.type) {
     case ADD_TO_FRIDGE:
-      const newContents = [...state.contents, action.ingredient]
+      newContents = [...state.contents, action.ingredient]
       return {
         ...state,
         contents: newContents
@@ -23,7 +24,7 @@ function fridge(state = defaults.fridge, action) {
     case DEL_FROM_FRIDGE:
       const index = _.findIndex(state.contents,
         i => i.id === action.ingredient.id)
-      const newContents = [
+      newContents = [
         ...state.contents.slice(0, index),
         ...state.contents.slice(index + 1)
       ]
@@ -40,16 +41,13 @@ function recipes(state = defaults.recipes, action) {
     case MORE_RECIPES:
       return {
         ...state,
-        page: state.page + 1,
-        timestamp: action.timestamp,
-        isLoading: true
+        page: state.page + 1
       }
     case RETRY_RECIPES:
       return {
         ...state,
         contents: [],
-        timestamp: action.timestamp,
-        isLoading: true
+        page: 1
       }
     case REQUEST_RECIPES:
       return {
@@ -111,11 +109,21 @@ function userData(state = defaults.userData, action) {
         isLoading: false,
         user: action.userData
       }
+    case SEND_SYNC:
+      return {
+        ...state,
+        didInvalidate: true
+      }
+    case ACK_SYNC:
+      return {
+        ...state,
+        didInvalidate: false
+      }
     default: return state
   }
 }
 
-function display(state = { display: null, ready: false }, action) {
+function display(state = null, action) {
   switch (action.type) {
     case SET_DISPLAY:
       let display
@@ -124,14 +132,30 @@ function display(state = { display: null, ready: false }, action) {
       } else if (action.pathname === '/dash') {
         display = 'dash'
       }
-      return {
-        ...state,
-        display
-      }
+      return display
+    default: return state
+  }
+}
+
+function ready(state = false, action) {
+  switch (action.type) {
     case SET_READY:
+      return true
+    default: return state
+  }
+}
+
+function errorType(state = defaults.errorType, action) {
+  switch (action.type) {
+    case HANDLE_ERROR:
       return {
         ...state,
-        ready: true
+        [action.component]: action.error
+      }
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        [action.component]: null
       }
     default: return state
   }
@@ -142,7 +166,9 @@ const rootReducer = combineReducers({
   recipes,
   cookingToday,
   userData,
-  display
+  display,
+  ready,
+  errorType
 })
 
 export default rootReducer
