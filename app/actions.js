@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 /**
  * User interaction governed
  */
@@ -212,3 +214,11 @@ export const syncUserData = userData => {
       })
   }
 }
+
+export const showTooltip = idName, message => ({
+  return dispatch => {
+    const elemId = `#${idName}`
+    window.showTooltip($(elemId))
+    $('.tooltip-inner').last().html(message)
+  }
+})
