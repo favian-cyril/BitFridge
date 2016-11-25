@@ -182,11 +182,29 @@ export const fetchUserData = () => {
   }
 }
 
+export const mapStateToUserData = () {
+  return (dispatch, getState) => {
+    const { fridge, cookingToday, userData } = getState()
+    const newFridge = fridge.map(f => f.contents)
+    const newCookingToday = cookingToday.map(c => c.contents)
+    const newUser = {
+      ...userData.user,
+      fridge: newFridge,
+      cookingToday: newCookingToday
+    }
+    dispatch(receiveUserData(newUser))
+      .catch((error) => dispatch(handleError(error, 'userData')))
+  }
+}
+
 export const syncUserData = userData => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    let user = userData.user
     dispatch(sendSync())
+      .then(dispatch(mapStateToUserData()))
       .then(() => {
-        syncUser(userData)
+        user = getState().userData.user
+        syncUser(user)
           .then(
             () => dispatch(ackSync()),
             error => dispatch(handleError(error, 'userData'))

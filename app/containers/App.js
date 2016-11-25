@@ -8,7 +8,7 @@ import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.mapStoreToUserDataAndSync = this.mapStoreToUserDataAndSync.bind(this)
+    this.syncUser = this.syncUser.bind(this)
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ export default class App extends React.Component {
           error => dispatch(actions.handleError(error, 'cookingToday'))
         )
         .then(
-          () => this.mapStoreToUserDataAndSync(),
+          () => this.syncUser(),
           error => dispatch(actions.handleError(error, 'userData'))
         )
         .catch(error => dispatch(actions.handleError(error, 'recipes')))
@@ -62,17 +62,13 @@ export default class App extends React.Component {
    
     // CookingToday change
     if (this.props.cookingToday.length !== nextProps.cookingToday.length) {
-      this.mapStoreToUserDataAndSync()
+      this.syncUser()
     } 
   }
 
-  mapStoreToUserDataAndSync() {
-    const { dispatch, getState, userData } = this.props
-    const { fridge, cookingToday } = getState()
-    const newFridge = fridge.map(f => f.contents)
-    const newCookingToday = cookingToday.map(c => c.contents)
-    const newUserData = { ...userData.user, newFridge, newCookingToday }
-    dispatch(actions.syncUserData(newUserData))
+  syncUser() {
+    const { dispatch, userData } = this.props
+    dispatch(actions.syncUserData(userData))
   }
 
   render() {
