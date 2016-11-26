@@ -5,8 +5,7 @@ const Ingredient = (props) => {
   const imageURL = imgBaseURL + props.ingredient.image
   const name = props.ingredient.name
   const dataPlacement = (props.display === 'index') ? 'right' : 'left'
-  const iconClass = !props.isLoading ? 'fa-plus btn-add-icon' : 'fa-spinner fa-pulse btn-loading'
-  const buttonClass = props.isAdded && !props.isLoading ? 'added' : ''
+  const buttonClass = props.isAdded ? 'added' : ''
   const tooltipClass = props.success ? 'success' : 'failure'
   const tooltipHTML = '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>' +
     `<div class="tooltip-inner ${tooltipClass}"></div></div>`
@@ -30,7 +29,6 @@ const Ingredient = (props) => {
           data-placement={dataPlacement}
           data-template={tooltipHTML}
         >
-          <i className={`fa fa-2x ${iconClass}`}/>
         </button>
       </div>
     </li>
@@ -38,13 +36,11 @@ const Ingredient = (props) => {
 }
 
 Ingredient.propTypes = {
-  isLoading: React.PropTypes.bool.isRequired,
   isAdded: React.PropTypes.bool.isRequired,
   ingredient: React.PropTypes.shape({
     name: React.PropTypes.string.isRequired,
     image: React.PropTypes.string.isRequired
   }).isRequired,
-  success: React.PropTypes.bool.isRequired,
   idName: React.PropTypes.string.isRequired,
   message: React.PropTypes.string,
   handleToggle: React.PropTypes.func.isRequired,

@@ -18,6 +18,17 @@ export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
 export const MORE_RECIPES = 'MORE_RECIPES'
 export const RETRY_RECIPES = 'RETRY_RECIPES'
 
+export const requestRecipes = (timestamp) => ({
+  type: REQUEST_RECIPES,
+  timestamp
+})
+
+export const receiveRecipes = (recipes, timestamp) => ({
+  type: RECEIVE_RECIPES,
+  recipes,
+  timestamp
+})
+
 export const moreRecipes = () => ({
   type: MORE_RECIPES
 })
@@ -57,13 +68,15 @@ export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA'
 export const SEND_SYNC = 'SEND_SYNC'
 export const ACK_SYNC = 'ACK_SYNC'
 
-export const requestUserData = () => ({
-  type: REQUEST_USER_DATA
+export const requestUserData = timestamp => ({
+  type: REQUEST_USER_DATA,
+  timestamp
 })
 
-export const receiveUserData = userData => ({
+export const receiveUserData = (userData, timestamp) => ({
   type: RECEIVE_USER_DATA,
-  userData
+  userData,
+  timestamp
 })
 
 export const sendSync = () => ({
@@ -116,14 +129,12 @@ export const preFetchRecipes = () => {
     const page = state.recipes.page
     if (ingredients.length > 0) {
       const timestamp = (new Date()).getTime()
-      dispatch(requestRecipes())
-        .then(() => {
-          searchResults(ingredients, page)
-            .then(
-              recipes => dispatch(receiveRecipes(recipes, timestamp)),
-              error => dispatch(handleError(error, 'recipes'))
-            )
-        })
+      dispatch(requestRecipes(timestamp))
+      searchResults(ingredients, page)
+        .then(
+          recipes => dispatch(receiveRecipes(recipes, timestamp)),
+          error => dispatch(handleError(error, 'recipes'))
+        )
     }
   }
 }
@@ -131,9 +142,7 @@ export const preFetchRecipes = () => {
 export const fetchMoreRecipes = () => {
   return dispatch => {
     dispatch(moreRecipes())
-      .then(() => {
-        dispatch(preFetchRecipes())
-      })
+    dispatch(preFetchRecipes())
   }
 }
 
@@ -141,24 +150,21 @@ export const refreshRecipes = () => {
   return (dispatch, getState) => {
     const lastPage = getState().recipes.page
     dispatch(retryRecipes())
-      .then(() => {
-        while (getState().recipes.page <= lastPage) {
-          dispatch(fetchMoreRecipes())
-        }
-      })
+    while (getState().recipes.page <= lastPage) {
+      dispatch(fetchMoreRecipes())
+    }
   }
 }
 
 export const fetchUserData = () => {
   return dispatch => {
-    dispatch(requestUserData())
-      .then(() => {
-        fetchUser()
-          .then(
-            userData => dispatch(receiveUserData(userData)),
-            error => dispatch(handleError(error, 'userData'))
-          )
-      })
+    const timestamp = (new Date()).getTime()
+    dispatch(requestUserData(timestamp))
+    fetchUser()
+      .then(
+        userData => dispatch(receiveUserData(userData, timestamp)),
+        error => dispatch(handleError(error, 'userData'))
+      )
   }
 }
 
@@ -179,16 +185,13 @@ export const mapStateToUserData = () => {
 
 export const syncUserData = userData => {
   return (dispatch, getState) => {
-    let user = userData.user
     dispatch(sendSync())
-      .then(dispatch(mapStateToUserData()))
-      .then(() => {
-        user = getState().userData.user
-        syncUser(user)
-          .then(
-            () => dispatch(ackSync()),
-            error => dispatch(handleError(error, 'userData'))
-          )
-      })
+    dispatch(mapStateToUserData())
+    const user = getState().userData.user
+    syncUser(user)
+      .then(
+        () => dispatch(ackSync()),
+        error => dispatch(handleError(error, 'userData'))
+      )
   }
 }

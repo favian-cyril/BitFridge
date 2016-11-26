@@ -41,7 +41,7 @@ const Dashboard = (props, context) => (
             <CookingTodayList
               title="Cooking Today"
               cookingToday={context.cookingToday}
-              toggleAccordion={props.toggleAccordion}
+              toggleAccordion={props.toggleCookingToday}
               isExpanded={props.isExpanded}
               clearCookToday={props.clearCookToday}
             />
