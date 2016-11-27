@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router'
 import Preloader from '../components/Preloader'
 import {searchResults, fetchUser} from '../clientapi'
 import {REDIRECT_INGR_THRESHOLD} from '../config/constants'
-import anims from '../utils/anims'
+import anims from '../utils/ui'
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class MainContainer extends React.Component {
     this.moreRecipes = this.moreRecipes.bind(this)
     this.retryRecipes = this.retryRecipes.bind(this)
     this.handleError = this.handleError.bind(this)
-    this.toggleAccordion = this.toggleAccordion.bind(this)
+    this.toggleCookingToday = this.toggleCookingToday.bind(this)
     this.fetchCookingToday = this.fetchCookingToday.bind(this)
     this.addCookingToday = this.addCookingToday.bind(this)
     this.clearCookingToday = this.clearCookingToday.bind(this)
@@ -331,7 +331,7 @@ class MainContainer extends React.Component {
             isLoading: this.state.isLoading,
             errorType: this.state.errorType,
             user: this.state.user,
-            toggleAccordion: this.toggleAccordion,
+            toggleAccordion: this.toggleCookingToday,
             isExpanded: this.state.isExpanded,
             addCookingToday: this.addCookingToday,
             clearCookingToday: this.clearCookingToday

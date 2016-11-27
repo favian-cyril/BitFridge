@@ -16,7 +16,7 @@ const CookingToday = (props) => {
 
   return (
     <div>
-      <button className={`accordion ${accordionClass}`} onClick={() => {props.toggleAccordion(props.id)}} id={props.id}>
+      <button className={`accordion ${accordionClass}`} onClick={() => {props.toggleCookingToday(props.id)}} id={props.id}>
         <span className={`fa ${caretClass}`}></span>
         <a
           href={props.recipe.sourceUrl}

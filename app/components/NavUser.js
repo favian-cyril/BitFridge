@@ -3,7 +3,8 @@ import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 import { syncUser } from '../clientapi'
 
 const NavUser = (props, context) => {
-  const placement = (context.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
+  console.log({ props, context })
+  const placement = (props.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">
@@ -12,9 +13,6 @@ const NavUser = (props, context) => {
         </a>
         <a className="btn btn-google" href="/login/google">
           <span className="fa fa-google"></span>
-        </a>
-        <a className="btn btn-secondary" onClick={() => syncUser(props.user)}>
-          Test sync user
         </a>
       </div>
     </Popover>
@@ -61,10 +59,6 @@ NavUser.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string
   }).isRequired
-}
-
-NavUser.contextTypes = {
-  display: React.PropTypes.oneOf(['index', 'dash'])
 }
 
 export default NavUser

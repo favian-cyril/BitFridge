@@ -18,7 +18,7 @@ const CookingTodayList = (props) => (
         key={i}
         id={i}
         recipe={item}
-        toggleAccordion={props.toggleAccordion}
+        toggleAccordion={props.toggleCookingToday}
         isExpanded={props.isExpanded}
       />
       ))

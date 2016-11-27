@@ -4,7 +4,7 @@ import {mount, shallow} from 'enzyme'
 import {assert} from 'chai'
 import clientapi from '../app/clientapi'
 import * as router from 'react-router'
-import anims from '../app/utils/anims'
+import anims from '../app/utils/ui'
 import sinonStubPromise from 'sinon-stub-promise'
 import SearchContainer from '../app/containers/SearchContainer'
 //TODO: change MainContainer to App

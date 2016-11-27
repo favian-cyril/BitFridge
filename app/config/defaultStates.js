@@ -22,6 +22,7 @@ export default {
   userData: {
     isLoading: false,
     didInvalidate: false,
+    timestamp: null,
     user: null
   },
   errorType: {

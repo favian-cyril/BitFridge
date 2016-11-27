@@ -5,7 +5,7 @@ import rootReducer from './reducers'
 
 const logger = createLogger()
 
-const store = (preloadedStore) => createStore(
+const store = createStore(
   rootReducer,
   applyMiddleware(thunk, logger)
 )

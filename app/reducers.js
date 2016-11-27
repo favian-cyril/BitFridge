@@ -113,13 +113,18 @@ function userData(state = defaults.userData, action) {
     case REQUEST_USER_DATA:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        timestamp: action.timestamp
       }
     case RECEIVE_USER_DATA:
-      return {
-        ...state,
-        isLoading: false,
-        user: action.userData
+      if (action.timestamp === state.timestamp) {
+        return {
+          ...state,
+          isLoading: false,
+          user: action.userData.user
+        }
+      } else {
+        return state
       }
     case SEND_SYNC:
       return {
