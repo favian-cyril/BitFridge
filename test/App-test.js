@@ -8,7 +8,7 @@ import anims from '../app/utils/anims'
 import sinonStubPromise from 'sinon-stub-promise'
 import SearchContainer from '../app/containers/SearchContainer'
 //TODO: change MainContainer to App
-import MainContainer from '../app/containers/MainContainer'
+import MainContainer from '../app/containers/App'
 import Preloader from '../app/components/Preloader'
 import Index from '../app/components/Index'
 import Dashboard from '../app/components/Dashboard'

@@ -1,3 +1,7 @@
 import {assert} from 'chai'
-import reducer from '../app/reducers'
 import * as types from '../app/actions'
+import sinon from 'sinon'
+
+describe('preFetchRecipes', () => {
+  it('should ')
+})
