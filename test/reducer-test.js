@@ -201,18 +201,22 @@ describe('userData', () => {
     )
   })
   it('should receive user data', () => {
+    var timestamp = (new Date()).getTime()
     assert.deepEqual(
       reducer(
         {
           userData: {
-            isLoading: true
+            isLoading: true,
+            user: null,
+            timestamp: timestamp
           }
         },
         {
           type: types.RECEIVE_USER_DATA,
-          userData: 'foo'
+          userData: {user: 'foo'},
+          timestamp: timestamp
         }
-      ).userData, {isLoading: false, user: 'foo'}
+      ).userData, {isLoading: false, user: 'foo', timestamp: timestamp}
     )
   })
   it('should send sync', () => {

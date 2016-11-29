@@ -45,7 +45,7 @@ export const moreRecipes = () => ({
 })
 
 export const resetRecipes = () => ({
-  type: constants.RETRY_RECIPES
+  type: constants.RESET_RECIPES
 })
 
 /** Cooking today **/

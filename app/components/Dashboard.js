@@ -16,10 +16,7 @@ const Dashboard = (props, context) => (
         </div>
         <div className="col-xs-4 offset-xs-2 search-bar-fix">
           <div className="container">
-            <SearchContainer
-              updateFridge={props.updateFridge}
-              isInFridge={props.isInFridge}
-            />
+            <SearchContainer/>
           </div>
         </div>
         <NavUser user={props.user}/>
@@ -31,16 +28,15 @@ const Dashboard = (props, context) => (
           <div className="row">
             <Fridge
               title="My Fridge"
-              contents={context.fridge}
+              contents={props.fridge.context}
               updateFridge={props.updateFridge}
-              isInFridge={props.isInFridge}
               errorType={props.errorType.fridge}
             />
           </div>
           <div className="row">
             <CookingTodayList
               title="Cooking Today"
-              cookingToday={context.cookingToday}
+              cookingToday={props.cookingToday}
               toggleAccordion={props.toggleCookingToday}
               isExpanded={props.isExpanded}
               clearCookToday={props.clearCookToday}
@@ -65,11 +61,10 @@ const Dashboard = (props, context) => (
 
 Dashboard.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
-  toggleAccordion: React.PropTypes.func.isRequired,
+  toggleCookingToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   isExpanded: React.PropTypes.shape({
     expand: React.PropTypes.bool.isRequired,
@@ -89,21 +84,15 @@ Dashboard.propTypes = {
 // Default props for cloned children
 Dashboard.defaultProps = {
   updateFridge: () => {},
-  isInFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
   addCookToday: () => {},
-  toggleAccordion: () => {},
+  toggleCookingToday: () => {},
   clearCookToday: () => {},
   isLoading: false,
   isExpanded: {expand:false, id:0},
   user: {}
 }
 
-Dashboard.contextTypes = {
-  fridge: React.PropTypes.arrayOf(React.PropTypes.object),
-  recipes: React.PropTypes.arrayOf(React.PropTypes.object),
-  cookingToday: React.PropTypes.arrayOf(React.PropTypes.object)
-}
 
 export default Dashboard
