@@ -32,8 +32,7 @@ Fridge.propTypes = {
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
-  updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired
+  updateFridge: React.PropTypes.func.isRequired
 }
 
 Fridge.defaultProps = {

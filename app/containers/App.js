@@ -35,9 +35,7 @@ class App extends React.Component {
       Promise.all([
         refreshRecipes(),
         updateMissingCookingToday()
-      ]).then(
-        syncUserData()
-      )
+      ])
     }
     if (this.hasChanged(this.props.cookingToday, nextProps.cookingToday)) {
       syncUserData()
@@ -50,7 +48,7 @@ class App extends React.Component {
   hasChanged(obj, nextObj) {
     return (obj !== undefined && obj.contents.length !== nextObj.contents.length)
   }
-  
+
   render() {
     const { ready } = this.props
     const children = ready

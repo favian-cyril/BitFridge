@@ -13,7 +13,7 @@ const CookingTodayList = (props) => (
     </div>
     <div className="list-wrapper">
     {
-      props.cookingToday.map((item, i) => (
+      props.cookingToday.contents.map((item, i) => (
       <CookingToday
         key={i}
         id={i}
@@ -49,9 +49,7 @@ const CookingTodayList = (props) => (
 
 CookingTodayList.propTypes = {
   title: React.PropTypes.string.isRequired,
-  cookingToday: React.PropTypes.arrayOf(
-    React.PropTypes.object
-  ).isRequired,
+  cookingToday: React.PropTypes.object.isRequired,
   toggleAccordion: React.PropTypes.func.isRequired,
   clearCookToday: React.PropTypes.func.isRequired,
   isExpanded: React.PropTypes.shape({
