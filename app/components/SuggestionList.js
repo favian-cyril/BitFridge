@@ -1,9 +1,9 @@
 import React from 'react'
-import IngredientContainer from '../containers/IngredientContainer'
+import Ingredient from '../components/Ingredient'
 import Preloader from '../components/Preloader'
 import Error from '../components/Error'
 
-const SuggestionList = (props) => {
+const SuggestionList = props => {
   let results
   const status = (props.isFocused && props.searchText.length > 1) ? 'open' : ''
   if (props.isLoading) {
@@ -39,18 +39,16 @@ const SuggestionList = (props) => {
         />
       </div>
     )
-  } else if (props.errorType === '' && props.suggestionResults.length) {
+  } else if (props.errorType === null && props.suggestionResults.length) {
     results = (
       <ul className="media-list dropdown-menu">
         {
           props.suggestionResults.map((item, i) => (
-            <IngredientContainer
+            <Ingredient
               key={i}
               ingredient={item}
               idName={`ingr_${i}`}
               parent={'search'}
-              updateFridge={props.updateFridge}
-              isInFridge={props.isInFridge}
             />
           ))
         }
@@ -71,9 +69,7 @@ SuggestionList.propTypes = {
   errorType: React.PropTypes.string,
   suggestionResults: React.PropTypes.arrayOf(
     React.PropTypes.object
-  ).isRequired,
-  updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired
+  ).isRequired
 }
 
 export default SuggestionList

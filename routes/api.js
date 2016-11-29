@@ -37,6 +37,9 @@ router.get('/recipes/results', function (req, res, next) {
 
 router.get('/user/data', function (req, res, next) {
   if (req.session.user) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache')
     res.json({ user: req.session.user })
   } else {
     res.status(404).end()

@@ -1,6 +1,15 @@
 export default {
   ready: false,
   display: null,
+  shouldTransition: false,
+  message: null,
+  search: {
+    contents: [],
+    searchText: '',
+    isFocused: false,
+    isLoading: false,
+    timestamp: null
+  },
   fridge: {
     contents: [],
     isLoading: false
@@ -26,6 +35,7 @@ export default {
     user: null
   },
   errorType: {
+    search: null,
     fridge: null,
     recipes: null,
     cookingToday: null,

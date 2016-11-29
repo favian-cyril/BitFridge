@@ -1,128 +1,146 @@
-/** Fridge **/
-export const ADD_TO_FRIDGE = 'ADD_TO_FRIDGE'
-export const DEL_FROM_FRIDGE = 'DEL_FROM_FRIDGE'
+import { find } from 'lodash'
+import constants from './constants'
 
-export const addToFridge = ingredient => ({
-  type: ADD_TO_FRIDGE,
+/** SEARCH **/
+export const updateSearchText = searchText => ({
+  type: constants.UPDATE_SEARCH_TEXT,
+  searchText
+})
+
+export const requestSearch = timestamp => ({
+  type: constants.REQUEST_SEARCH,
+  timestamp
+})
+
+export const receiveSearch = (suggestions, timestamp) => ({
+  type: constants.RECEIVE_SEARCH,
+  suggestions,
+  timestamp
+})
+
+export const toggleFocus = () => ({
+  type: constants.TOGGLE_FOCUS
+})
+
+/** FRIDGE **/
+export const toggleAddDelete = ingredient => ({
+  type: constants.TOGGLE_ADD_DELETE,
   ingredient
 })
 
-export const delFromFridge = ingredient => ({
-  type: DEL_FROM_FRIDGE,
-  ingredient
-})
-
-/** Recipes **/
-export const REQUEST_RECIPES = 'REQUEST_RECIPES'
-export const RECEIVE_RECIPES = 'RECEIVE_RECIPES'
-export const MORE_RECIPES = 'MORE_RECIPES'
-export const RETRY_RECIPES = 'RETRY_RECIPES'
-
-export const requestRecipes = (timestamp) => ({
-  type: REQUEST_RECIPES,
+/** RECIPES **/
+export const requestRecipes = timestamp => ({
+  type: constants.REQUEST_RECIPES,
   timestamp
 })
 
 export const receiveRecipes = (recipes, timestamp) => ({
-  type: RECEIVE_RECIPES,
+  type: constants.RECEIVE_RECIPES,
   recipes,
   timestamp
 })
 
 export const moreRecipes = () => ({
-  type: MORE_RECIPES
+  type: constants.MORE_RECIPES
 })
 
 export const retryRecipes = () => ({
-  type: RETRY_RECIPES
+  type: constants.RETRY_RECIPES
 })
 
-/** Fridge **/
-export const ADD_TO_COOKING_TODAY = 'ADD_TO_COOKING_TODAY'
-export const TOGGLE_COOKING_TODAY = 'TOGGLE_COOKING_TODAY'
-export const CLEAR_COOKING_TODAY = 'CLEAR_COOKING_TODAY'
-export const UPDATE_MISSING_COOKING_TODAY = 'UPDATE_MISSING_COOKING_TODAY'
-
+/** Cooking today **/
 export const addToCookingToday = recipe => ({
-  type: ADD_TO_COOKING_TODAY,
+  type: constants.ADD_TO_COOKING_TODAY,
   recipe
 })
 
 export const toggleCookingToday = index => ({
-  type: TOGGLE_COOKING_TODAY,
+  type: constants.TOGGLE_COOKING_TODAY,
   index
 })
 
 export const clearCookingToday = () => ({
-  type: CLEAR_COOKING_TODAY
+  type: constants.CLEAR_COOKING_TODAY
 })
 
 export const updateMissingCookingToday = (fridge) => ({
-  type: UPDATE_MISSING_COOKING_TODAY,
+  type: constants.UPDATE_MISSING_COOKING_TODAY,
   fridge
 })
 
 /** User data **/
-export const REQUEST_USER_DATA = 'REQUEST_USER_DATA'
-export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA'
-export const SEND_SYNC = 'SEND_SYNC'
-export const ACK_SYNC = 'ACK_SYNC'
-
 export const requestUserData = timestamp => ({
-  type: REQUEST_USER_DATA,
+  type: constants.REQUEST_USER_DATA,
   timestamp
 })
 
 export const receiveUserData = (userData, timestamp) => ({
-  type: RECEIVE_USER_DATA,
+  type: constants.RECEIVE_USER_DATA,
   userData,
   timestamp
 })
 
 export const sendSync = () => ({
-  type: SEND_SYNC
+  type: constants.SEND_SYNC
 })
 
 export const ackSync = () => ({
-  type: ACK_SYNC
+  type: constants.ACK_SYNC
 })
 
-/** Display, ready **/
-export const SET_DISPLAY = 'SET_DISPLAY'
-export const SET_READY = 'SET_READY'
-
-export const setDisplay = pathname => ({
-  type: SET_DISPLAY,
-  pathname
+/** DISPLAY, READY **/
+export const transitionDisplay = () => ({
+  type: constants.TRANSITION_DISPLAY
 })
 
 export const setReady = () => ({
-  type: SET_READY
+  type: constants.SET_READY
 })
 
-/** Error handler **/
-export const HANDLE_ERROR = 'HANDLE_ERROR'
-export const CLEAR_ERROR = 'CLEAR_ERROR'
-
+/** ERROR HANDLER **/
 export const handleError = (error, component) => ({
-  type: HANDLE_ERROR,
+  type: constants.HANDLE_ERROR,
   error,
   component
 })
 
 export const clearError = (error, component) => ({
-  type: HANDLE_ERROR,
+  type: constants.HANDLE_ERROR,
   error,
   component
 })
 
-/**
- * Asynchronous thunks
- */
+/** ASYNCHRONOUS THUNKS **/
+import { searchIngredients, searchResults, fetchUser, syncUser } from './clientapi'
 
-import { searchResults, fetchUser, syncUser } from './clientapi'
+export const fetchSuggestions = () => {
+  return (dispatch, getState) => {
+    const state = getState()
+    const fridge = state.fridge.contents
+    const searchText = state.search.searchText.trim()
+    if (searchText.length > 0) {
+      const timestamp = (new Date()).getTime()
+      dispatch(requestSearch(timestamp))
+      return searchIngredients(searchText)
+        .then(
+          suggestions => {
+            const suggestionsWithAdded = suggestions.map(
+              suggestion => ({
+                ...suggestion,
+                isAdded: find(fridge, { id: suggestion.id }) !== undefined
+              })
+            )
+            return dispatch(receiveSearch(suggestionsWithAdded, timestamp))
+          },
+          error => dispatch(handleError(error, 'search'))
+        )
+    } else {
+      return Promise.resolve()
+    }
+  }
+}
 
-export const preFetchRecipes = () => {
+export const fetchRecipes = () => {
   return (dispatch, getState) => {
     const state = getState()
     const ingredients = state.fridge.contents
@@ -130,11 +148,13 @@ export const preFetchRecipes = () => {
     if (ingredients.length > 0) {
       const timestamp = (new Date()).getTime()
       dispatch(requestRecipes(timestamp))
-      searchResults(ingredients, page)
+      return searchResults(ingredients, page)
         .then(
           recipes => dispatch(receiveRecipes(recipes, timestamp)),
           error => dispatch(handleError(error, 'recipes'))
         )
+    } else {
+      return Promise.resolve()
     }
   }
 }
@@ -142,7 +162,7 @@ export const preFetchRecipes = () => {
 export const fetchMoreRecipes = () => {
   return dispatch => {
     dispatch(moreRecipes())
-    dispatch(preFetchRecipes())
+    dispatch(fetchRecipes())
   }
 }
 
@@ -152,6 +172,7 @@ export const refreshRecipes = () => {
     dispatch(retryRecipes())
     while (getState().recipes.page <= lastPage) {
       dispatch(fetchMoreRecipes())
+      dispatch()
     }
   }
 }
@@ -160,7 +181,7 @@ export const fetchUserData = () => {
   return dispatch => {
     const timestamp = (new Date()).getTime()
     dispatch(requestUserData(timestamp))
-    fetchUser()
+    return fetchUser()
       .then(
         userData => dispatch(receiveUserData(userData, timestamp)),
         error => dispatch(handleError(error, 'userData'))
@@ -183,7 +204,7 @@ export const mapStateToUserData = () => {
   }
 }
 
-export const syncUserData = userData => {
+export const syncUserData = () => {
   return (dispatch, getState) => {
     dispatch(sendSync())
     dispatch(mapStateToUserData())
@@ -193,5 +214,15 @@ export const syncUserData = userData => {
         () => dispatch(ackSync()),
         error => dispatch(handleError(error, 'userData'))
       )
+  }
+}
+
+export const initialSetup = () => {
+  return dispatch => {
+    Promise.all([
+      dispatch(fetchUserData()),
+      dispatch(transitionDisplay()),
+      dispatch(fetchRecipes())
+    ]).then(dispatch(setReady()))
   }
 }
