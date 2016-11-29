@@ -189,23 +189,24 @@ export const fetchUserData = () => {
 export const mapStateToUserData = () => {
   return (dispatch, getState) => {
     const { fridge, cookingToday, userData } = getState()
-    const newFridge = fridge.map(f => f.contents)
-    const newCookingToday = cookingToday.map(c => c.contents)
+    const newFridge = fridge.contents.map(f => f.contents)
+    const newCookingToday = cookingToday.contents.map(c => c.contents)
+    const timestamp = (new Date()).getTime()
     const newUser = {
       ...userData.user,
       fridge: newFridge,
       cookingToday: newCookingToday
     }
-    dispatch(receiveUserData(newUser))
-      .catch((error) => dispatch(handleError(error, 'userData')))
+    dispatch(receiveUserData(newUser, timestamp))
   }
 }
-
+/**TODO: end this suffering. User always empty even though mapStateToUserData success **/
 export const syncUserData = () => {
   return (dispatch, getState) => {
-    dispatch(sendSync())
     dispatch(mapStateToUserData())
     const user = getState().userData.user
+    console.log(user)
+    dispatch(sendSync())
     syncUser(user)
       .then(
         () => dispatch(ackSync()),

@@ -19,6 +19,7 @@ userSchema.methods.addToFridge = function (ingredient, cb) {
 }
 
 userSchema.methods.syncUser = function (user, cb) {
+  console.log(user)
   this.constructor.update({ id: this.id }, user, cb)
 }
 

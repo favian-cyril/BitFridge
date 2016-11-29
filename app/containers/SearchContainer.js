@@ -3,14 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import SearchBar from '../components/SearchBar'
-import SuggestionList from '../components/SearchResults'
+import SearchResults from '../components/SearchResults'
 import * as actionCreators from '../actions'
 
 class SearchContainer extends React.Component {
   constructor(props) {
     super(props)
     this.handleInput = this.handleInput.bind(this)
-    this.handleInput = _.debounce(this.handleInput, 300)
+    this.handleInput = _.debounce(this.handleInput, 300) 
   }
 
   handleInput() {
@@ -30,7 +30,7 @@ class SearchContainer extends React.Component {
           />
         </div>
         <div className="row">
-          <SuggestionList
+          <SearchResults
             searchText={this.props.searchText}
             isFocused={this.props.isFocused}
             isLoading={this.props.isLoading}

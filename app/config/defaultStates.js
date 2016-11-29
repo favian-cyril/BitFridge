@@ -33,7 +33,7 @@ export default {
     isLoading: false,
     didInvalidate: false,
     timestamp: null,
-    user: null
+    user: {fridge: [], cookingToday: []}
   },
   errorType: {
     search: '',

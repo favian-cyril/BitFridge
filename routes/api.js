@@ -48,16 +48,20 @@ router.get('/user/data', function (req, res, next) {
 
 router.post('/user/sync', function (req, res, next) {
   const userData = req.body
+  console.log(req.body)
   User.findOne({ id: req.session.user.id }, function (err, user) {
     if (!err) {
       user.syncUser(userData, function (err, status) {
         if (!err && status.ok) {
+          console.log('MAU LU APA')
           res.status(200).end()
         } else {
+          console.log(status)
           next(err)
         }
       })
     } else {
+      console.log('USER LO MANA')
       next(err)
     }
   })
