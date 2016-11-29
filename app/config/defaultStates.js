@@ -36,10 +36,10 @@ export default {
     user: null
   },
   errorType: {
-    search: null,
-    fridge: null,
-    recipes: null,
-    cookingToday: null,
-    userData: null
+    search: '',
+    fridge: '',
+    recipes: '',
+    cookingToday: '',
+    userData: ''
   }
 }
