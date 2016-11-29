@@ -39,7 +39,7 @@ const SuggestionList = props => {
         />
       </div>
     )
-  } else if (props.errorType === null && props.suggestionResults.length) {
+  } else if (!props.errorType && props.suggestionResults.length) {
     results = (
       <ul className="media-list dropdown-menu">
         {
