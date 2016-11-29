@@ -1,6 +1,7 @@
 export default {
   ready: false,
-  display: null,
+  display: 'index',
+  pathname: null,
   shouldTransition: false,
   message: null,
   search: {

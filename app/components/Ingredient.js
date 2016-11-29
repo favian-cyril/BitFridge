@@ -25,7 +25,7 @@ const Ingredient = (props) => {
       <div className="media-right media-middle">
         <button
           id={props.idName}
-          onClick={props.toggleAddDelete(props.ingredient)}
+          onClick={() => { props.toggleAddDelete(props.ingredient) }}
           className={`btn btn-default btn-add ${buttonClass}`}
           title={props.message}
           data-placement={dataPlacement}
@@ -46,9 +46,10 @@ Ingredient.propTypes = {
     isAdded: React.PropTypes.bool.isRequired
   }).isRequired,
   idName: React.PropTypes.string.isRequired,
+  parent: React.PropTypes.oneOf(['search', 'fridge']),
   message: React.PropTypes.string,
-  toggleAddDelete: React.PropTypes.func.isRequired,
   display: React.PropTypes.oneOf(['index', 'dash']),
+  toggleAddDelete: React.PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
