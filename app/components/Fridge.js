@@ -1,5 +1,5 @@
 import React from 'react'
-import IngredientContainer from '../containers/IngredientContainer'
+import Ingredient from '../components/Ingredient'
 
 const Fridge = props => (
   <div className="card">
@@ -13,13 +13,11 @@ const Fridge = props => (
       <ul className="media-list">
         {
           props.contents.map((item, i) => (
-            <IngredientContainer
+            <Ingredient
               key={i}
+              ingredient={item}
               idName={`ingr_${i}`}
               parent={'fridge'}
-              ingredient={item}
-              updateFridge={props.updateFridge}
-              isInFridge={props.isInFridge}
             />
             )
           )

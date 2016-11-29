@@ -103,7 +103,7 @@ function reducer(state = defaults, action) {
       newRecipes = { ...state.recipes, page: state.recipes.page + 1 }
       return { ...state, recipes: newRecipes }
 
-    case constants.RETRY_RECIPES:
+    case constants.RESET_RECIPES:
       newRecipes = { ...state.recipes, contents: [], page: 1 }
       return { ...state, recipes: newRecipes }
 
@@ -166,6 +166,7 @@ function reducer(state = defaults, action) {
 
     /** DISPLAY **/
     case constants.TRANSITION_DISPLAY:
+      var pathname = state.pathname ? state.pathname : action.pathname
       const [ display, nextPath ] =
         action.pathname === '/'
           ? [ 'index', '/dash' ]
@@ -174,12 +175,12 @@ function reducer(state = defaults, action) {
           : [ null, null ]
       const fridgeLength = state.fridge.contents.length
       const shouldTransition =
-        (fridgeLength === VIEW_THRESHOLD - 1 && display === 'index') ||
-        (fridgeLength === VIEW_THRESHOLD && display === 'dash')
+        (fridgeLength === VIEW_THRESHOLD && display === 'index') ||
+        (fridgeLength === VIEW_THRESHOLD - 1 && display === 'dash')
       if (shouldTransition) {
         browserHistory.push(nextPath)
       }
-      return { ...state, display, shouldTransition }
+      return { ...state, pathname, display, shouldTransition }
 
     /** READY **/
     case constants.SET_READY:

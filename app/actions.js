@@ -44,7 +44,7 @@ export const moreRecipes = () => ({
   type: constants.MORE_RECIPES
 })
 
-export const retryRecipes = () => ({
+export const resetRecipes = () => ({
   type: constants.RETRY_RECIPES
 })
 
@@ -89,8 +89,9 @@ export const ackSync = () => ({
 })
 
 /** DISPLAY, READY **/
-export const transitionDisplay = () => ({
-  type: constants.TRANSITION_DISPLAY
+export const transitionDisplay = pathname => ({
+  type: constants.TRANSITION_DISPLAY,
+  pathname
 })
 
 export const setReady = () => ({
@@ -168,12 +169,8 @@ export const fetchMoreRecipes = () => {
 
 export const refreshRecipes = () => {
   return (dispatch, getState) => {
-    const lastPage = getState().recipes.page
-    dispatch(retryRecipes())
-    while (getState().recipes.page <= lastPage) {
-      dispatch(fetchMoreRecipes())
-      dispatch()
-    }
+    dispatch(resetRecipes())
+    dispatch(fetchRecipes())
   }
 }
 
@@ -217,11 +214,11 @@ export const syncUserData = () => {
   }
 }
 
-export const initialSetup = () => {
+export const initialSetup = pathname => {
   return dispatch => {
     Promise.all([
+      dispatch(transitionDisplay(pathname)),
       dispatch(fetchUserData()),
-      dispatch(transitionDisplay()),
       dispatch(fetchRecipes())
     ]).then(dispatch(setReady()))
   }

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import SearchBar from '../components/SearchBar'
-import SuggestionList from '../components/SuggestionList'
+import SuggestionList from '../components/SearchResults'
 import * as actionCreators from '../actions'
 
 class SearchContainer extends React.Component {
