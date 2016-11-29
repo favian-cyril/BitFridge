@@ -3,7 +3,7 @@ import _ from 'lodash'
 import {browserHistory} from 'react-router'
 import Preloader from '../components/Preloader'
 import {searchResults, fetchUser} from '../clientapi'
-import {REDIRECT_INGR_THRESHOLD} from '../config/constants'
+import {VIEW_THRESHOLD} from '../config/constants'
 import anims from '../utils/ui'
 
 class MainContainer extends React.Component {
@@ -89,11 +89,11 @@ class MainContainer extends React.Component {
   //   //   this.fetchDisplay(nextProps.location.pathname)
   //   // }
   //   // if (nextState.fridge.length !== this.state.fridge.length) {
-  //   //   if (nextState.fridge.length < REDIRECT_INGR_THRESHOLD &&
-  //   //     this.state.fridge.length === REDIRECT_INGR_THRESHOLD) {
+  //   //   if (nextState.fridge.length < VIEW_THRESHOLD &&
+  //   //     this.state.fridge.length === VIEW_THRESHOLD) {
   //   //     browserHistory.push('/')
-  //   //   } else if (nextState.fridge.length === REDIRECT_INGR_THRESHOLD &&
-  //   //     this.state.fridge.length < REDIRECT_INGR_THRESHOLD) {
+  //   //   } else if (nextState.fridge.length === VIEW_THRESHOLD &&
+  //   //     this.state.fridge.length < VIEW_THRESHOLD) {
   //   //     browserHistory.push('/dash')
   //   //   }
   //   // }

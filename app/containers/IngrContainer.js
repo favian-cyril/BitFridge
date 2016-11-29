@@ -1,9 +1,8 @@
 import React from 'react'
-import $ from 'jquery'
-import _ from 'lodash'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { throttle } from 'lodash'
 import Ingredient from '../components/Ingredient'
-import { addIngredient, delIngredient } from '../clientapi'
-import { REDIRECT_INGR_THRESHOLD } from '../config/constants'
 
 class IngredientContainer extends React.Component {
   constructor(props) {
@@ -14,86 +13,41 @@ class IngredientContainer extends React.Component {
       success: true
     }
     this.handleToggle = this.handleToggle.bind(this)
-    this.showTooltip = this.showTooltip.bind(this)
+    this.isInFridge = this.isInFridge.bind(this)
+    this.handleToggle = debounce(this.handleToggle, 400)
     this.elemId = `#${this.props.idName}`
   }
 
-  componentWillMount() {
-    this.handleToggle = _.throttle(this.handleToggle, 1000, { leading: true })
-  }
-
   handleToggle() {
-    let unmounting
-    if (!this.props.isInFridge(this.props.ingredient)) {
-      unmounting = this.context.display === 'index' &&
-        this.context.fridge.length === REDIRECT_INGR_THRESHOLD - 1
-      const showPreloader = setTimeout(() => {
-        if (!unmounting) this.setState({ isLoading: true })
-      }, 50)
-      addIngredient(this.props.ingredient)
-        .then(() => {
-          if (!unmounting) {
-            this.setState({ message: 'Added to fridge!', isLoading: false, success: true })
-            this.showTooltip()
-          }
-          clearTimeout(showPreloader)
-          this.props.updateFridge('ADD', this.props.ingredient)
-        })
-        .catch(() => {
-          this.setState({ message: 'Failed to add ingredient.', success: false })
-          if (!unmounting) {
-            this.setState({ isLoading: false })
-            this.showTooltip()
-          }
-          clearTimeout(showPreloader)
-        })
-    } else {
-      unmounting = this.context.display === 'dash' &&
-        this.context.fridge.length === REDIRECT_INGR_THRESHOLD
-      const showPreloader = setTimeout(() => {
-        if (!unmounting) this.setState({ isLoading: true })
-      }, 50)
-      delIngredient(this.props.ingredient)
-        .then(() => {
-          if (!unmounting && this.props.parent !== 'fridge') {
-            this.setState({ message: 'Deleted from fridge!', isLoading: false, success: true })
-            this.showTooltip()
-          }
-          clearTimeout(showPreloader)
-          this.props.updateFridge('DEL', this.props.ingredient)
-        })
-        .catch(() => {
-          this.setState({ message: 'Failed to delete ingredient.', success: false })
-          if (!unmounting && this.props.parent !== 'fridge') {
-            this.setState({ isLoading: false })
-            this.showTooltip()
-          }
-          clearTimeout(showPreloader)
-        })
-    }
+    const {} = this.props
   }
 
-  showTooltip() {
-    window.showTooltip($(this.elemId))
-    $('.tooltip-inner').last().html(this.state.message)
+  isInFridge(ingredient) {
+    const found = _.find(this.state.fridge, item => item.id === ingredient.id)
+    return found !== undefined
   }
 
   render() {
+    const { ingredient, idName } = this.props
+    const { display } = this.context
     return (
       <Ingredient
-        ingredient={this.props.ingredient}
-        idName={this.props.idName}
-        handleToggle={this.handleToggle}
-        display={this.context.display}
-        isLoading={this.state.isLoading}
-        isAdded={this.props.isInFridge(this.props.ingredient)}
+        isAdded={this.isInFridge(ingredient)}
+        ingredient={ingredient}
+        idName={idName}
+        message={this.state.message}
         success={this.state.success}
+        handleToggle={this.handleToggle}
+        display={display}
+
       />
     )
   }
 }
 
 IngredientContainer.propTypes = {
+  fridge: React.PropTypes.arrayOf(React.PropTypes.object),
+  display: React.PropTypes.oneOf(['index', 'dash']),
   parent: React.PropTypes.string.isRequired,
   idName: React.PropTypes.string.isRequired,
   updateFridge: React.PropTypes.func.isRequired,
@@ -103,10 +57,8 @@ IngredientContainer.propTypes = {
   }).isRequired
 }
 
-IngredientContainer.contextTypes = {
-  fridge: React.PropTypes.arrayOf(React.PropTypes.object),
-  recipes: React.PropTypes.arrayOf(React.PropTypes.object),
-  display: React.PropTypes.oneOf(['index', 'dash'])
+const mapStateToProps = state => {
+  
 }
 
-export default IngredientContainer
+export default connect(mapStateToProps, mapDispatchToProps)(IngredientContainer)

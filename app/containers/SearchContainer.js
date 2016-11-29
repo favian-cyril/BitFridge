@@ -1,82 +1,23 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import _ from 'lodash'
 import SearchBar from '../components/SearchBar'
 import SuggestionList from '../components/SuggestionList'
-import { searchIngredients } from '../clientapi'
+import * as actionCreators from '../actions'
 
 class SearchContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      searchText: '',
-      isFocused: false,
-      isLoading: false,
-      errorType: '',
-      timestamp: null,
-      suggestionResults: []
-    }
     this.handleInput = this.handleInput.bind(this)
-    this.handleToggleFocus = this.handleToggleFocus.bind(this)
-    this.handleSearch = this.handleSearch.bind(this)
-    this.fetchResults = this.fetchResults.bind(this)
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.searchText !== nextState.searchText) {
-      const searchText = nextState.searchText.trim()
-      this.handleSearch(searchText)
-    }
+    this.handleInput = _.debounce(this.handleInput, 300)
   }
 
   handleInput() {
     const inputText = document.getElementById('search-input').value
-    this.setState({ searchText: inputText })
-  }
-
-  handleToggleFocus() {
-    this.setState({
-      isFocused: !this.state.isFocused
-    })
-  }
-
-  handleSearch(searchText) {
-    if (searchText.length > 1) {
-      const lastTimestamp = (new Date()).getTime()
-      this.setState({
-        isLoading: true,
-        errorType: '',
-        timestamp: lastTimestamp,
-        suggestionResults: []
-      })
-      this.fetchResults(searchText, lastTimestamp)
-    }
-  }
-
-  fetchResults(searchText, lastTimestamp) {
-    searchIngredients(searchText)
-      .then((results) => {
-        if (results.length !== 0 && lastTimestamp === this.state.timestamp) {
-          results = _.uniqBy(results, 'id')
-          results = results.map((ingredient) => {
-            ingredient.isAdded = this.props.isInFridge(ingredient)
-            return ingredient
-          })
-          this.setState({ suggestionResults: results })
-        } else if (results.length === 0) {
-          this.setState({ errorType: 'NOTFOUND' })
-        }
-        this.setState({ isLoading: false })
-      })
-      .catch((error) => {
-        if (error.message && error.message === 'Network Error') {
-          this.setState({ errorType: 'OFFLINE' })
-        } else if (error.response && error.response.data.code === 'ENOTFOUND') {
-          this.setState({ errorType: 'SERVERERR' })
-        } else if (error) {
-          throw error
-        }
-        this.setState({ isLoading: false })
-      })
+    console.log(inputText)
+    this.props.updateSearchText(inputText)
+    this.props.fetchSuggestions()
   }
 
   render() {
@@ -84,19 +25,17 @@ class SearchContainer extends React.Component {
       <div className="container">
         <div className="row">
           <SearchBar
-            handleInput={_.debounce(this.handleInput, 400)}
-            handleToggleFocus={this.handleToggleFocus}
+            handleInput={this.handleInput}
+            handleToggleFocus={this.props.toggleFocus}
           />
         </div>
         <div className="row">
           <SuggestionList
-            searchText={this.state.searchText}
-            isFocused={this.state.isFocused}
-            isLoading={this.state.isLoading}
-            errorType={this.state.errorType}
-            suggestionResults={this.state.suggestionResults}
-            updateFridge={this.props.updateFridge}
-            isInFridge={this.props.isInFridge}
+            searchText={this.props.searchText}
+            isFocused={this.props.isFocused}
+            isLoading={this.props.isLoading}
+            errorType={this.props.errorType}
+            suggestionResults={this.props.contents}
           />
         </div>
       </div>
@@ -105,8 +44,18 @@ class SearchContainer extends React.Component {
 }
 
 SearchContainer.propTypes = {
-  updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired
+  // TODO: Fill in propTypes
 }
 
-export default SearchContainer
+const mapStateToProps = state => ({
+  errorType: state.errorType.search,
+  ...state.search
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateSearchText: bindActionCreators(actionCreators.updateSearchText, dispatch),
+  fetchSuggestions: bindActionCreators(actionCreators.fetchSuggestions, dispatch),
+  toggleFocus: bindActionCreators(actionCreators.toggleFocus, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer)

@@ -9,9 +9,9 @@ import store from './store'
 
 const ConnectedApp = connect(state => state)(App)
 
-const Root = () => (
+const Root = ({ store, history }) => (
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={ConnectedApp}>
         <IndexRoute component={Index}/>
         <Route path="/dash" component={Dashboard}/>
@@ -20,4 +20,7 @@ const Root = () => (
   </Provider>
 )
 
-ReactDOM.render(<Root/>, document.getElementById('app'))
+ReactDOM.render(
+  <Root store={store} history={browserHistory}/>,
+  document.getElementById('app')
+)

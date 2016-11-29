@@ -1,191 +1,206 @@
 import _ from 'lodash'
-import { combineReducers } from 'redux'
+import { browserHistory } from 'react-router'
 import defaults from './config/defaultStates'
+import { VIEW_THRESHOLD } from './config/constants'
+import uiUtils from './utils/ui'
+import constants from './constants'
 
-import {
-  ADD_TO_FRIDGE, DEL_FROM_FRIDGE,
-  MORE_RECIPES, RETRY_RECIPES,
-  ADD_TO_COOKING_TODAY, TOGGLE_COOKING_TODAY, CLEAR_COOKING_TODAY, UPDATE_MISSING_COOKING_TODAY,
-  REQUEST_USER_DATA, RECEIVE_USER_DATA, SEND_SYNC, ACK_SYNC,
-  SET_DISPLAY, SET_READY,
-  REQUEST_RECIPES, RECEIVE_RECIPES,
-  HANDLE_ERROR, CLEAR_ERROR
-} from './actions'
-
-function fridge(state = defaults.fridge, action) {
-  let newContents
+function reducer(state = defaults, action) {
+  let newSearch, newFridge, newRecipes, newCookingToday, newContents, 
+    newUserData, newErrorType, newState
   switch (action.type) {
-    case ADD_TO_FRIDGE:
-      newContents = [...state.contents, action.ingredient]
-      return {
-        ...state,
-        contents: newContents
-      }
-    case DEL_FROM_FRIDGE:
-      const index = _.findIndex(state.contents,
-        i => i.id === action.ingredient.id)
-      newContents = [
-        ...state.contents.slice(0, index),
-        ...state.contents.slice(index + 1)
-      ]
-      return {
-        ...state,
-        contents: newContents
-      }
-    default: return state
-  }
-}
 
-function recipes(state = defaults.recipes, action) {
-  switch (action.type) {
-    case MORE_RECIPES:
-      return {
-        ...state,
-        page: state.page + 1
+    /** SEARCH **/
+    case constants.UPDATE_SEARCH_TEXT:
+      newSearch = {
+        ...state.search,
+        searchText: action.searchText
       }
-    case RETRY_RECIPES:
-      return {
-        ...state,
-        contents: [],
-        page: 1
-      }
-    case REQUEST_RECIPES:
-      return {
-        ...state,
-        timestamp: action.timestamp,
-        isLoading: true
-      }
-    case RECEIVE_RECIPES:
-      if (action.timestamp === state.timestamp) {
-        const newRecipes = [...state.contents, action.recipes]
-        return {
-          ...state,
-          contents: newRecipes,
-          isLoading: false
-        }
-      } else {
-        return state
-      }
-    default: return state
-  }
-}
+      return { ...state, search: newSearch }
 
-function cookingToday(state = defaults.cookingToday, action) {
-  switch (action.type) {
-    case ADD_TO_COOKING_TODAY:
-      const newContents = [...state.contents, action.recipe]
-      return {
-        ...state,
-        contents: newContents
-      }
-    case TOGGLE_COOKING_TODAY:
-      const isExpanded = !state.accordion.isExpanded || state.accordion.id !== action.index
-      const index = action.index
-      const newAccordion = { isExpanded, index }
-      return {
-        ...state,
-        accordion: newAccordion
-      }
-    case CLEAR_COOKING_TODAY:
-      return {
-        ...state,
-        contents: []
-      }
-    case UPDATE_MISSING_COOKING_TODAY:
-      const temp = state.contents.map(recipe => recipe.missedIngredients)
-      const results = temp.map(function (missed) {
-        return _.differenceBy(missed, action.fridge, 'id')
-      })
-      const newCookingToday = state.contents.map(function (ingredients, i) {
-        ingredients.missedIngredients = results[i]
-        return ingredients
-      })
-      return {
-        ...state,
-        contents: newCookingToday
-      }
-    default: return state
-  }
-}
-
-function userData(state = defaults.userData, action) {
-  switch (action.type) {
-    case REQUEST_USER_DATA:
-      return {
-        ...state,
+    case constants.REQUEST_SEARCH:
+      newSearch = {
+        ...state.search,
         isLoading: true,
         timestamp: action.timestamp
       }
-    case RECEIVE_USER_DATA:
-      if (action.timestamp === state.timestamp) {
-        return {
-          ...state,
+      return { ...state, search: newSearch }
+
+    case constants.RECEIVE_SEARCH:
+      if (action.timestamp === state.search.timestamp) {
+        newSearch = {
+          ...state.search,
           isLoading: false,
-          user: action.userData.user
+          contents: action.suggestions
         }
+        newState = { ...state, search: newSearch }
       } else {
-        return state
+        newState = state
       }
-    case SEND_SYNC:
-      return {
-        ...state,
-        didInvalidate: true
-      }
-    case ACK_SYNC:
-      return {
-        ...state,
-        didInvalidate: false
-      }
-    default: return state
-  }
-}
+      return newState
 
-function display(state = null, action) {
-  switch (action.type) {
-    case SET_DISPLAY:
-      let display
-      if (action.pathname === '/') {
-        display = 'index'
-      } else if (action.pathname === '/dash') {
-        display = 'dash'
+    case constants.TOGGLE_FOCUS:
+      newSearch = { ...state.search, isFocused: !state.search.isFocused }
+      return { ...state, search: newSearch }
+
+    /** FRIDGE **/
+    case constants.TOGGLE_ADD_DELETE:
+      let message
+      switch (action.ingredient.isAdded) {
+        case false:
+          newContents = [...state.fridge.contents, action.ingredient]
+          newFridge = { ...state.fridge, contents: newContents }
+          message = 'Added ingredient to fridge!'
+          if (!state.shouldTransition) {
+            uiUtils.tooltips.showTooltip(
+              action.ingredient.idName,
+              message
+            )
+          }
+          return { ...state, fridge: newFridge }
+        case true:
+          const index = _.findIndex(state.fridge.contents,
+            i => i.id === action.ingredient.id)
+          newContents = [
+            ...state.fridge.contents.slice(0, index),
+            ...state.fridge.contents.slice(index + 1)
+          ]
+          newFridge = { ...state.fridge, contents: newContents }
+          message = 'Deleted ingredient from fridge!'
+          if (!state.shouldTransition) {
+            uiUtils.tooltips.showTooltip(
+              action.ingredient.idName,
+              message
+            )
+          }
+          return { ...state, fridge: newFridge, message }
+        default: return state  // not gonna happen unless errored
       }
-      return display
-    default: return state
-  }
-}
 
-function ready(state = false, action) {
-  switch (action.type) {
-    case SET_READY:
-      return true
-    default: return state
-  }
-}
+    /** RECIPES **/
+    case constants.REQUEST_RECIPES:
+      newRecipes = {
+        ...state.recipes,
+        timestamp: action.timestamp,
+        isLoading: true
+      }
+      return { ...state, recipes: newRecipes }
+    case constants.RECEIVE_RECIPES:
+      if (action.timestamp === state.recipes.timestamp) {
+        const results = [...state.recipes.contents, action.recipes]
+        newRecipes = {
+          ...state.recipes,
+          contents: results,
+          isLoading: false
+        }
+        newState = { ...state, recipes: newRecipes }
+      } else {
+        newState = state
+      }
+      return newState
 
-function errorType(state = defaults.errorType, action) {
-  switch (action.type) {
-    case HANDLE_ERROR:
-      return {
-        ...state,
+    case constants.MORE_RECIPES:
+      newRecipes = { ...state.recipes, page: state.recipes.page + 1 }
+      return { ...state, recipes: newRecipes }
+
+    case constants.RETRY_RECIPES:
+      newRecipes = { ...state.recipes, contents: [], page: 1 }
+      return { ...state, recipes: newRecipes }
+
+    /** COOKING TODAY **/
+    case constants.ADD_TO_COOKING_TODAY:
+      newContents = [...state.cookingToday.contents, action.recipe]
+      newCookingToday = { ...state.cookingToday, contents: newContents }
+      return { ...state, cookingToday: newCookingToday }
+
+    case constants.TOGGLE_COOKING_TODAY:
+      const isExpanded = !state.accordion.isExpanded || state.accordion.id !== action.index
+      index = action.index
+      const newAccordion = { isExpanded, index }
+      newCookingToday = { ...state.cookingToday, accordion: newAccordion }
+      return { ...state, cookingToday: newCookingToday }
+
+    case constants.CLEAR_COOKING_TODAY:
+      newCookingToday = { ...state.cookingToday, contents: [] }
+      return { ...state, cookingToday: newCookingToday }
+
+    case constants.UPDATE_MISSING_COOKING_TODAY:
+      const missingIngredients = state.cookingToday.contents.map(
+        recipe => recipe.missedIngredients
+      )
+      const results = missingIngredients.map(missed =>
+        _.differenceBy(missed, action.fridge, 'id')
+      )
+      newContents = state.cookingToday.contents.map(function (ingredients, i) {
+        ingredients.missedIngredients = results[i]
+        return ingredients
+      })
+      newCookingToday = { ...state.cookingToday, contents: newContents }
+      return { ...state, cookingToday: newCookingToday }
+
+    /** USER DATA **/
+    case constants.REQUEST_USER_DATA:
+      newUserData = {
+        ...state.userData,
+        isLoading: true,
+        timestamp: action.timestamp
+      }
+      return { ...state, newUserData }
+
+    case constants.RECEIVE_USER_DATA:
+      if (action.timestamp === state.userData.timestamp) {
+        newUserData = { ...state.userData, isLoading: false, user: action.userData.user }
+        newState = { ...state, newUserData }
+      } else {
+        newState = state
+      }
+      return newState
+
+    case constants.SEND_SYNC:
+      newUserData = { ...state.userData, didInvalidate: true }
+      return { ...state, newUserData }
+
+    case constants.ACK_SYNC:
+      newUserData = { ...state.userData, didInvalidate: false }
+      return { ...state, newUserData }
+
+    /** DISPLAY **/
+    case constants.TRANSITION_DISPLAY:
+      const [ display, nextPath ] =
+        action.pathname === '/'
+          ? [ 'index', '/dash' ]
+        : action.pathname === '/dash'
+          ? [ 'dash', '/' ]
+          : [ null, null ]
+      const fridgeLength = state.fridge.contents.length
+      const shouldTransition =
+        (fridgeLength === VIEW_THRESHOLD - 1 && display === 'index') ||
+        (fridgeLength === VIEW_THRESHOLD && display === 'dash')
+      if (shouldTransition) {
+        browserHistory.push(nextPath)
+      }
+      return { ...state, display, shouldTransition }
+
+    /** READY **/
+    case constants.SET_READY:
+      return { ...state, ready: true }
+
+    /** ERROR HANDLER **/
+    case constants.HANDLE_ERROR:
+      newErrorType = {
+        ...state.errorType,
         [action.component]: action.error
       }
-    case CLEAR_ERROR:
-      return {
-        ...state,
+      return { ...state, errorType: newErrorType }
+    case constants.CLEAR_ERROR:
+      newErrorType = {
+        ...state.errorType,
         [action.component]: null
       }
+      return { ...state, errorType: newErrorType }
+
     default: return state
   }
 }
 
-const rootReducer = combineReducers({
-  fridge,
-  recipes,
-  cookingToday,
-  userData,
-  display,
-  ready,
-  errorType
-})
-
-export default rootReducer
+export default reducer
