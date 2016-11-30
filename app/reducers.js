@@ -6,7 +6,7 @@ import uiUtils from './utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
-  let newSearch, newFridge, newRecipes, newCookingToday, newContents, 
+  let newSearch, newFridge, newRecipes, newCookingToday, newContents,
     newUserData, newErrorType, newState
   switch (action.type) {
 
@@ -148,7 +148,10 @@ function reducer(state = defaults, action) {
       return { ...state, newUserData }
 
     case constants.RECEIVE_USER_DATA:
+      console.log(action.timestamp)
+      console.log(state.userData.timestamp)
       if (action.timestamp === state.userData.timestamp) {
+        console.log('passed?')
         newUserData = { ...state.userData, isLoading: false, user: action.userData.user }
         newState = { ...state, newUserData }
       } else {
