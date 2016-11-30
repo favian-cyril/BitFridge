@@ -128,7 +128,7 @@ export const fetchSuggestions = () => {
             const suggestionsWithAdded = suggestions.map(
               suggestion => ({
                 ...suggestion,
-                isAdded: find(fridge, { id: suggestion.id }) !== undefined
+                isAdded: find(fridge, ingredient => ingredient.id === suggestion.id) !== undefined
               })
             )
             return dispatch(receiveSearch(suggestionsWithAdded, timestamp))

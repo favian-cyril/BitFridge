@@ -7,12 +7,10 @@ import Index from './components/Index'
 import Dashboard from './components/Dashboard'
 import store from './store'
 
-const ConnectedApp = connect(state => state)(App)
-
 const Root = ({ store, history }) => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={ConnectedApp}>
+      <Route path="/" component={App}>
         <IndexRoute component={Index}/>
         <Route path="/dash" component={Dashboard}/>
       </Route>
