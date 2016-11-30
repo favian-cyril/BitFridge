@@ -189,26 +189,11 @@ export const fetchUserData = () => {
   }
 }
 
-export const mapStateToUserData = () => {
-  return (dispatch, getState) => {
-    const { fridge, cookingToday, userData } = getState()
-    const newFridge = fridge.contents.map(f => f.contents)
-    const newCookingToday = cookingToday.contents.map(c => c.contents)
-    const timestamp = (new Date()).getTime()
-    const newUser = {
-      ...userData.user,
-      fridge: newFridge,
-      cookingToday: newCookingToday
-    }
-    dispatch(receiveUserData(newUser, timestamp))
-  }
-}
 /**TODO: end this suffering. User always empty even though mapStateToUserData success **/
 export const syncUserData = () => {
   return (dispatch, getState) => {
     dispatch(sendSync())
-    dispatch(mapStateToUserData())
-    const user = getState().userData.user
+    const user = mapStateToUserData(dispatch, getState)
     console.log(user)
     syncUser(user)
       .then(
@@ -226,4 +211,19 @@ export const initialSetup = pathname => {
       dispatch(fetchRecipes())
     ]).then(dispatch(setReady()))
   }
+}
+
+/** SYNCHRONOUS UTILITY FUNCTIONS **/
+/* TODO: NOTE: Suffering hopefully has ended by the time this method works */
+
+export const mapStateToUserData = (dispatch, getState) => {
+  const { fridge, cookingToday, userData } = getState()
+  const newFridge = fridge.contents.map(f => f.contents)
+  const newCookingToday = cookingToday.contents.map(c => c.contents)
+  const newUser = {
+    ...userData.user,
+    fridge: newFridge,
+    cookingToday: newCookingToday
+  }
+  return newUser
 }

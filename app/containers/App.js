@@ -21,7 +21,7 @@ class App extends React.Component {
     initialSetup(this.props.pathname)
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     /** On fridge change, transition display if needed,
      * then refresh recipes and update missing cooking
      * today recipes' ingredients.
@@ -30,7 +30,11 @@ class App extends React.Component {
       transitionDisplay, refreshRecipes,
       updateMissingCookingToday, syncUserData
     } = this.props
+    console.log({
+      fridgeHasChanged: this.hasChanged(this.props.fridge, nextProps.fridge)
+    })
     if (this.hasChanged(this.props.fridge, nextProps.fridge)) {
+      console.log('Fridge changed')
       transitionDisplay(this.props.pathname)
       Promise.all([
         refreshRecipes(),
@@ -65,9 +69,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ready: state.ready,
-  display: state.display,
-  errorType: state.errorType,
+  ...state,
   pathname: ownProps.location.pathname
 })
 
