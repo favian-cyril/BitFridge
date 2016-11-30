@@ -74,9 +74,12 @@ export const requestUserData = timestamp => ({
   timestamp
 })
 
-export const receiveUserData = (userData, timestamp) => ({
+export const receiveUserData = (user, timestamp) => ({
   type: constants.RECEIVE_USER_DATA,
-  userData,
+  userData: {
+    user,
+    timestamp
+  },
   timestamp
 })
 
@@ -203,10 +206,10 @@ export const mapStateToUserData = () => {
 /**TODO: end this suffering. User always empty even though mapStateToUserData success **/
 export const syncUserData = () => {
   return (dispatch, getState) => {
+    dispatch(sendSync())
     dispatch(mapStateToUserData())
     const user = getState().userData.user
     console.log(user)
-    dispatch(sendSync())
     syncUser(user)
       .then(
         () => dispatch(ackSync()),
