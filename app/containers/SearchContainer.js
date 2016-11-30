@@ -15,7 +15,6 @@ class SearchContainer extends React.Component {
 
   handleInput() {
     const inputText = document.getElementById('search-input').value
-    console.log(inputText)
     this.props.updateSearchText(inputText)
     this.props.fetchSuggestions()
   }
