@@ -30,11 +30,7 @@ class App extends React.Component {
       transitionDisplay, refreshRecipes,
       updateMissingCookingToday, syncUserData
     } = this.props
-    console.log({
-      fridgeHasChanged: this.hasChanged(this.props.fridge, nextProps.fridge)
-    })
     if (this.hasChanged(this.props.fridge, nextProps.fridge)) {
-      console.log('Fridge changed')
       transitionDisplay(this.props.pathname)
       Promise.all([
         refreshRecipes(),

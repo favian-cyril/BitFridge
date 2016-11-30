@@ -51,7 +51,6 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
-  console.log({ serializedUser: profile })
   cb(null, profile)
 });
 
