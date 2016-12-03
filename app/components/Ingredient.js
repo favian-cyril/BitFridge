@@ -1,4 +1,5 @@
 import React from 'react'
+import { throttle } from 'lodash'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { toggleAddDelete } from  '../actions'
@@ -8,6 +9,7 @@ class Ingredient extends React.Component {
   constructor(props) {
     super(props)
     this.handleToggleAddDelete = this.handleToggleAddDelete.bind(this)
+    this.handleToggleAddDelete = throttle(this.handleToggleAddDelete, 500, { leading: true })
   }
   
   handleToggleAddDelete() {
