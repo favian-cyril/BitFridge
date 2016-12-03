@@ -3,7 +3,7 @@ import CookingTodayList from './CookingTodayList'
 import Fridge from './Fridge'
 import NavUser from './NavUser'
 import RecipeResults from './RecipeResults'
-import SearchContainer from '../containers/SearchContainer'
+import SearchContainer from './Search'
 
 const Dashboard = (props, context) => (
   <div className="dash-container">

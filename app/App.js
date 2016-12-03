@@ -2,8 +2,8 @@ import React from 'react'
 import { omit } from 'lodash'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Preloader from '../components/Preloader'
-import * as actionCreators from '../actions'
+import Preloader from './components/Preloader'
+import * as actionCreators from './redux/actions'
 
 class App extends React.Component {
   constructor(props) {

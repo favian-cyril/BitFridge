@@ -3,7 +3,7 @@ import {mount, shallow, render} from 'enzyme'
 import {assert} from 'chai'
 import React from 'react'
 import sinonStubPromise from 'sinon-stub-promise'
-import SearchContainer from '../app/containers/SearchContainer'
+import SearchContainer from '../app/components/Search'
 import MainContainer from '../app/containers/MainContainer'
 import SuggestionsList from '../app/components/SearchResults'
 import Ingredient from '../app/components/Ingredient'
@@ -23,7 +23,7 @@ global.document = doc
 global.window = doc.defaultView
 sinonStubPromise(sinon)
 
-describe('SearchContainer', function() {
+describe('Search', function() {
   it('should have a SearchBar', function() {
     const wrapper = shallow(
       <SearchContainer

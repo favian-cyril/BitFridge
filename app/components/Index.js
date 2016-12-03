@@ -1,6 +1,6 @@
 import React from 'react'
 import NavUser from './NavUser'
-import SearchContainer from '../containers/SearchContainer'
+import SearchContainer from './Search'
 
 const Index = (props) => {
   const logoUrl = '/images/logo-4x.png'

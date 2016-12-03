@@ -1,6 +1,6 @@
 import {assert} from 'chai'
-import reducer from '../app/reducers'
-import * as types from '../app/actions'
+import reducer from '../app/redux/reducers'
+import * as types from '../app/redux/actions'
 
 describe('fridge reducer', () => {
   it('should add new items into fridge', () => {

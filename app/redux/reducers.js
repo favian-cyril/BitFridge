@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import defaults from './config/defaultStates'
-import { VIEW_THRESHOLD } from './config/constants'
-import uiUtils from './utils/ui'
+import defaults from '../config/defaultStates'
+import { VIEW_THRESHOLD } from '../config/constants'
+import uiUtils from '../utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
@@ -51,12 +51,10 @@ function reducer(state = defaults, action) {
           newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Added to fridge!'
-          if (!state.shouldTransition) {
-            uiUtils.tooltips.showTooltip(
-              action.idName,
-              message
-            )
-          }
+          uiUtils.tooltips.showTooltip(
+            action.idName,
+            message
+          )
           return { ...state, fridge: newFridge }
         case true:
           const index = _.findIndex(state.fridge.contents,
@@ -67,12 +65,10 @@ function reducer(state = defaults, action) {
           ]
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Deleted from fridge!'
-          if (!state.shouldTransition) {
-            uiUtils.tooltips.showTooltip(
-              action.idName,
-              message
-            )
-          }
+          uiUtils.tooltips.showTooltip(
+            action.idName,
+            message
+          )
           return { ...state, fridge: newFridge, message }
         default: return state  // not gonna happen unless errored
       }

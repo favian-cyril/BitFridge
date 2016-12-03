@@ -2,7 +2,7 @@ import React from 'react'
 import { throttle } from 'lodash'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { toggleAddDelete } from  '../actions'
+import { toggleAddDelete } from  '../redux/actions'
 import uiUtils from '../utils/ui'
 
 class Ingredient extends React.Component {

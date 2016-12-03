@@ -2,11 +2,11 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import SearchBar from '../components/SearchBar'
-import SearchResults from '../components/SearchResults'
-import * as actionCreators from '../actions'
+import SearchBar from './SearchBar'
+import SearchResults from './SearchResults'
+import * as actionCreators from '../redux/actions'
 
-class SearchContainer extends React.Component {
+class Search extends React.Component {
   constructor(props) {
     super(props)
     this.isInFridge = this.isInFridge.bind(this)
@@ -48,7 +48,7 @@ class SearchContainer extends React.Component {
   }
 }
 
-SearchContainer.propTypes = {
+Search.propTypes = {
   // TODO: Fill in propTypes
 }
 
@@ -63,4 +63,4 @@ const mapDispatchToProps = dispatch => ({
   toggleFocus: bindActionCreators(actionCreators.toggleFocus, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

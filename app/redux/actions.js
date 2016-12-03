@@ -116,7 +116,7 @@ export const clearError = (error, component) => ({
 })
 
 /** ASYNCHRONOUS THUNKS **/
-import { searchIngredients, searchResults, fetchUser, syncUser } from './clientapi'
+import { searchIngredients, searchResults, fetchUser, syncUser } from '../clientapi'
 
 export const fetchSuggestions = () => {
   return (dispatch, getState) => {
