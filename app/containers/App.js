@@ -10,6 +10,13 @@ class App extends React.Component {
     super(props)
     this.hasChanged = this.hasChanged.bind(this)
   }
+  
+  componentWillMount() {
+    /**
+     * Removes hash values from logins or anything else from the URL.
+     */
+    history.pushState("", document.title, window.location.pathname + window.location.search);
+  }
 
   componentDidMount() {
     /**

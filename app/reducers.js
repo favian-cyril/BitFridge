@@ -48,7 +48,7 @@ function reducer(state = defaults, action) {
       let message
       switch (action.ingredient.isAdded) {
         case false:
-          newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
+          newContents = [...state.fridge.contents, { ...action.ingredient }]
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Added ingredient to fridge!'
           if (!state.shouldTransition) {
