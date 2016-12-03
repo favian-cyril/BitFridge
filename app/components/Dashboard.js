@@ -37,9 +37,8 @@ const Dashboard = (props, context) => (
             <CookingTodayList
               title="Cooking Today"
               cookingToday={props.cookingToday}
-              toggleAccordion={props.toggleCookingToday}
-              isExpanded={props.isExpanded}
-              clearCookToday={props.clearCookToday}
+              toggleCookingToday={props.toggleCookingToday}
+              clearCookToday={props.clearCookingToday}
             />
           </div>
         </div>
@@ -47,7 +46,7 @@ const Dashboard = (props, context) => (
           <div className="row">
             <RecipeResults
               isLoading={props.recipes.isLoading}
-              addCookToday={props.addCookToday}
+              addCookToday={props.addToCookingToday}
               moreRecipes={props.moreRecipes}
               retryRecipes={props.retryRecipes}
               errorType={props.errorType.recipes}
@@ -69,7 +68,7 @@ Dashboard.propTypes = {
   isLoading: React.PropTypes.bool.isRequired,
   isExpanded: React.PropTypes.shape({
     expand: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.number.isRequired
+    index: React.PropTypes.number.isRequired
   }).isRequired,
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
@@ -91,9 +90,8 @@ Dashboard.defaultProps = {
   toggleCookingToday: () => {},
   clearCookToday: () => {},
   isLoading: false,
-  isExpanded: {expand:false, id:0},
+  isExpanded: { expand: false, index: 0 },
   user: {}
 }
-
 
 export default Dashboard

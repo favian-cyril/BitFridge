@@ -49,7 +49,7 @@ export const resetRecipes = () => ({
   type: constants.RESET_RECIPES
 })
 
-/** Cooking today **/
+/** COOKING TODAY **/
 export const addToCookingToday = recipe => ({
   type: constants.ADD_TO_COOKING_TODAY,
   recipe

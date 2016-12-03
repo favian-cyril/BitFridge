@@ -114,9 +114,8 @@ function reducer(state = defaults, action) {
       return { ...state, cookingToday: newCookingToday }
 
     case constants.TOGGLE_COOKING_TODAY:
-      const isExpanded = !state.accordion.isExpanded || state.accordion.id !== action.index
-      index = action.index
-      const newAccordion = { isExpanded, index }
+      const isExpanded = !state.cookingToday.accordion.isExpanded || state.cookingToday.accordion.index !== action.index
+      const newAccordion = { isExpanded, index: action.index }
       newCookingToday = { ...state.cookingToday, accordion: newAccordion }
       return { ...state, cookingToday: newCookingToday }
 
