@@ -23,9 +23,10 @@ export const toggleFocus = () => ({
 })
 
 /** FRIDGE **/
-export const toggleAddDelete = ingredient => ({
+export const toggleAddDelete = (ingredient, idName) => ({
   type: constants.TOGGLE_ADD_DELETE,
-  ingredient
+  ingredient,
+  idName
 })
 
 /** RECIPES **/
@@ -225,4 +226,8 @@ export const mapStateToUserData = (dispatch, getState) => {
     cookingToday: newCookingToday
   }
   return newUser
+}
+
+export const mapUserDataToState = (dispatch, getState) => {
+  
 }

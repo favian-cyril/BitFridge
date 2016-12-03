@@ -46,7 +46,7 @@ const Dashboard = (props, context) => (
         <div className="col-xs-6">
           <div className="row">
             <RecipeResults
-              isLoading={props.isLoading}
+              isLoading={props.recipes.isLoading}
               addCookToday={props.addCookToday}
               moreRecipes={props.moreRecipes}
               retryRecipes={props.retryRecipes}

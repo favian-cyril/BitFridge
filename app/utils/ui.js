@@ -1,18 +1,19 @@
 import $ from 'jquery'
 
-const moreRecipes = () => {
-  const recipeList = $('.recipe-list-wrapper')
-  if (recipeList[0]) {
-    recipeList.animate(
-      { scrollTop: recipeList[0].scrollHeight },
+const scrollDown = classSelector => {
+  const element = $(classSelector)
+  console.log(element[0])
+  if (element[0]) {
+    element.animate(
+      { scrollTop: element[0].scrollHeight },
       { duration: 1000, specialEasing: { height: 'easeOutCirc', width: 'easeOutCirc' } }
     )
   }
 }
 
 const showTooltip = (idName, message) => {
-  const elemId = `#${idName}`
-  window.showTooltip($(elemId))
+  console.log(idName)
+  window.showTooltip($(`#${idName}`))
   $('.tooltip-inner').last().html(message)
 }
 
@@ -21,6 +22,6 @@ export default {
     showTooltip
   },
   anims: {
-    moreRecipes
+    scrollDown
   }
 }

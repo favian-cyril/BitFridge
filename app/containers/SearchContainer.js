@@ -9,6 +9,7 @@ import * as actionCreators from '../actions'
 class SearchContainer extends React.Component {
   constructor(props) {
     super(props)
+    this.isInFridge = this.isInFridge.bind(this)
     this.handleInput = this.handleInput.bind(this)
     this.handleInput = _.debounce(this.handleInput, 300) 
   }
@@ -17,6 +18,10 @@ class SearchContainer extends React.Component {
     const inputText = document.getElementById('search-input').value
     this.props.updateSearchText(inputText)
     this.props.fetchSuggestions()
+  }
+  
+  isInFridge(ingredient) {
+    return this.props.fridge.contents.map(i => i.name).includes(ingredient.name)
   }
 
   render() {
@@ -33,6 +38,7 @@ class SearchContainer extends React.Component {
             searchText={this.props.searchText}
             isFocused={this.props.isFocused}
             isLoading={this.props.isLoading}
+            isInFridge={this.isInFridge}
             errorType={this.props.errorType}
             suggestionResults={this.props.contents}
           />

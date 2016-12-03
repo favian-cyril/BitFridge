@@ -317,10 +317,7 @@ div.panel ul li.list-group-item {
 /* TOOLTIP (INGREDIENTS) */
 .tooltip-inner.success {
   border-bottom: 2px solid #69bb0f;
-}
-
-.tooltip-inner.failure {
-  border-bottom: 2px solid #dd0000;
+  z-index: 9999;
 }
 
 /* UTILITY CLASSES */
@@ -340,4 +337,24 @@ div.panel ul li.list-group-item {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* REACT CSS TRANSITIONS */
+/* Fridge contents */
+.fridge-contents-enter {
+  opacity: 0.01;
+}
+
+.fridge-contents-enter.fridge-contents-enter-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+}
+
+.fridge-contents-leave {
+  opacity: 1;
+}
+
+.fridge-contents-leave.fridge-contents-leave-active {
+  opacity: 0;
+  transition: opacity 600ms ease-in;
 }

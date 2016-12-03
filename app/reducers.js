@@ -48,12 +48,12 @@ function reducer(state = defaults, action) {
       let message
       switch (action.ingredient.isAdded) {
         case false:
-          newContents = [...state.fridge.contents, { ...action.ingredient }]
+          newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
           newFridge = { ...state.fridge, contents: newContents }
-          message = 'Added ingredient to fridge!'
+          message = 'Added to fridge!'
           if (!state.shouldTransition) {
             uiUtils.tooltips.showTooltip(
-              action.ingredient.idName,
+              action.idName,
               message
             )
           }
@@ -66,10 +66,10 @@ function reducer(state = defaults, action) {
             ...state.fridge.contents.slice(index + 1)
           ]
           newFridge = { ...state.fridge, contents: newContents }
-          message = 'Deleted ingredient from fridge!'
+          message = 'Deleted from fridge!'
           if (!state.shouldTransition) {
             uiUtils.tooltips.showTooltip(
-              action.ingredient.idName,
+              action.idName,
               message
             )
           }
@@ -167,11 +167,11 @@ function reducer(state = defaults, action) {
     /** DISPLAY **/
     case constants.TRANSITION_DISPLAY:
       var pathname = state.pathname ? state.pathname : action.pathname
-      const [ display, nextPath ] =
+      let [ display, nextPath, nextDisplay ] =
         action.pathname === '/'
-          ? [ 'index', '/dash' ]
+          ? [ 'index', '/dash', 'dash' ]
         : action.pathname === '/dash'
-          ? [ 'dash', '/' ]
+          ? [ 'dash', '/', 'index' ]
           : [ null, null ]
       const fridgeLength = state.fridge.contents.length
       const shouldTransition =
@@ -181,7 +181,7 @@ function reducer(state = defaults, action) {
         browserHistory.push(nextPath)
       }
       const search = !shouldTransition ? state.search : { ...state.search, isFocused: false }
-      return { ...state, pathname, display, shouldTransition, search }
+      return { ...state, pathname, display: shouldTransition ? nextDisplay : display, shouldTransition, search }
 
     /** READY **/
     case constants.SET_READY:

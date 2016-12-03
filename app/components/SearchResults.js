@@ -3,7 +3,7 @@ import Ingredient from '../components/Ingredient'
 import Preloader from '../components/Preloader'
 import Error from '../components/Error'
 
-const SuggestionList = props => {
+const SearchResults = props => {
   let results
   const status = (props.isFocused && props.searchText.length > 1) ? 'open' : ''
   if (props.isLoading) {
@@ -43,14 +43,17 @@ const SuggestionList = props => {
     results = (
       <ul className="media-list dropdown-menu">
         {
-          props.suggestionResults.map((item, i) => (
-            <Ingredient
-              key={i}
-              ingredient={item}
-              idName={`ingr_${i}`}
-              parent={'search'}
-            />
-          ))
+          props.suggestionResults.map((item, i) => {
+            const ingredientWithAdded = { ...item, isAdded: props.isInFridge(item) }
+            return (
+              <Ingredient
+                key={i}
+                ingredient={ingredientWithAdded}
+                idName={`search-${i}`}
+                parent={'search'}
+              />
+            )
+          })
         }
       </ul>
     )
@@ -62,7 +65,7 @@ const SuggestionList = props => {
   )
 }
 
-SuggestionList.propTypes = {
+SearchResults.propTypes = {
   searchText: React.PropTypes.string.isRequired,
   isFocused: React.PropTypes.bool.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
@@ -72,4 +75,4 @@ SuggestionList.propTypes = {
   ).isRequired
 }
 
-export default SuggestionList
+export default SearchResults

@@ -11,7 +11,7 @@ const CookingTodayList = (props) => (
         {props.title}
       </h5>
     </div>
-    <div className="list-wrapper">
+    <div className="cooking-today-content list-wrapper">
     {
       props.cookingToday.contents.map((item, i) => (
       <CookingToday

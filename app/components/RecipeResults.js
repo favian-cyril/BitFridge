@@ -95,7 +95,7 @@ RecipeResults.propTypes = {
   addCookToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.string,
-  recipes: React.PropTypes.arrayOf(React.PropTypes.object)
+  recipes: React.PropTypes.object
 }
 
 export default RecipeResults
