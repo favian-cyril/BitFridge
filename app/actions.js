@@ -147,7 +147,7 @@ export const fetchSuggestions = () => {
 export const fetchRecipes = () => {
   return (dispatch, getState) => {
     const state = getState()
-    const ingredients = state.fridge.contents
+    const ingredients = state.fridge.contents.map(i => i.name)
     const page = state.recipes.page
     if (ingredients.length > 0) {
       const timestamp = (new Date()).getTime()

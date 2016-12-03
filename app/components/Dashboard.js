@@ -16,7 +16,7 @@ const Dashboard = (props, context) => (
         </div>
         <div className="col-xs-4 offset-xs-2 search-bar-fix">
           <div className="container">
-            <SearchContainer/>
+            <SearchContainer fridge={props.fridge}/>
           </div>
         </div>
         <NavUser user={props.user}/>
@@ -28,7 +28,7 @@ const Dashboard = (props, context) => (
           <div className="row">
             <Fridge
               title="My Fridge"
-              contents={props.fridge.context}
+              contents={props.fridge.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}
             />
@@ -51,6 +51,7 @@ const Dashboard = (props, context) => (
               moreRecipes={props.moreRecipes}
               retryRecipes={props.retryRecipes}
               errorType={props.errorType.recipes}
+              recipes={props.recipes}
             />
           </div>
         </div>

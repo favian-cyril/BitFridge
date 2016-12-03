@@ -30,7 +30,7 @@ const Index = (props) => {
         </div>
         <div className="row">
           <div className="col-xs-6 offset-xs-3">
-            <SearchContainer/>
+            <SearchContainer fridge={props.fridge}/>
           </div>
         </div>
       </div>

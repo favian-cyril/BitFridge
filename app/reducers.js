@@ -87,7 +87,7 @@ function reducer(state = defaults, action) {
       return { ...state, recipes: newRecipes }
     case constants.RECEIVE_RECIPES:
       if (action.timestamp === state.recipes.timestamp) {
-        const results = [...state.recipes.contents, action.recipes]
+        const results = [...state.recipes.contents, ...action.recipes]
         newRecipes = {
           ...state.recipes,
           contents: results,
@@ -180,7 +180,8 @@ function reducer(state = defaults, action) {
       if (shouldTransition) {
         browserHistory.push(nextPath)
       }
-      return { ...state, pathname, display, shouldTransition }
+      const search = !shouldTransition ? state.search : { ...state.search, isFocused: false }
+      return { ...state, pathname, display, shouldTransition, search }
 
     /** READY **/
     case constants.SET_READY:

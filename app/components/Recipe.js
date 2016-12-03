@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Recipe = (props) => {
+const Recipe = props => {
   const missing = props.recipe.missedIngredients.map(item => item.name)
   let missingStr
   if (missing) {

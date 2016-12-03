@@ -163,16 +163,24 @@ div.index-container .media.ingredient:last-child {
 }
 
 /* INGREDIENT BUTTON ACTIONS */
-/* not added, general styling */
+/* general styling */
 button.btn-add {
   background-color: transparent;
   padding: 0 5px;
+}
+
+/* not added */
+button.btn-add > i.btn-add-icon {
   color: #55595c;
+  -webkit-transition: transform 0.5s, color 0.1s;
+  -moz-transition: transform 0.5s, color 0.1s;
+  -o-transition: transform 0.5s, color 0.1s;
+  transition: transform 0.5s, color 0.1s;
 }
 
 /* not added, hover */
 button.btn-add:hover > i.btn-add-icon {
-  color: rgb(105, 187, 15)
+  color: rgb(105, 187, 15);
 }
 
 /* not added, click */
@@ -184,8 +192,6 @@ button.btn-add:active > i.btn-add-icon {
 button.btn-add.added > i.btn-add-icon {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
-  transition-duration: 0.8s;
-  transition-property: transform;
 }
 
 /* added, hover */
@@ -194,7 +200,7 @@ button.btn-add.added:hover > i.btn-add-icon {
 }
 
 /* added, click */
-button.btn-add.success:hover > i.btn-add-icon {
+button.btn-add.added:hover > i.btn-add-icon {
   color: rgb(179, 27, 44);
 }
 
