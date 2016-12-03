@@ -13,6 +13,12 @@ div.dash-container > div {
   padding-top: 70px;
 }
 
+@media (max-width: 540px) {
+  div.dash-container > div {
+    padding-top: 100px;
+  }
+}
+
 /* IMAGES */
 img.index-logo {
   padding: 20px;
@@ -45,7 +51,7 @@ nav.navbar-index {
 
 /* LOGIN */
 .margin-login {
-  margin-right: 3em;
+  margin-right: 1em;
 }
 
 a.btn-secondary img {
@@ -130,7 +136,7 @@ button.view-more {
   position: absolute;
   top: 0; bottom: 0; right: 0;
   width: 10px;
-  z-index: 9999;
+  z-index: 10;
   background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
@@ -320,6 +326,11 @@ div.panel ul li.list-group-item {
   z-index: 9999;
 }
 
+/* POPOVER (LOGIN) */
+.popover-content {
+  padding: 5px;
+}
+
 /* UTILITY CLASSES */
 .centered {
   float: none;
@@ -337,6 +348,10 @@ div.panel ul li.list-group-item {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.search-bar-fix {
+  padding-bottom: 5px;
 }
 
 /* REACT CSS TRANSITIONS */

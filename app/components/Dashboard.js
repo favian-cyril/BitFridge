@@ -9,22 +9,22 @@ const Dashboard = (props, context) => (
   <div className="dash-container">
     <nav className="navbar navbar-fixed-top navbar-light clearfix">
       <div className="row">
-        <div className="col-xs-2 offset-xs-1">
+        <div className="col-xs-6 col-lg-2 offset-lg-1">
           <div className="navbar-brand" href="#">
             <img className="img-responsive" src="../images/logo-1x.png" alt="logo-nav"/>
           </div>
         </div>
-        <div className="col-xs-4 offset-xs-2 search-bar-fix">
-          <div className="container">
-            <SearchContainer fridge={props.fridge}/>
-          </div>
+        <div className="col-xs-3 col-sm-2 pull-right">
+          <NavUser user={props.user}/>
         </div>
-        <NavUser user={props.user}/>
+        <div className="col-xs-12 col-lg-4 offset-lg-2 search-bar-fix">
+          <SearchContainer fridge={props.fridge}/>
+        </div>
       </div>
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-4 offset-xs-1">
+        <div className="col-lg-4 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -42,7 +42,7 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-xs-6">
+        <div className="col-lg-6">
           <div className="row">
             <RecipeResults
               isLoading={props.recipes.isLoading}

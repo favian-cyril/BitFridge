@@ -7,7 +7,10 @@ const Index = (props) => {
   const logoImage = (
     <img
       className="img-responsive index-logo
-      offset-xs-4 col-xs-4"
+      col-xs-10 offset-xs-1
+      col-sm-8 offset-sm-2
+      col-md-6 offset-md-3
+      col-lg-4 offset-lg-4"
       src={logoUrl}
       alt="bitfridge-logo"
       title="Hello!"
@@ -29,7 +32,8 @@ const Index = (props) => {
           {logoImage}
         </div>
         <div className="row">
-          <div className="col-xs-6 offset-xs-3">
+          <div
+            className="col-lg-6 offset-lg-3">
             <SearchContainer fridge={props.fridge}/>
           </div>
         </div>
