@@ -10,6 +10,7 @@ class RecipeResults extends React.Component {
     super(props)
     this.handleMoreRecipes = this.handleMoreRecipes.bind(this)
     this.handleRetryRecipes = this.handleRetryRecipes.bind(this)
+    this.handleAddToCookingToday = this.handleAddToCookingToday.bind(this)
     this.handleMoreRecipes = throttle(this.handleMoreRecipes, 500, { leading: true })
   }
   
@@ -21,10 +22,15 @@ class RecipeResults extends React.Component {
   handleRetryRecipes() {
     this.props.retryRecipes()
   }
+  
+  handleAddToCookingToday(recipe) {
+    this.props.addCookToday(recipe)
+    uiUtils.anims.scrollDown('.cooking-today-content.list-wrapper')
+  }
 
   render() {
     let results = this.props.recipes.contents.map((item, i) =>
-      <Recipe key={i} recipe={item} addCookToday={this.props.addCookToday}/>
+      <Recipe key={i} recipe={item} addCookToday={this.handleAddToCookingToday}/>
     )
     if (this.props.isLoading && this.props.recipes.contents.length === 0) {
       results = <Preloader/>
