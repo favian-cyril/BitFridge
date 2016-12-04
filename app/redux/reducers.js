@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import defaults from '../config/defaultStates'
+import defaults from './defaultStates'
 import { VIEW_THRESHOLD } from '../config/constants'
 import uiUtils from '../utils/ui'
 import constants from './constants'
@@ -140,12 +140,12 @@ function reducer(state = defaults, action) {
         isLoading: true,
         timestamp: action.timestamp
       }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     case constants.RECEIVE_USER_DATA:
       if (action.timestamp === state.userData.timestamp) {
         newUserData = { ...state.userData, isLoading: false, user: action.userData.user }
-        newState = { ...state, newUserData }
+        newState = { ...state, userData: newUserData }
       } else {
         newState = state
       }
@@ -153,11 +153,11 @@ function reducer(state = defaults, action) {
 
     case constants.SEND_SYNC:
       newUserData = { ...state.userData, didInvalidate: true }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     case constants.ACK_SYNC:
       newUserData = { ...state.userData, didInvalidate: false }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     /** DISPLAY **/
     case constants.TRANSITION_DISPLAY:

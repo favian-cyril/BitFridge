@@ -22,10 +22,18 @@ class App extends React.Component {
     /**
      * Initial display setting and fetching of user data and recipes.
      * Displays preloader until all data has been fetched.
-     * Receives pathname
+     * Receives current pathname as argument for initial setup.
+     * In addition, sets up a listener that executes on before 
+     * window unload and prevents exit if userData is not yet
+     * synced.
      */
-    const { initialSetup } = this.props
+    const { initialSetup, syncUserData } = this.props
     initialSetup(this.props.pathname)
+    window.onbeforeunload = e => {
+      if (this.props.userData.didInvalidate) {
+        return false
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -195,7 +195,7 @@ export const syncUserData = () => {
   return (dispatch, getState) => {
     dispatch(sendSync())
     const user = mapStateToUserData(dispatch, getState)
-    syncUser(user)
+    return syncUser(user)
       .then(
         () => dispatch(ackSync()),
         error => dispatch(handleError(error, 'userData'))
