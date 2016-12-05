@@ -18,8 +18,8 @@ userSchema.methods.addToFridge = function (ingredient, cb) {
   this.constructor.update(query, update, cb)
 }
 
-userSchema.methods.syncUser = function (user, cb) {
-  this.constructor.update({ id: this.id }, user, cb)
+userSchema.statics.syncUser = function (user, cb) {
+  this.update({ id: user.id }, user, cb)
 }
 
 var User = mongoose.model('User', userSchema)

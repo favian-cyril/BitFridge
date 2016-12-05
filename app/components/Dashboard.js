@@ -24,7 +24,7 @@ const Dashboard = (props, context) => (
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-lg-4 offset-lg-1">
+        <div className="col-sm-5 col-lg-4 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -42,7 +42,7 @@ const Dashboard = (props, context) => (
             />
           </div>
         </div>
-        <div className="col-lg-6">
+        <div className="col-sm-7 col-lg-6">
           <div className="row">
             <RecipeResults
               isLoading={props.recipes.isLoading}

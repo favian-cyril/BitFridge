@@ -35,27 +35,23 @@ router.get('/recipes/results', function (req, res, next) {
 })
 
 router.get('/user/data', function (req, res, next) {
-  if (req.session.user) {
-    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    res.header('Expires', '-1');
-    res.header('Pragma', 'no-cache')
-    res.json({ user: req.session.user })
-  } else {
-    res.status(404).end()
-  }
+  User.findOne({ id: req.session.user.id }, null, function (err, doc) {
+    if (!err) {
+      res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+      res.header('Expires', '-1');
+      res.header('Pragma', 'no-cache')
+      res.json({ user: doc })
+    } else {
+      res.status(404).end()
+    }
+  })
 })
 
 router.post('/user/sync', function (req, res, next) {
   const userData = req.body
-  User.findOne({ id: req.session.user.id }, function (err, user) {
+  User.syncUser(userData, function (err) {
     if (!err) {
-      user.syncUser(userData, function (err, status) {
-        if (!err && status.ok) {
-          res.status(200).end()
-        } else {
-          next(err)
-        }
-      })
+      res.status(200).end()
     } else {
       next(err)
     }

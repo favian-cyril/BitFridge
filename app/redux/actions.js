@@ -77,10 +77,7 @@ export const requestUserData = timestamp => ({
 
 export const receiveUserData = (user, timestamp) => ({
   type: constants.RECEIVE_USER_DATA,
-  userData: {
-    user,
-    timestamp
-  },
+  user,
   timestamp
 })
 
@@ -184,7 +181,7 @@ export const fetchUserData = () => {
     dispatch(requestUserData(timestamp))
     return fetchUser()
       .then(
-        userData => dispatch(receiveUserData(userData, timestamp)),
+        userData => dispatch(receiveUserData(userData.user, timestamp)),
         error => dispatch(handleError(error, 'userData'))
       )
   }
@@ -218,8 +215,8 @@ export const initialSetup = pathname => {
 
 export const mapStateToUserData = (dispatch, getState) => {
   const { fridge, cookingToday, userData } = getState()
-  const newFridge = fridge.contents.map(f => f.contents)
-  const newCookingToday = cookingToday.contents.map(c => c.contents)
+  const newFridge = fridge.contents.map(f => f)
+  const newCookingToday = cookingToday.contents.map(c => c)
   const newUser = {
     ...userData.user,
     fridge: newFridge,
