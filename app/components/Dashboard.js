@@ -28,7 +28,7 @@ const Dashboard = (props, context) => (
           <div className="row">
             <Fridge
               title="My Fridge"
-              contents={props.fridge.context}
+              contents={props.fridge.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}
             />
@@ -51,6 +51,7 @@ const Dashboard = (props, context) => (
               moreRecipes={props.moreRecipes}
               retryRecipes={props.retryRecipes}
               errorType={props.errorType.recipes}
+              recipes={props.recipe}
             />
           </div>
         </div>
@@ -78,7 +79,10 @@ Dashboard.propTypes = {
     id: React.PropTypes.string,
     name: React.PropTypes.string
   }).isRequired,
-  clearCookToday: React.PropTypes.func.isRequired
+  clearCookToday: React.PropTypes.func.isRequired,
+  fridge: React.PropTypes.object.isRequired,
+  cookingToday: React.PropTypes.object.isRequired,
+  recipes: React.PropTypes.object.isRequired
 }
 
 // Default props for cloned children
@@ -91,7 +95,10 @@ Dashboard.defaultProps = {
   clearCookToday: () => {},
   isLoading: false,
   isExpanded: {expand:false, id:0},
-  user: {}
+  user: {},
+  fridge: {},
+  cookingToday: {},
+  recipes: {}
 }
 
 

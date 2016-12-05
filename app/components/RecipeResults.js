@@ -4,12 +4,12 @@ import Preloader from './Preloader'
 import Error from './Error'
 
 const RecipeResults = (props, context) => {
-  let results = context.recipes.map((item, i) =>
+  let results = props.recipes.contents.map((item, i) =>
     <Recipe key={i} recipe={item} addCookToday={props.addCookToday}/>
   )
-  if (props.isLoading && context.recipes.length === 0) {
+  if (props.isLoading && props.recipes.contents.length === 0) {
     results = <Preloader/>
-  } else if (props.isLoading && context.recipes.length > 0) {
+  } else if (props.isLoading && props.recipes.contents.length > 0) {
     results = (
       <div>
         {results}
@@ -52,7 +52,7 @@ const RecipeResults = (props, context) => {
         </center>
       </li>
     )
-  } else if (context.recipes.length === 0) {
+  } else if (props.recipes.contents.length === 0) {
     const errorDesc = 'Sorry, there are no recipes found containing all the ingredients you want. ' +
       'Try removing one ingredient or two from your fridge.'
     results = (
@@ -94,11 +94,9 @@ RecipeResults.propTypes = {
   retryRecipes: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
-  errorType: React.PropTypes.string
+  errorType: React.PropTypes.string,
+  recipes: React.PropTypes.object.isRequired
 }
 
-RecipeResults.contextTypes = {
-  recipes: React.PropTypes.arrayOf(React.PropTypes.object),
-}
 
 export default RecipeResults

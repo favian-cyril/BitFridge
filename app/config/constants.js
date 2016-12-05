@@ -1,3 +1,3 @@
 module.exports = {
-  VIEW_THRESHOLD: 3
+  VIEW_THRESHOLD: 1
 }
