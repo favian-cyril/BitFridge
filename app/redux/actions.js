@@ -23,9 +23,10 @@ export const toggleFocus = () => ({
 })
 
 /** FRIDGE **/
-export const toggleAddDelete = ingredient => ({
+export const toggleAddDelete = (ingredient, idName) => ({
   type: constants.TOGGLE_ADD_DELETE,
-  ingredient
+  ingredient,
+  idName
 })
 
 /** RECIPES **/
@@ -48,7 +49,7 @@ export const resetRecipes = () => ({
   type: constants.RESET_RECIPES
 })
 
-/** Cooking today **/
+/** COOKING TODAY **/
 export const addToCookingToday = recipe => ({
   type: constants.ADD_TO_COOKING_TODAY,
   recipe
@@ -114,7 +115,7 @@ export const clearError = (error, component) => ({
 })
 
 /** ASYNCHRONOUS THUNKS **/
-import { searchIngredients, searchResults, fetchUser, syncUser } from './clientapi'
+import { searchIngredients, searchResults, fetchUser, syncUser } from '../clientapi'
 
 export const fetchSuggestions = () => {
   return (dispatch, getState) => {
@@ -146,7 +147,7 @@ export const fetchSuggestions = () => {
 export const fetchRecipes = () => {
   return (dispatch, getState) => {
     const state = getState()
-    const ingredients = state.fridge.contents
+    const ingredients = state.fridge.contents.map(i => i.name)
     const page = state.recipes.page
     if (ingredients.length > 0) {
       const timestamp = (new Date()).getTime()
@@ -193,7 +194,7 @@ export const syncUserData = () => {
   return (dispatch, getState) => {
     dispatch(sendSync())
     const user = mapStateToUserData(dispatch, getState)
-    syncUser(user)
+    return syncUser(user)
       .then(
         () => dispatch(ackSync()),
         error => dispatch(handleError(error, 'userData'))

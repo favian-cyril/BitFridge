@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { browserHistory } from 'react-router'
-import defaults from './config/defaultStates'
-import { VIEW_THRESHOLD } from './config/constants'
-import uiUtils from './utils/ui'
+import defaults from './defaultStates'
+import { VIEW_THRESHOLD } from '../config/constants'
+import uiUtils from '../utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
@@ -50,13 +50,11 @@ function reducer(state = defaults, action) {
         case false:
           newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
           newFridge = { ...state.fridge, contents: newContents }
-          message = 'Added ingredient to fridge!'
-          if (!state.shouldTransition) {
-            uiUtils.tooltips.showTooltip(
-              action.ingredient.idName,
-              message
-            )
-          }
+          message = 'Added to fridge!'
+          uiUtils.tooltips.showTooltip(
+            action.idName,
+            message
+          )
           return { ...state, fridge: newFridge }
         case true:
           const index = _.findIndex(state.fridge.contents,
@@ -66,13 +64,11 @@ function reducer(state = defaults, action) {
             ...state.fridge.contents.slice(index + 1)
           ]
           newFridge = { ...state.fridge, contents: newContents }
-          message = 'Deleted ingredient from fridge!'
-          if (!state.shouldTransition) {
-            uiUtils.tooltips.showTooltip(
-              action.ingredient.idName,
-              message
-            )
-          }
+          message = 'Deleted from fridge!'
+          uiUtils.tooltips.showTooltip(
+            action.idName,
+            message
+          )
           return { ...state, fridge: newFridge, message }
         default: return state  // not gonna happen unless errored
       }
@@ -87,7 +83,7 @@ function reducer(state = defaults, action) {
       return { ...state, recipes: newRecipes }
     case constants.RECEIVE_RECIPES:
       if (action.timestamp === state.recipes.timestamp) {
-        const results = [...state.recipes.contents, action.recipes]
+        const results = [...state.recipes.contents, ...action.recipes]
         newRecipes = {
           ...state.recipes,
           contents: results,
@@ -114,9 +110,8 @@ function reducer(state = defaults, action) {
       return { ...state, cookingToday: newCookingToday }
 
     case constants.TOGGLE_COOKING_TODAY:
-      const isExpanded = !state.accordion.isExpanded || state.accordion.id !== action.index
-      index = action.index
-      const newAccordion = { isExpanded, index }
+      const isExpanded = !state.cookingToday.accordion.isExpanded || state.cookingToday.accordion.index !== action.index
+      const newAccordion = { isExpanded, index: action.index }
       newCookingToday = { ...state.cookingToday, accordion: newAccordion }
       return { ...state, cookingToday: newCookingToday }
 
@@ -145,12 +140,12 @@ function reducer(state = defaults, action) {
         isLoading: true,
         timestamp: action.timestamp
       }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     case constants.RECEIVE_USER_DATA:
       if (action.timestamp === state.userData.timestamp) {
         newUserData = { ...state.userData, isLoading: false, user: action.userData.user }
-        newState = { ...state, newUserData }
+        newState = { ...state, userData: newUserData }
       } else {
         newState = state
       }
@@ -158,20 +153,20 @@ function reducer(state = defaults, action) {
 
     case constants.SEND_SYNC:
       newUserData = { ...state.userData, didInvalidate: true }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     case constants.ACK_SYNC:
       newUserData = { ...state.userData, didInvalidate: false }
-      return { ...state, newUserData }
+      return { ...state, userData: newUserData }
 
     /** DISPLAY **/
     case constants.TRANSITION_DISPLAY:
       var pathname = state.pathname ? state.pathname : action.pathname
-      const [ display, nextPath ] =
+      let [ display, nextPath, nextDisplay ] =
         action.pathname === '/'
-          ? [ 'index', '/dash' ]
+          ? [ 'index', '/dash', 'dash' ]
         : action.pathname === '/dash'
-          ? [ 'dash', '/' ]
+          ? [ 'dash', '/', 'index' ]
           : [ null, null ]
       const fridgeLength = state.fridge.contents.length
       const shouldTransition =
@@ -180,7 +175,8 @@ function reducer(state = defaults, action) {
       if (shouldTransition) {
         browserHistory.push(nextPath)
       }
-      return { ...state, pathname, display, shouldTransition }
+      const search = !shouldTransition ? state.search : { ...state.search, isFocused: false }
+      return { ...state, pathname, display: shouldTransition ? nextDisplay : display, shouldTransition, search }
 
     /** READY **/
     case constants.SET_READY:

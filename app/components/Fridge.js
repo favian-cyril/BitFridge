@@ -1,4 +1,5 @@
 import React from 'react'
+import TransitionGroup from 'react-addons-css-transition-group'
 import Ingredient from '../components/Ingredient'
 
 const Fridge = props => (
@@ -9,19 +10,25 @@ const Fridge = props => (
         {props.title}
       </h5>
     </div>
-    <div className="list-wrapper">
+    <div className="fridge-content list-wrapper">
       <ul className="media-list">
-        {
-          props.contents.map((item, i) => (
-            <Ingredient
-              key={i}
-              ingredient={item}
-              idName={`ingr_${i}`}
-              parent={'fridge'}
-            />
+        <TransitionGroup
+          transitionName="fridge-contents"
+          transitionEnterTimeout={600}
+          transitionLeaveTimeout={600}
+        >
+          {
+            props.contents.map((item, i) => (
+              <Ingredient
+                key={i}
+                ingredient={item}
+                idName={`fridge-${i}`}
+                parent={'fridge'}
+              />
+              )
             )
-          )
-        }
+          }
+        </TransitionGroup>
       </ul>
     </div>
   </div>

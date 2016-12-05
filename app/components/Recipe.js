@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Recipe = (props) => {
+const Recipe = props => {
   const missing = props.recipe.missedIngredients.map(item => item.name)
   let missingStr
   if (missing) {
@@ -35,7 +35,7 @@ const Recipe = (props) => {
         </a>
         <a
           className="btn btn-block btn-success"
-          onClick={function(){ props.addCookToday(props.recipe)}}
+          onClick={() => { props.addCookToday(props.recipe) }}
         >
           <span className="bf bf-lg bf-pan-add"></span>
         </a>

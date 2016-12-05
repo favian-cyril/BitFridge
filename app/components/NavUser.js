@@ -3,7 +3,7 @@ import { ButtonToolbar, OverlayTrigger, Popover } from 'react-bootstrap'
 import { syncUser } from '../clientapi'
 
 const NavUser = props => {
-  const placement = (props.display === 'index') ? 'offset-xs-9 pull-right margin-login' : 'row'
+  const placement = (props.display === 'index') ? 'offset-xs-10 pull-right margin-login' : 'row'
   const popoverLogin = (
     <Popover id="popover-login" style={{ marginTop : 4 }}>
       <div className="btn-group">

@@ -3,28 +3,28 @@ import CookingTodayList from './CookingTodayList'
 import Fridge from './Fridge'
 import NavUser from './NavUser'
 import RecipeResults from './RecipeResults'
-import SearchContainer from '../containers/SearchContainer'
+import SearchContainer from './Search'
 
 const Dashboard = (props, context) => (
   <div className="dash-container">
     <nav className="navbar navbar-fixed-top navbar-light clearfix">
       <div className="row">
-        <div className="col-xs-2 offset-xs-1">
+        <div className="col-xs-6 col-lg-2 offset-lg-1">
           <div className="navbar-brand" href="#">
             <img className="img-responsive" src="../images/logo-1x.png" alt="logo-nav"/>
           </div>
         </div>
-        <div className="col-xs-4 offset-xs-2 search-bar-fix">
-          <div className="container">
-            <SearchContainer/>
-          </div>
+        <div className="col-xs-3 col-sm-2 pull-right">
+          <NavUser user={props.user}/>
         </div>
-        <NavUser user={props.user}/>
+        <div className="col-xs-12 col-lg-4 offset-lg-2 search-bar-fix">
+          <SearchContainer fridge={props.fridge}/>
+        </div>
       </div>
     </nav>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-xs-4 offset-xs-1">
+        <div className="col-lg-4 offset-lg-1">
           <div className="row">
             <Fridge
               title="My Fridge"
@@ -37,21 +37,20 @@ const Dashboard = (props, context) => (
             <CookingTodayList
               title="Cooking Today"
               cookingToday={props.cookingToday}
-              toggleAccordion={props.toggleCookingToday}
-              isExpanded={props.isExpanded}
-              clearCookToday={props.clearCookToday}
+              toggleCookingToday={props.toggleCookingToday}
+              clearCookToday={props.clearCookingToday}
             />
           </div>
         </div>
-        <div className="col-xs-6">
+        <div className="col-lg-6">
           <div className="row">
             <RecipeResults
-              isLoading={props.isLoading}
-              addCookToday={props.addCookToday}
-              moreRecipes={props.moreRecipes}
-              retryRecipes={props.retryRecipes}
+              isLoading={props.recipes.isLoading}
+              addCookToday={props.addToCookingToday}
+              moreRecipes={props.fetchMoreRecipes}
+              retryRecipes={props.refreshRecipes}
               errorType={props.errorType.recipes}
-              recipes={props.recipe}
+              recipes={props.recipes}
             />
           </div>
         </div>
@@ -69,7 +68,7 @@ Dashboard.propTypes = {
   isLoading: React.PropTypes.bool.isRequired,
   isExpanded: React.PropTypes.shape({
     expand: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.number.isRequired
+    index: React.PropTypes.number.isRequired
   }).isRequired,
   errorType: React.PropTypes.shape({
     fridge: React.PropTypes.string.isRequired,
@@ -94,12 +93,8 @@ Dashboard.defaultProps = {
   toggleCookingToday: () => {},
   clearCookToday: () => {},
   isLoading: false,
-  isExpanded: {expand:false, id:0},
-  user: {},
-  fridge: {},
-  cookingToday: {},
-  recipes: {}
+  isExpanded: { expand: false, index: 0 },
+  user: {}
 }
-
 
 export default Dashboard

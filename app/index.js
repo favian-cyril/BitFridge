@@ -2,10 +2,10 @@ import React from 'react'  // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider, connect } from 'react-redux'
-import App from './containers/App'
+import App from './App'
 import Index from './components/Index'
 import Dashboard from './components/Dashboard'
-import store from './store'
+import store from './redux/store'
 
 const Root = ({ store, history }) => (
   <Provider store={store}>
