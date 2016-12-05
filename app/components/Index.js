@@ -24,7 +24,7 @@ const Index = (props) => {
     <div className="index-container">
       <nav className="navbar navbar-fixed-top navbar-index clearfix">
         <div className="row">
-          <NavUser user={props.user} display={props.display}/>
+          <NavUser user={props.userData.user} display={props.display}/>
         </div>
       </nav>
       <div className="container-fluid">

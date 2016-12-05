@@ -15,7 +15,7 @@ const Dashboard = (props, context) => (
           </div>
         </div>
         <div className="col-xs-3 col-sm-2 pull-right">
-          <NavUser user={props.user}/>
+          <NavUser user={props.userData.user}/>
         </div>
         <div className="col-xs-12 col-lg-4 offset-lg-2 search-bar-fix">
           <SearchContainer fridge={props.fridge}/>
