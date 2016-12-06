@@ -54,7 +54,6 @@ function verificationCallback (accountType) {
         "Please allow BitFridge access to your e-mail."))
     }
     User.findOne({ [accountEmail]: profile.emails[0].value }, function (err, user) {
-      console.log({ [accountEmail]: profile.emails[0].value, user })
       if (err) {
         cb(err)   // something bad
       } else if (!user) {
