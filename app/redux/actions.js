@@ -77,13 +77,7 @@ export const requestUserData = timestamp => ({
 
 export const receiveUserData = (user, timestamp) => ({
   type: constants.RECEIVE_USER_DATA,
-<<<<<<< HEAD
-  userData: {
-    user
-  },
-=======
   user,
->>>>>>> 73ef47cc77f3be3272e0d0566508f1fdde036096
   timestamp
 })
 
