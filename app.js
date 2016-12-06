@@ -52,13 +52,11 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
-  cb(null, profile.id)
+  cb(null, profile)
 });
 
 passport.deserializeUser(function(req, obj, cb) {
-  User.findById({ id }, function (err, user) {
-    cb(null, user)
-  })
+  cb(null, obj)
 });
 
 app.use(passport.initialize())

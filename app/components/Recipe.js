@@ -31,7 +31,7 @@ const Recipe = props => {
           href={props.recipe.sourceUrl}
           target="_blank" rel="noopener noreferrer"
         >
-          <span className="fa fa-arrow-right"></span>
+          <span className="fa fa-external-link"></span>
         </a>
         <a
           className="btn btn-block btn-secondary"
