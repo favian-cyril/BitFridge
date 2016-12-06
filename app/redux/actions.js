@@ -64,9 +64,8 @@ export const clearCookingToday = () => ({
   type: constants.CLEAR_COOKING_TODAY
 })
 
-export const updateMissingCookingToday = (fridge) => ({
-  type: constants.UPDATE_MISSING_COOKING_TODAY,
-  fridge
+export const updateMissingCookingToday = () => ({
+  type: constants.UPDATE_MISSING_COOKING_TODAY
 })
 
 /** User data **/

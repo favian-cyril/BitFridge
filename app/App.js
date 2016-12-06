@@ -10,13 +10,13 @@ class App extends React.Component {
     super(props)
     this.hasChanged = this.hasChanged.bind(this)
   }
-  
+
   componentWillMount() {
     /**
-     * Initial display setting and fetching of user data and 
+     * Initial display setting and fetching of user data and
      * recipes. Displays preloader until all data has been fetched.
      * Receives current pathname as argument for initial setup.
-     * In addition, also removes hash values from logins or anything 
+     * In addition, also removes hash values from logins or anything
      * else from the URL.
      */
     const { initialSetup, transitionDisplay } = this.props
@@ -46,7 +46,7 @@ class App extends React.Component {
       transitionDisplay, refreshRecipes,
       updateMissingCookingToday, syncUserData
     } = this.props
-    
+
     if (this.hasChanged(this.props.fridge, nextProps.fridge)) {
       const currentFridgeLength = this.props.fridge.contents.length
       const nextFridgeLength = nextProps.fridge.contents.length

@@ -124,7 +124,7 @@ function reducer(state = defaults, action) {
         recipe => recipe.missedIngredients
       )
       const results = missingIngredients.map(missed =>
-        _.differenceBy(missed, action.fridge, 'id')
+        _.differenceBy(missed, state.fridge.contents, 'id')
       )
       newContents = state.cookingToday.contents.map(function (ingredients, i) {
         ingredients.missedIngredients = results[i]
