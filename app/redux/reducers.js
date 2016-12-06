@@ -173,7 +173,7 @@ function reducer(state = defaults, action) {
           : [ null, null ]
       const fridgeLength = state.fridge.contents.length
       const shouldTransition =
-        (fridgeLength === VIEW_THRESHOLD && display === 'index') ||
+        (fridgeLength >= VIEW_THRESHOLD && display === 'index') ||
         (fridgeLength === VIEW_THRESHOLD - 1 && display === 'dash')
       if (shouldTransition) {
         browserHistory.push(nextPath)
