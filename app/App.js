@@ -13,22 +13,23 @@ class App extends React.Component {
   
   componentWillMount() {
     /**
-     * Removes hash values from logins or anything else from the URL.
+     * Initial display setting and fetching of user data and 
+     * recipes. Displays preloader until all data has been fetched.
+     * Receives current pathname as argument for initial setup.
+     * In addition, also removes hash values from logins or anything 
+     * else from the URL.
      */
+    const { initialSetup, transitionDisplay } = this.props
+    initialSetup(this.props.pathname)
     history.pushState("", document.title, window.location.pathname + window.location.search);
+    transitionDisplay(this.props.pathname)
   }
 
   componentDidMount() {
     /**
-     * Initial display setting and fetching of user data and recipes.
-     * Displays preloader until all data has been fetched.
-     * Receives current pathname as argument for initial setup.
-     * In addition, sets up a listener that executes on before 
-     * window unload and prevents exit if userData is not yet
-     * synced.
+     * Sets up a listener that executes on before window
+     * unload and prevents exit if userData is not yet synced.
      */
-    const { initialSetup, syncUserData } = this.props
-    initialSetup(this.props.pathname)
     window.onbeforeunload = e => {
       if (this.props.userData.didInvalidate) {
         return false

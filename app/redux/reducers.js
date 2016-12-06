@@ -143,11 +143,14 @@ function reducer(state = defaults, action) {
       return { ...state, userData: newUserData }
 
     case constants.RECEIVE_USER_DATA:
-      if (action.timestamp === state.userData.timestamp) {
-        newUserData = { ...state.userData, isLoading: false, user: action.userData.user }
-        newState = { ...state, userData: newUserData }
-      } else {
-        newState = state
+      const userObject = action.user
+      console.log({ userObject })
+      newUserData = { ...state.userData, isLoading: false, user: userObject }
+      newState = {
+        ...state,
+        userData: newUserData,
+        fridge: { ...state.fridge, contents: userObject.fridge },
+        cookingToday: { ...state.cookingToday, contents: userObject.cookingToday }
       }
       return newState
 
