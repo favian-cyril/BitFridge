@@ -104,10 +104,6 @@ div.card-block.recipe-card {
   margin-right: 0;
 }
 
-.media-right a.btn-block, .media-right a.btn-block:hover, .media-right a.btn-block:active {
-  color: white;
-}
-
 /* RECIPE SUGGESTION */
 small.missing-str {
   line-height: 1 !important;
