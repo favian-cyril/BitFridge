@@ -2,7 +2,6 @@ import { mount, shallow } from 'enzyme'
 import { assert } from 'chai'
 import React from 'react'
 import Fridge from '../app/components/Fridge'
-import IngredientContainer from '../app/containers/IngredientContainer'
 
 // set up a testing environment to run like a browser in the command line
 // create a fake browser and html doc
@@ -29,16 +28,5 @@ describe('Fridge', function() {
         />
     )
     assert.equal(input, wrapper.instance().props.title)
-  })
-  it("should have content", function() {
-    var wrapper = shallow(
-      <Fridge
-        title={input}
-        contents={content}
-        updateFridge={function() {}}
-        isInFridge={function() {}}
-      />
-    )
-    assert.equal(wrapper.find(IngredientContainer).length, 2)
   })
 })

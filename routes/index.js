@@ -21,14 +21,11 @@ router.get('/', function (req, res, next) {
       }
     })
   }
-  if (req.session.user.fridge.length > 0) {
-    res.redirect('/dash')
-  }
   res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
 })
 
 router.get('/dash', function (req, res, next) {
-  if (!req.session.user || req.session.user.fridge.length < constants.REDIRECT_INGR_THRESHOLD) {
+  if (!req.session.user || req.session.user.fridge.length < constants.VIEW_THRESHOLD) {
     res.redirect('/')
   } else {
     res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })

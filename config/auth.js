@@ -32,13 +32,14 @@ function signUp (req, profile, accountType, cb) {
 function logIn (req, profile, accountType, cb) {
   const accountEmail = `${accountType}.email`
   const email = profile.emails[0].value
-  User.findOne({ accountEmail: email }, function (err, user) {
+  User.findOne({ [accountEmail]: email }, function (err, user) {
     if (err) {
       cb(err)
     } else if (!user) {
       cb(new Error(`User with email ${email} not found.`))
     } else {
       console.log(`User ${user.name} logged in via ${accountType}.`)
+      req.session.user = user.toObject()
       cb(null, user)
     }
   })
@@ -48,12 +49,11 @@ function verificationCallback (accountType) {
   return function (req, accessToken, refreshToken, profile, cb) {
     // find user that account type (facebook/google)
     const accountEmail = `${accountType}.email`
-    console.log({ reqUser: req.session.user, profile })
     if (!profile.emails) {
       cb(new Error("Failed to retrieve e-mail from your account. " +
         "Please allow BitFridge access to your e-mail."))
     }
-    User.findOne({ accountEmail: profile.emails[0].value }, function (err, user) {
+    User.findOne({ [accountEmail]: profile.emails[0].value }, function (err, user) {
       if (err) {
         cb(err)   // something bad
       } else if (!user) {

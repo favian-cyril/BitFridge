@@ -1,5 +1,6 @@
 import React from 'react'
-import IngredientContainer from '../containers/IngredientContainer'
+import TransitionGroup from 'react-addons-css-transition-group'
+import Ingredient from '../components/Ingredient'
 
 const Fridge = props => (
   <div className="card">
@@ -9,21 +10,25 @@ const Fridge = props => (
         {props.title}
       </h5>
     </div>
-    <div className="list-wrapper">
+    <div className="fridge-content list-wrapper">
       <ul className="media-list">
-        {
-          props.contents.map((item, i) => (
-            <IngredientContainer
-              key={i}
-              idName={`ingr_${i}`}
-              parent={'fridge'}
-              ingredient={item}
-              updateFridge={props.updateFridge}
-              isInFridge={props.isInFridge}
-            />
+        <TransitionGroup
+          transitionName="fridge-contents"
+          transitionEnterTimeout={600}
+          transitionLeaveTimeout={600}
+        >
+          {
+            props.contents.map((item, i) => (
+              <Ingredient
+                key={i}
+                ingredient={item}
+                idName={`fridge-${i}`}
+                parent={'fridge'}
+              />
+              )
             )
-          )
-        }
+          }
+        </TransitionGroup>
       </ul>
     </div>
   </div>
@@ -34,8 +39,7 @@ Fridge.propTypes = {
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
-  updateFridge: React.PropTypes.func.isRequired,
-  isInFridge: React.PropTypes.func.isRequired
+  updateFridge: React.PropTypes.func.isRequired
 }
 
 Fridge.defaultProps = {

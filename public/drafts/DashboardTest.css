@@ -47,6 +47,11 @@ div.card-block.recipe-card {
     background-color: #ffffff;
 }
 
+div.card-block.frg-shp {
+    padding: 5px 5px 0px 5px;
+    border-bottom: none;
+}
+
 /* INGREDIENTS */
 
 .media-body {
@@ -93,6 +98,12 @@ button.btn-add:active {
 
 button.btn-add.success {
     color: rgb(105, 187, 15)
+}
+
+/* SHOPPING LIST */
+
+input.checkbox {
+    margin-right: 10px;
 }
 
 /* RECIPE RESULTS */

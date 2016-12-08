@@ -8,9 +8,10 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var session = require('express-session')
 var csrf = require('csurf')
-var RedisStore = require('connect-redis')(session)
+var MongoStore = require('connect-mongo')(session)
 var mongoose = require('mongoose')
 var passport = require('passport')
+var User = require('./models/user')
 
 // fetch .env environment variables
 require('dotenv').config()
@@ -51,7 +52,6 @@ passport.use(authConfig.facebookStrategy)
 passport.use(authConfig.googleStrategy)
 
 passport.serializeUser(function(req, profile, cb) {
-  console.log({ serializedUser: profile })
   cb(null, profile)
 });
 
@@ -66,13 +66,14 @@ app.use(passport.session())
 var options = {
   secret: 'this is a not-so-secret key',
   saveUninitialized: false,
-  resave: false
+  resave: false,
+  cookie: { secure: false }
 }
 
 if (app.get('env') === 'production') {
-  options.store = new RedisStore({
-    host: 'localhost',
-    port: 6379
+  options.store = new MongoStore({
+    mongooseConnection: mongoose.connection,
+    stringify: false
   })
 }
 
@@ -96,6 +97,14 @@ app.use(function (req, res, next) {
 // csrf middleware
 app.use(csrf({ cookie: false }))
 
+// allow cors
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://188.166.247.122:3000');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+})
+
 // router middleware
 app.use('/', routes)
 app.use('/api', api)
@@ -104,9 +113,9 @@ app.use('/login', login)
 // Logout from session
 app.get('/logout', function(req, res, next) {
   if (req.isAuthenticated || req.isAuthenticated()) {
-    req.session.destroy(function (err) {
-      res.redirect('/')
-    })
+    req.logout()
+    req.session.destroy()
+    res.redirect('/')
   }
 })
 

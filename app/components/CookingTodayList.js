@@ -1,7 +1,7 @@
 import React from 'react'
 import CookingToday from './CookingToday'
 
-const CookingTodayList = (props) => (
+const CookingTodayList = props => (
   // Fetch data from props and context, which would be Dashboard
   // Map all props.cookingToday() to create multiple CookingToday
   <div className="card">
@@ -11,15 +11,15 @@ const CookingTodayList = (props) => (
         {props.title}
       </h5>
     </div>
-    <div className="list-wrapper">
+    <div className="cooking-today-content list-wrapper">
     {
-      props.cookingToday.map((item, i) => (
+      props.cookingToday.contents.map((item, i) => (
       <CookingToday
         key={i}
-        id={i}
+        index={i}
         recipe={item}
-        toggleAccordion={props.toggleAccordion}
-        isExpanded={props.isExpanded}
+        toggleCookingToday={props.toggleCookingToday}
+        accordion={props.cookingToday.accordion}
       />
       ))
     }
@@ -49,15 +49,9 @@ const CookingTodayList = (props) => (
 
 CookingTodayList.propTypes = {
   title: React.PropTypes.string.isRequired,
-  cookingToday: React.PropTypes.arrayOf(
-    React.PropTypes.object
-  ).isRequired,
-  toggleAccordion: React.PropTypes.func.isRequired,
-  clearCookToday: React.PropTypes.func.isRequired,
-  isExpanded: React.PropTypes.shape({
-    expand: React.PropTypes.bool.isRequired,
-    id: React.PropTypes.number.isRequired
-  }).isRequired
+  cookingToday: React.PropTypes.object.isRequired,
+  toggleCookingToday: React.PropTypes.func.isRequired,
+  clearCookToday: React.PropTypes.func.isRequired
 }
 
 export default CookingTodayList

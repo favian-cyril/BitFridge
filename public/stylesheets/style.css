@@ -13,6 +13,12 @@ div.dash-container > div {
   padding-top: 70px;
 }
 
+@media (max-width: 540px) {
+  div.dash-container > div {
+    padding-top: 100px;
+  }
+}
+
 /* IMAGES */
 img.index-logo {
   padding: 20px;
@@ -45,7 +51,7 @@ nav.navbar-index {
 
 /* LOGIN */
 .margin-login {
-  margin-right: 3em;
+  margin-right: 1em;
 }
 
 a.btn-secondary img {
@@ -80,7 +86,7 @@ h5.card-title span.bf {
 
 /* RECIPE CONTAINER */
 div.card-block.recipe-card {
-  background-color: #ffffff;
+  background-color: #e7e7e7;
 }
 
 .recipe-list-wrapper {
@@ -96,10 +102,6 @@ div.card-block.recipe-card {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-}
-
-.media-right a.btn-block, .media-right a.btn-block:hover, .media-right a.btn-block:active {
-  color: white;
 }
 
 /* RECIPE SUGGESTION */
@@ -130,7 +132,7 @@ button.view-more {
   position: absolute;
   top: 0; bottom: 0; right: 0;
   width: 10px;
-  z-index: 9999;
+  z-index: 10;
   background-image: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
@@ -163,16 +165,24 @@ div.index-container .media.ingredient:last-child {
 }
 
 /* INGREDIENT BUTTON ACTIONS */
-/* not added, general styling */
+/* general styling */
 button.btn-add {
   background-color: transparent;
   padding: 0 5px;
+}
+
+/* not added */
+button.btn-add > i.btn-add-icon {
   color: #55595c;
+  -webkit-transition: transform 0.5s, color 0.1s;
+  -moz-transition: transform 0.5s, color 0.1s;
+  -o-transition: transform 0.5s, color 0.1s;
+  transition: transform 0.5s, color 0.1s;
 }
 
 /* not added, hover */
 button.btn-add:hover > i.btn-add-icon {
-  color: rgb(105, 187, 15)
+  color: rgb(105, 187, 15);
 }
 
 /* not added, click */
@@ -184,8 +194,6 @@ button.btn-add:active > i.btn-add-icon {
 button.btn-add.added > i.btn-add-icon {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
-  transition-duration: 0.8s;
-  transition-property: transform;
 }
 
 /* added, hover */
@@ -194,7 +202,7 @@ button.btn-add.added:hover > i.btn-add-icon {
 }
 
 /* added, click */
-button.btn-add.success:hover > i.btn-add-icon {
+button.btn-add.added:hover > i.btn-add-icon {
   color: rgb(179, 27, 44);
 }
 
@@ -311,10 +319,12 @@ div.panel ul li.list-group-item {
 /* TOOLTIP (INGREDIENTS) */
 .tooltip-inner.success {
   border-bottom: 2px solid #69bb0f;
+  z-index: 9999;
 }
 
-.tooltip-inner.failure {
-  border-bottom: 2px solid #dd0000;
+/* POPOVER (LOGIN) */
+.popover-content {
+  padding: 5px;
 }
 
 /* UTILITY CLASSES */
@@ -334,4 +344,28 @@ div.panel ul li.list-group-item {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.search-bar-fix {
+  padding-bottom: 5px;
+}
+
+/* REACT CSS TRANSITIONS */
+/* Fridge contents */
+.fridge-contents-enter {
+  opacity: 0.01;
+}
+
+.fridge-contents-enter.fridge-contents-enter-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+}
+
+.fridge-contents-leave {
+  opacity: 1;
+}
+
+.fridge-contents-leave.fridge-contents-leave-active {
+  opacity: 0;
+  transition: opacity 600ms ease-in;
 }
