@@ -27,7 +27,6 @@ const Dashboard = (props, context) => (
         <div className="col-sm-5 col-lg-4 offset-lg-1">
           <div className="row">
             <Fridge
-              title="My Fridge"
               contents={props.fridge.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}

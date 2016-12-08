@@ -44,16 +44,25 @@ class Ingredient extends React.Component {
           </div>
         </div>
         <div className="media-right media-middle">
-          <button
-            id={this.props.idName}
-            onClick={this.handleToggleAddDelete}
-            className={`btn btn-default btn-add ${buttonClass}`}
-            title={this.props.message}
-            data-placement={dataPlacement}
-            data-template={tooltipHTML}
-          >
-            <i className="fa fa-2x fa-plus btn-add-icon"/>
-          </button>
+          {
+            (this.props.parent === 'shopping-list') ?
+              <input
+                id={this.props.idName}
+                type="checkbox"
+                className="checkbox"
+              />
+              :
+              <button
+                id={this.props.idName}
+                onClick={this.handleToggleAddDelete}
+                className={`btn btn-default btn-add ${buttonClass}`}
+                title={this.props.message}
+                data-placement={dataPlacement}
+                data-template={tooltipHTML}
+              >
+                <i className="fa fa-2x fa-plus btn-add-icon"/>
+              </button>
+          }
         </div>
       </li>
     )
@@ -68,7 +77,7 @@ Ingredient.propTypes = {
     isAdded: React.PropTypes.bool.isRequired
   }).isRequired,
   idName: React.PropTypes.string.isRequired,
-  parent: React.PropTypes.oneOf(['search', 'fridge']),
+  parent: React.PropTypes.oneOf(['search', 'fridge', 'shopping-list']),
   message: React.PropTypes.string,
   display: React.PropTypes.oneOf(['index', 'dash']),
   toggleAddDelete: React.PropTypes.func.isRequired
