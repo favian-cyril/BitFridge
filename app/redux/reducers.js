@@ -42,8 +42,8 @@ function reducer(state = defaults, action) {
     case constants.TOGGLE_FOCUS:
       newSearch = { ...state.search, isFocused: !state.search.isFocused }
       return { ...state, search: newSearch }
-
-    /** FRIDGE - SHOPPING LIST **/
+          
+    /** FRIDGE **/
     case constants.TOGGLE_ADD_DELETE:
       let message
       switch (action.ingredient.isAdded) {
