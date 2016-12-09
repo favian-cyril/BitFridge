@@ -85,16 +85,10 @@ FridgeShop.defaultProps = {
   contents: []
 }
 
-const mapStateToProps = state => {
-  return {
-    display: state.display
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     toggleTab
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FridgeShop)
+export default connect(null, mapDispatchToProps)(FridgeShop)
