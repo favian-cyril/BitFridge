@@ -58,30 +58,30 @@ const Dashboard = (props, context) => (
   </div>
 )
 
-Dashboard.propTypes = {
-  updateFridge: React.PropTypes.func.isRequired,
-  moreRecipes: React.PropTypes.func.isRequired,
-  retryRecipes: React.PropTypes.func.isRequired,
-  addCookToday: React.PropTypes.func.isRequired,
-  toggleCookingToday: React.PropTypes.func.isRequired,
-  isLoading: React.PropTypes.bool.isRequired,
-  isExpanded: React.PropTypes.shape({
-    expand: React.PropTypes.bool.isRequired,
-    index: React.PropTypes.number.isRequired
-  }).isRequired,
-  errorType: React.PropTypes.shape({
-    fridge: React.PropTypes.string.isRequired,
-    recipes: React.PropTypes.string.isRequired
-  }),
-  user: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    name: React.PropTypes.string
-  }).isRequired,
-  clearCookToday: React.PropTypes.func.isRequired,
-  fridge: React.PropTypes.object.isRequired,
-  cookingToday: React.PropTypes.object.isRequired,
-  recipes: React.PropTypes.object.isRequired
-}
+// Dashboard.propTypes = {
+//   updateFridge: React.PropTypes.func.isRequired,
+//   moreRecipes: React.PropTypes.func.isRequired,
+//   retryRecipes: React.PropTypes.func.isRequired,
+//   addCookToday: React.PropTypes.func.isRequired,
+//   toggleCookingToday: React.PropTypes.func.isRequired,
+//   isLoading: React.PropTypes.bool.isRequired,
+//   isExpanded: React.PropTypes.shape({
+//     expand: React.PropTypes.bool.isRequired,
+//     index: React.PropTypes.number.isRequired
+//   }).isRequired,
+//   errorType: React.PropTypes.shape({
+//     fridge: React.PropTypes.string.isRequired,
+//     recipes: React.PropTypes.string.isRequired
+//   }),
+//   user: React.PropTypes.shape({
+//     id: React.PropTypes.string,
+//     name: React.PropTypes.string
+//   }).isRequired,
+//   clearCookToday: React.PropTypes.func.isRequired,
+//   fridge: React.PropTypes.object.isRequired,
+//   cookingToday: React.PropTypes.object.isRequired,
+//   recipes: React.PropTypes.object.isRequired
+// }
 
 // Default props for cloned children
 Dashboard.defaultProps = {
