@@ -1,87 +1,126 @@
 import React from 'react'
 import TransitionGroup from 'react-addons-css-transition-group'
+import { throttle } from 'lodash'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { toggleTab } from  '../redux/actions'
 import Ingredient from '../components/Ingredient'
 
-const Fridge = props => (
-  <div className="card">
-    <div className="card-block frg-shp">
-      <ul className="nav nav-tabs" id="fridge-shop" role="tablist">
-        <li className="nav-item">
-          <a className="nav-link active" data-toggle="tab" href="#fridge" role="tab">
-            <span className="bf bf-fridge"></span>
-            Fridge
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" data-toggle="tab" href="#shopping-list" role="tab">
-            <span className="bf bf-shopping-basket"></span>
-            Shopping List
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div className="tab-content">
-      <div className="tab-pane fade in active" id="fridge" role="tabpanel">
-        <div className="list-wrapper">
-          <ul className="media-list">
-            <TransitionGroup
-              transitionName="fridge-contents"
-              transitionEnterTimeout={600}
-              transitionLeaveTimeout={600}
+class Fridge extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleToggleTab = this.handleToggleTab.bind(this)
+    this.handleToggleTab = throttle(this.handleToggleTab, 500, {leading: true})
+  }
+
+  handleToggleTab() {
+    this.props.toggleTab()
+  }
+
+  render() {
+    <div className="card">
+      <div className="card-block frg-shp">
+        <ul className="nav nav-tabs" id="fridge-shop" role="tablist">
+          <li
+            className="nav-item"
+            onMouseDown={e => e.preventDefault()}
+          >
+            <a
+              onClick={this.handleToggleTab}
+              className="nav-link active"
+              data-toggle="tab"
+              href="#fridge"
+              role="tab"
             >
-              {
-                props.contents.map((item, i) => (
-                    <Ingredient
-                      key={i}
-                      ingredient={item}
-                      idName={`fridge-${i}`}
-                      parent={'fridge'}
-                    />
+              <span className="bf bf-fridge"></span>
+              Fridge
+            </a>
+          </li>
+          <li
+            className="nav-item"
+            onMouseDown={e => e.preventDefault()}
+          >
+            <a
+              onClick={this.handleToggleTab}
+              className="nav-link"
+              data-toggle="tab"
+              href="#shopping-list"
+              role="tab"
+            >
+              <span className="bf bf-shopping-basket"></span>
+              Shopping List
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="tab-content">
+        <div className="tab-pane fade in active" id="fridge" role="tabpanel">
+          <div className="list-wrapper">
+            <ul className="media-list">
+              <TransitionGroup
+                transitionName="fridge-contents"
+                transitionEnterTimeout={600}
+                transitionLeaveTimeout={600}
+              >
+                {
+                  props.contents.map((item, i) => (
+                      <Ingredient
+                        key={i}
+                        ingredient={item}
+                        idName={`fridge-${i}`}
+                        parent={'fridge'}
+                      />
+                    )
                   )
-                )
-              }
-            </TransitionGroup>
-          </ul>
+                }
+              </TransitionGroup>
+            </ul>
+          </div>
+        </div>
+        <div className="tab-pane fade" id="shopping-list" role="tabpanel">
+          <div className="list-wrapper">
+            <ul className="media-list">
+              <TransitionGroup
+                transitionName="fridge-contents"
+                transitionEnterTimeout={600}
+                transitionLeaveTimeout={600}
+              >
+                {
+                  props.contents.map((item, i) => (
+                      <Ingredient
+                        key={i}
+                        ingredient={item}
+                        idName={`shopping-list-${i}`}
+                        parent={'shopping-list'}
+                      />
+                    )
+                  )
+                }
+              </TransitionGroup>
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="tab-pane fade" id="shopping-list" role="tabpanel">
-        <div className="list-wrapper">
-          <ul className="media-list">
-            <TransitionGroup
-              transitionName="fridge-contents"
-              transitionEnterTimeout={600}
-              transitionLeaveTimeout={600}
-            >
-              {
-                props.contents.map((item, i) => (
-                    <Ingredient
-                      key={i}
-                      ingredient={item}
-                      idName={`shopping-list-${i}`}
-                      parent={'shopping-list'}
-                    />
-                  )
-                )
-              }
-            </TransitionGroup>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
-)
+  }
+}
 
 Fridge.propTypes = {
-  title: React.PropTypes.string.isRequired,
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
-  updateFridge: React.PropTypes.func.isRequired
+  updateFridge: React.PropTypes.func.isRequired,
+  toggleTab: React.PropTypes.func.isRequired
 }
 
 Fridge.defaultProps = {
-  title: 'My Fridge',
   contents: []
 }
 
-export default Fridge
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({
+    toggleTab
+  }, dispatch)
+}
+
+export default connect(mapDispatchToProps)(Fridge)
