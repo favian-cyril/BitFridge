@@ -44,9 +44,6 @@ function reducer(state = defaults, action) {
       return { ...state, search: newSearch }
 
     /** FRIDGE - SHOPPING LIST **/
-    case constants.TOGGLE_TAB:
-      return none
-
     case constants.TOGGLE_ADD_DELETE:
       let message
       switch (action.ingredient.isAdded) {

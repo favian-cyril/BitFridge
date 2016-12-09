@@ -326,6 +326,14 @@ input.checkbox {
   margin-right: 10px;
 }
 
+.frg-shp .nav-link {
+  border: none;
+}
+
+.frg-shp .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 /* TOOLTIP (INGREDIENTS) */
 .tooltip-inner.success {
   border-bottom: 2px solid #69bb0f;

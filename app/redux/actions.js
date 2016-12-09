@@ -23,10 +23,6 @@ export const toggleFocus = () => ({
 })
 
 /** FRIDGE - SHOPPING LIST **/
-export const toggleTab = () => ({
-  type: constants.TOGGLE_TAB
-})
-
 export const toggleAddDelete = (ingredient, idName) => ({
   type: constants.TOGGLE_ADD_DELETE,
   ingredient,

@@ -1,8 +1,5 @@
 import React from 'react'
 import { throttle } from 'lodash'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { toggleTab } from  '../redux/actions'
 import FridgeList from '../components/FridgeList'
 import ShoppingList from '../components/ShoppingList'
 
@@ -13,8 +10,8 @@ class FridgeShop extends React.Component {
     this.handleToggleTab = throttle(this.handleToggleTab, 500, {leading: true})
   }
 
-  handleToggleTab() {
-    this.props.toggleTab()
+  handleToggleTab(e) {
+    window.showTab(e.target)
   }
 
   render() {
@@ -77,24 +74,11 @@ FridgeShop.propTypes = {
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
-  updateFridge: React.PropTypes.func.isRequired,
-  toggleTab: React.PropTypes.func.isRequired
+  updateFridge: React.PropTypes.func.isRequired
 }
 
 FridgeShop.defaultProps = {
   contents: []
 }
 
-const mapStateToProps = state => {
-  return {
-    display: state.display
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-    toggleTab
-  }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FridgeShop)
+export default FridgeShop
