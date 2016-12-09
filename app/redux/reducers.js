@@ -105,7 +105,17 @@ function reducer(state = defaults, action) {
 
     /** COOKING TODAY **/
     case constants.ADD_TO_COOKING_TODAY:
-      newContents = [...state.cookingToday.contents, action.recipe]
+      newRecipes = action.recipe
+      newRecipes.ingredients = _.concat(action.recipe.missedIngredients, action.recipe.usedIngredients)
+      newRecipes.usedIngredients.forEach((used) => {
+        var index = newRecipes.ingredients.findIndex((i) => (i.id === used.id))
+        console.log(index)
+        if (index >= 0) {
+            newRecipes.ingredients[index].isInFridge = true
+        }
+        }
+      )
+      newContents = [...state.cookingToday.contents, newRecipes]
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
 
@@ -120,15 +130,22 @@ function reducer(state = defaults, action) {
       return { ...state, cookingToday: newCookingToday }
 
     case constants.UPDATE_MISSING_COOKING_TODAY:
-      const missingIngredients = state.cookingToday.contents.map(
-        recipe => recipe.missedIngredients
+      const ingredients = state.cookingToday.contents.map(
+        recipe => recipe.ingredients
       )
-      const results = missingIngredients.map(missed =>
-        _.differenceBy(missed, state.fridge.contents, 'id')
+      const missedIngredients = ingredients.map(ingredient =>
+        _.differenceBy(ingredient, state.fridge.contents, 'id')
       )
-      newContents = state.cookingToday.contents.map(function (ingredients, i) {
-        ingredients.missedIngredients = results[i]
-        return ingredients
+      newContents = state.cookingToday.contents.map(function (item, i) {
+        item.ingredients.forEach((ingredient) => {
+          var index = missedIngredients[i].findIndex((i) => (i.id === ingredient.id))
+          if (index >= 0) {
+            ingredient.isInFridge = false
+          } else {
+            ingredient.isInFridge = true
+          }
+        })
+        return item
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
