@@ -3,15 +3,14 @@ import CookingTodayIngredient from './CookingTodayIngredient'
 
 const CookingToday = props => {
   var active = props.accordion.isExpanded && props.index === props.accordion.index
-  console.log({ active, expanded: props.accordion.isExpanded, index: props.accordion.index })
   const accordionClass = active ? 'active' : ''
   const caretClass = active ? 'fa-caret-down' : 'fa-caret-right'
   const panelClass = active ? 'show' : ''
 
-  let results = props.recipe.missedIngredients.map((item, i) =>
+  let results = props.recipe.ingredients.map((item, i) =>
     <CookingTodayIngredient key={i} id={i} ingredient={item}/>
   )
-  if (props.recipe.missedIngredients.length === 0) {
+  if (props.recipe.ingredients.length === 0) {
     results = <CookingTodayIngredient key={"0"} id={0} ingredient={{ name: "No missing ingredients" }}/>
   }
 

@@ -316,6 +316,10 @@ div.panel ul li.list-group-item {
   text-transform: capitalize;
 }
 
+.crossed {
+  text-decoration: line-through;
+}
+
 /* TOOLTIP (INGREDIENTS) */
 .tooltip-inner.success {
   border-bottom: 2px solid #69bb0f;

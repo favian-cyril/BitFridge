@@ -1,8 +1,11 @@
 import React from 'react'
 
-const CookingTodayIngredient = (props) => (
-  <li className="list-group-item" id={props.id}>{props.ingredient.name}</li>
-)
+const CookingTodayIngredient = props => {
+  const crossed = props.ingredient.isInFridge ? 'crossed' : ''
+  return (
+    <li className={`list-group-item ${crossed}`} id={props.id}>{props.ingredient.name}</li>
+  )
+}
 
 CookingTodayIngredient.propTypes = {
   id: React.PropTypes.number.isRequired,
