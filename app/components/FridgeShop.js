@@ -1,12 +1,12 @@
 import React from 'react'
-import TransitionGroup from 'react-addons-css-transition-group'
 import { throttle } from 'lodash'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { toggleTab } from  '../redux/actions'
-import Ingredient from '../components/Ingredient'
+import FridgeList from '../components/FridgeList'
+import ShoppingList from '../components/ShoppingList'
 
-class Fridge extends React.Component {
+class FridgeShop extends React.Component {
   constructor(props) {
     super(props)
     this.handleToggleTab = this.handleToggleTab.bind(this)
@@ -56,50 +56,16 @@ class Fridge extends React.Component {
         </div>
         <div className="tab-content">
           <div className="tab-pane fade in active" id="fridge" role="tabpanel">
-            <div className="list-wrapper">
-              <ul className="media-list">
-                <TransitionGroup
-                  transitionName="fridge-contents"
-                  transitionEnterTimeout={600}
-                  transitionLeaveTimeout={600}
-                >
-                  {
-                    this.props.contents.map((item, i) => (
-                        <Ingredient
-                          key={i}
-                          ingredient={item}
-                          idName={`fridge-${i}`}
-                          parent={'fridge'}
-                        />
-                      )
-                    )
-                  }
-                </TransitionGroup>
-              </ul>
-            </div>
+            <FridgeList
+              contents={props.contents}
+              updateFridge={props.updateFridge}
+            />
           </div>
           <div className="tab-pane fade" id="shopping-list" role="tabpanel">
-            <div className="list-wrapper">
-              <ul className="media-list">
-                <TransitionGroup
-                  transitionName="fridge-contents"
-                  transitionEnterTimeout={600}
-                  transitionLeaveTimeout={600}
-                >
-                  {
-                    this.props.contents.map((item, i) => (
-                        <Ingredient
-                          key={i}
-                          ingredient={item}
-                          idName={`shopping-list-${i}`}
-                          parent={'shopping-list'}
-                        />
-                      )
-                    )
-                  }
-                </TransitionGroup>
-              </ul>
-            </div>
+            <ShoppingList
+              contents={props.contents}
+              updateFridge={props.updateFridge}
+            />
           </div>
         </div>
       </div>
@@ -107,7 +73,7 @@ class Fridge extends React.Component {
   }
 }
 
-Fridge.propTypes = {
+FridgeShop.propTypes = {
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
@@ -115,8 +81,14 @@ Fridge.propTypes = {
   toggleTab: React.PropTypes.func.isRequired
 }
 
-Fridge.defaultProps = {
+FridgeShop.defaultProps = {
   contents: []
+}
+
+const mapStateToProps = state => {
+  return {
+    display: state.display
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -125,4 +97,4 @@ const mapDispatchToProps = dispatch => {
   }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(Fridge)
+export default connect(mapStateToProps, mapDispatchToProps)(FridgeShop)

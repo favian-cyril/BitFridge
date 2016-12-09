@@ -1,6 +1,6 @@
 import React from 'react'
 import CookingTodayList from './CookingTodayList'
-import Fridge from './Fridge'
+import FridgeShop from './FridgeShop'
 import NavUser from './NavUser'
 import RecipeResults from './RecipeResults'
 import SearchContainer from './Search'
@@ -26,7 +26,7 @@ const Dashboard = (props, context) => (
       <div className="row">
         <div className="col-sm-5 col-lg-4 offset-lg-1">
           <div className="row">
-            <Fridge
+            <FridgeShop
               contents={props.fridge.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}
