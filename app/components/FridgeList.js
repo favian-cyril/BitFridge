@@ -2,7 +2,7 @@ import React from 'react'
 import TransitionGroup from 'react-addons-css-transition-group'
 import Ingredient from '../components/Ingredient'
 
-const ShoppingList = props => (
+const FridgeList = props => (
   <div className="list-wrapper">
     <ul className="media-list">
       <TransitionGroup
@@ -15,8 +15,8 @@ const ShoppingList = props => (
               <Ingredient
                 key={i}
                 ingredient={item}
-                idName={`shopping-list-${i}`}
-                parent={'shopping-list'}
+                idName={`fridge-${i}`}
+                parent={'fridge'}
               />
             )
           )
@@ -26,15 +26,11 @@ const ShoppingList = props => (
   </div>
 )
 
-ShoppingList.propTypes = {
+FridgeList.propTypes = {
   contents: React.PropTypes.arrayOf(
     React.PropTypes.object
   ).isRequired,
   updateFridge: React.PropTypes.func.isRequired
 }
 
-<<<<<<< 6d36aea62a54fc8005f4e8e367d4fbd82fe183fe
-export default ShoppingList
-=======
-export default ShoppingList
->>>>>>> Restructured Fridge-Shopping List card components, will not change displays
+export default FridgeList
