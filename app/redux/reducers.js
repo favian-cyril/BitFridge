@@ -165,7 +165,7 @@ function reducer(state = defaults, action) {
         contents: [ ...newContents ]
       }
       return { ...state, shoppingList: newShoppingList}
-    
+
     case constants.CHECK_SHOPPING_LIST_ITEM:
       const index = _.findIndex(state.shoppingList.contents,
         i => i.id === action.ingredient.id)

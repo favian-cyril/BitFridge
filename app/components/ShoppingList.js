@@ -33,8 +33,4 @@ ShoppingList.propTypes = {
   updateFridge: React.PropTypes.func.isRequired
 }
 
-<<<<<<< 6d36aea62a54fc8005f4e8e367d4fbd82fe183fe
 export default ShoppingList
-=======
-export default ShoppingList
->>>>>>> Restructured Fridge-Shopping List card components, will not change displays

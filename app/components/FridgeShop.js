@@ -81,5 +81,4 @@ FridgeShop.defaultProps = {
   contents: []
 }
 
-
 export default FridgeShop
