@@ -117,7 +117,8 @@ function reducer(state = defaults, action) {
 
     case constants.CLEAR_COOKING_TODAY:
       newCookingToday = { ...state.cookingToday, contents: [] }
-      return { ...state, cookingToday: newCookingToday }
+      newShoppingList = { ...state.shoppingList, contents: [] }
+      return { ...state, cookingToday: newCookingToday, shoppingList: newShoppingList }
 
     case constants.UPDATE_MISSING_COOKING_TODAY:
       const missingIngredients = state.cookingToday.contents.map(
@@ -131,8 +132,7 @@ function reducer(state = defaults, action) {
         return ingredients
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
-      newShoppingList = { ...state.shoppingList, contents: [] }
-      return { ...state, cookingToday: newCookingToday, shoppingList: newShoppingList }
+      return { ...state, cookingToday: newCookingToday }
 
     /** SHOPPING LIST **/
     case constants.ADD_SHOPPING_LIST:
