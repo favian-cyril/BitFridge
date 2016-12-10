@@ -221,6 +221,29 @@ button.btn-remove {
   color: #55595c;
 }
 
+button.btn-check {
+  background-color: transparent;
+  padding: 0 5px;
+}
+
+button.btn-check > i.btn-check-icon {
+  color: #55595c;
+  -webkit-transition: transform 0.5s, color 0.1s;
+  -moz-transition: transform 0.5s, color 0.1s;
+  -o-transition: transform 0.5s, color 0.1s;
+  transition: transform 0.5s, color 0.1s;
+}
+
+/* not added, hover */
+button.btn-check:hover > i.btn-check-icon {
+  color: rgb(105, 187, 15);
+}
+
+/* not added, click */
+button.btn-check:active > i.btn-check-icon {
+  color: rgba(65, 117, 5, 1)
+}
+
 /* SEARCH BAR */
 input#search-input {
   background: #FFFFFF;

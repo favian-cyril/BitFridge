@@ -6,8 +6,8 @@ import uiUtils from '../utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
-  let newSearch, newFridge, newRecipes, newCookingToday, newContents,
-    newUserData, newErrorType, newState
+  let newSearch, newFridge, newRecipes, newCookingToday, newShoppingList,
+    newContents, newUserData, newErrorType, newState
   switch (action.type) {
 
     /** SEARCH **/
@@ -148,7 +148,47 @@ function reducer(state = defaults, action) {
         return item
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
-      return { ...state, cookingToday: newCookingToday }
+      newShoppingList = { ...state.shoppingList, contents: [] }
+      return { ...state, cookingToday: newCookingToday, shoppingList: newShoppingList }
+
+    /** SHOPPING LIST **/
+    case constants.ADD_SHOPPING_LIST:
+      newContents = state.cookingToday.contents
+        .map(c => c.missedIngredients)
+        .reduce((pre, cur) => { return pre.concat(cur) }, [])
+        .map(i => ({
+          aisle: i.aisle, id: i.id, name: i.name, image: i.image, isAdded: false
+        }))
+      newContents = _.uniqBy(newContents, 'id')
+      newShoppingList = {
+        ...state.shoppingList,
+        contents: [ ...newContents ]
+      }
+      return { ...state, shoppingList: newShoppingList}
+    
+    case constants.CHECK_SHOPPING_LIST_ITEM:
+      const index = _.findIndex(state.shoppingList.contents,
+        i => i.id === action.ingredient.id)
+      console.log(index)
+      newContents = [
+        ...state.shoppingList.contents.slice(0, index),
+        ...state.shoppingList.contents.slice(index + 1)
+      ]
+      newShoppingList = { ...state.shoppingList, contents: newContents }
+      action.ingredient.isAdded = true
+      newFridge = {
+        ...state.fridge,
+        contents: [
+          ...state.fridge.contents,
+          action.ingredient
+        ]
+      }
+      message = 'Ingredient bought, added to fridge!'
+      uiUtils.tooltips.showTooltip(
+        action.idName,
+        message
+      )
+      return { ...state, fridge: newFridge, shoppingList: newShoppingList }
 
     /** USER DATA **/
     case constants.REQUEST_USER_DATA:

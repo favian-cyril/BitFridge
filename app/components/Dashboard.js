@@ -27,7 +27,8 @@ const Dashboard = (props, context) => (
         <div className="col-sm-5 col-lg-4 offset-lg-1">
           <div className="row">
             <FridgeShop
-              contents={props.fridge.contents}
+              fridgeContents={props.fridge.contents}
+              shoppingListContents={props.shoppingList.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}
             />
@@ -38,6 +39,7 @@ const Dashboard = (props, context) => (
               cookingToday={props.cookingToday}
               toggleCookingToday={props.toggleCookingToday}
               clearCookToday={props.clearCookingToday}
+              addShoppingList={props.addShoppingList}
             />
           </div>
         </div>
@@ -58,39 +60,43 @@ const Dashboard = (props, context) => (
   </div>
 )
 
-// Dashboard.propTypes = {
-//   updateFridge: React.PropTypes.func.isRequired,
-//   moreRecipes: React.PropTypes.func.isRequired,
-//   retryRecipes: React.PropTypes.func.isRequired,
-//   addCookToday: React.PropTypes.func.isRequired,
-//   toggleCookingToday: React.PropTypes.func.isRequired,
-//   isLoading: React.PropTypes.bool.isRequired,
-//   isExpanded: React.PropTypes.shape({
-//     expand: React.PropTypes.bool.isRequired,
-//     index: React.PropTypes.number.isRequired
-//   }).isRequired,
-//   errorType: React.PropTypes.shape({
-//     fridge: React.PropTypes.string.isRequired,
-//     recipes: React.PropTypes.string.isRequired
-//   }),
-//   user: React.PropTypes.shape({
-//     id: React.PropTypes.string,
-//     name: React.PropTypes.string
-//   }).isRequired,
-//   clearCookToday: React.PropTypes.func.isRequired,
-//   fridge: React.PropTypes.object.isRequired,
-//   cookingToday: React.PropTypes.object.isRequired,
-//   recipes: React.PropTypes.object.isRequired
-// }
+Dashboard.propTypes = {
+  updateFridge: React.PropTypes.func.isRequired,
+  moreRecipes: React.PropTypes.func.isRequired,
+  retryRecipes: React.PropTypes.func.isRequired,
+  addCookToday: React.PropTypes.func.isRequired,
+  toggleCookingToday: React.PropTypes.func.isRequired,
+  isLoading: React.PropTypes.bool.isRequired,
+  isExpanded: React.PropTypes.shape({
+    expand: React.PropTypes.bool.isRequired,
+    index: React.PropTypes.number.isRequired
+  }).isRequired,
+  errorType: React.PropTypes.shape({
+    fridge: React.PropTypes.string.isRequired,
+    recipes: React.PropTypes.string.isRequired
+  }),
+  user: React.PropTypes.shape({
+    id: React.PropTypes.string,
+    name: React.PropTypes.string
+  }).isRequired,
+  clearCookToday: React.PropTypes.func.isRequired,
+  fridge: React.PropTypes.object.isRequired,
+  cookingToday: React.PropTypes.object.isRequired,
+  recipes: React.PropTypes.object.isRequired
+}
 
 // Default props for cloned children
 Dashboard.defaultProps = {
+  fridge: {},
+  cookingToday: {},
+  recipes: {},
   updateFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
   addCookToday: () => {},
   toggleCookingToday: () => {},
   clearCookToday: () => {},
+  addShoppingList: () => {},
   isLoading: false,
   isExpanded: { expand: false, index: 0 },
   user: {}

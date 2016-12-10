@@ -54,13 +54,13 @@ class FridgeShop extends React.Component {
         <div className="tab-content">
           <div className="tab-pane fade in active" id="fridge" role="tabpanel">
             <FridgeList
-              contents={this.props.contents}
+              contents={this.props.fridgeContents}
               updateFridge={this.props.updateFridge}
             />
           </div>
           <div className="tab-pane fade" id="shopping-list" role="tabpanel">
             <ShoppingList
-              contents={this.props.contents}
+              contents={this.props.shoppingListContents}
               updateFridge={this.props.updateFridge}
             />
           </div>

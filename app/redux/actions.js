@@ -68,7 +68,18 @@ export const updateMissingCookingToday = () => ({
   type: constants.UPDATE_MISSING_COOKING_TODAY
 })
 
-/** User data **/
+/** SHOPPING LIST **/
+export const addShoppingList = () => ({
+  type: constants.ADD_SHOPPING_LIST
+})
+
+export const checkShoppingListItem = (ingredient, idName) => ({
+  type: constants.CHECK_SHOPPING_LIST_ITEM,
+  ingredient,
+  idName
+})
+
+/** USER DATA **/
 export const requestUserData = timestamp => ({
   type: constants.REQUEST_USER_DATA,
   timestamp

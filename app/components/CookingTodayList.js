@@ -38,6 +38,7 @@ const CookingTodayList = props => (
           <button
             type="button"
             className="btn btn-success"
+            onClick={props.addShoppingList}
           >
             <span className="bf bf-shopping-basket-add"></span>
           </button>
@@ -51,7 +52,8 @@ CookingTodayList.propTypes = {
   title: React.PropTypes.string.isRequired,
   cookingToday: React.PropTypes.object.isRequired,
   toggleCookingToday: React.PropTypes.func.isRequired,
-  clearCookToday: React.PropTypes.func.isRequired
+  clearCookToday: React.PropTypes.func.isRequired,
+  addShoppingList: React.PropTypes.func.isRequired
 }
 
 export default CookingTodayList

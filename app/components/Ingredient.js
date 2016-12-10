@@ -2,13 +2,14 @@ import React from 'react'
 import { throttle } from 'lodash'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { toggleAddDelete } from  '../redux/actions'
+import { toggleAddDelete, checkShoppingListItem } from  '../redux/actions'
 import uiUtils from '../utils/ui'
 
 class Ingredient extends React.Component {
   constructor(props) {
     super(props)
     this.handleToggleAddDelete = this.handleToggleAddDelete.bind(this)
+    this.handleChecked = this.handleChecked.bind(this)
     this.handleToggleAddDelete = throttle(this.handleToggleAddDelete, 500, { leading: true })
   }
   
@@ -16,9 +17,15 @@ class Ingredient extends React.Component {
     this.props.toggleAddDelete(this.props.ingredient, this.props.idName)
     // If adding from fridge, scroll down
     if (this.props.parent === 'search') {
-      const classSelector = '.fridge-content.list-wrapper'
+      const classSelector = '#fridge list-wrapper'
       uiUtils.anims.scrollDown(classSelector)
     }
+  }
+  
+  handleChecked() {
+    this.props.checkShoppingListItem(this.props.ingredient, this.props.idName)
+    const classSelector = '#shopping-list list-wrapper'
+    uiUtils.anims.scrollDown(classSelector)
   }
 
   render() {
@@ -46,11 +53,16 @@ class Ingredient extends React.Component {
         <div className="media-right media-middle">
           {
             (this.props.parent === 'shopping-list') ?
-              <input
+              <button
                 id={this.props.idName}
-                type="checkbox"
-                className="checkbox"
-              />
+                onClick={this.handleChecked}
+                className={`btn btn-default btn-check ${buttonClass}`}
+                title={this.props.message}
+                data-placement={dataPlacement}
+                data-template={tooltipHTML}
+              >
+                <i className="fa fa-2x fa-check btn-check-icon"/>
+              </button>
               :
               <button
                 id={this.props.idName}
@@ -80,7 +92,8 @@ Ingredient.propTypes = {
   parent: React.PropTypes.oneOf(['search', 'fridge', 'shopping-list']),
   message: React.PropTypes.string,
   display: React.PropTypes.oneOf(['index', 'dash']),
-  toggleAddDelete: React.PropTypes.func.isRequired
+  toggleAddDelete: React.PropTypes.func.isRequired,
+  checkShoppingListItem: React.PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -92,7 +105,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    toggleAddDelete
+    toggleAddDelete,
+    checkShoppingListItem
   }, dispatch)
 }
 
