@@ -5,7 +5,7 @@ import Preloader from './Preloader'
 import Error from './Error'
 import uiUtils from '../utils/ui'
 
-class RecipeResults extends React.Component {
+class RecipeList extends React.Component {
   constructor(props) {
     super(props)
     this.handleMoreRecipes = this.handleMoreRecipes.bind(this)
@@ -90,38 +90,41 @@ class RecipeResults extends React.Component {
       )
     }
     return (
-      <div className="card">
-        <div className="card-block recipe-card">
-          <h4 className="card-title">Recipe Results</h4>
-        </div>
+      <div>
         <div className="recipe-list-wrapper">
           <ul className="media-list">
             {results}
           </ul>
         </div>
-        <div className="media view-more">
-          <div className="media-body media-middle">
-            <button
-              type="button"
-              className="btn btn-link view-more"
-              onClick={this.handleMoreRecipes}
-            >
-              View more...
-            </button>
-          </div>
-        </div>
+        {
+          (this.props.parent === 'result') ?
+            <div className="media view-more">
+              <div className="media-body media-middle">
+                <button
+                  type="button"
+                  className="btn btn-link view-more"
+                  onClick={this.handleMoreRecipes}
+                >
+                  View more...
+                </button>
+              </div>
+            </div>
+            :
+            ''
+        }
       </div>
     )
   }
 }
 
-RecipeResults.propTypes = {
+RecipeList.propTypes = {
+  isLoading: React.PropTypes.bool.isRequired,
+  addCookToday: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
-  addCookToday: React.PropTypes.func.isRequired,
-  isLoading: React.PropTypes.bool.isRequired,
   errorType: React.PropTypes.string,
-  recipes: React.PropTypes.object.isRequired
+  recipes: React.PropTypes.object.isRequired,
+  parent: React.PropTypes.oneOf(['result', 'favorite'])
 }
 
-export default RecipeResults
+export default RecipeList

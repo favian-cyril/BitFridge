@@ -87,6 +87,12 @@ h5.card-title span.bf {
 /* RECIPE CONTAINER */
 div.card-block.recipe-card {
   background-color: #e7e7e7;
+  padding: 10px 10px 0px 10px;
+  border-bottom: none;
+}
+
+div.card-block.recipe-card .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .recipe-list-wrapper {

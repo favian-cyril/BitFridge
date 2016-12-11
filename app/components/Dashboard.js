@@ -2,7 +2,7 @@ import React from 'react'
 import CookingTodayList from './CookingTodayList'
 import Fridge from './Fridge'
 import NavUser from './NavUser'
-import RecipeResults from './RecipeResults'
+import RecipeFavorites from './RecipeFavorites'
 import SearchContainer from './Search'
 
 const Dashboard = (props, context) => (
@@ -44,11 +44,11 @@ const Dashboard = (props, context) => (
         </div>
         <div className="col-sm-7 col-lg-6">
           <div className="row">
-            <RecipeResults
+            <RecipeFavorites
               isLoading={props.recipes.isLoading}
-              addCookToday={props.addToCookingToday}
+              addCookToday={props.addCookToday}
               moreRecipes={props.fetchMoreRecipes}
-              retryRecipes={props.refreshRecipes}
+              retryRecipes={props.retryRecipes}
               errorType={props.errorType.recipes}
               recipes={props.recipes}
             />
