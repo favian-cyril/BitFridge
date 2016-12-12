@@ -49,6 +49,7 @@ function reducer(state = defaults, action) {
       switch (action.ingredient.isAdded) {
         case false:
           newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
+          newContents = _.uniqBy(newContents, 'id')
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Added to fridge!'
           uiUtils.tooltips.showTooltip(
