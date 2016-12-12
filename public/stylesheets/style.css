@@ -104,6 +104,27 @@ div.card-block.recipe-card .nav-link:hover {
   height: 100%;
 }
 
+.recipe-list-wrapper .media-left {
+  position: relative;
+}
+
+.recipe-list-wrapper .media-left img {
+  position: relative;
+  z-index: 1;
+}
+
+.recipe-list-wrapper .media-left span.fa {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 15px;
+  color: white;
+}
+
+span.fa-star { color: yellow; }
+
+span.fa-star-o { color: white; }
+
 .btn-group-vertical > [class*='btn-'] {
   width: 100%;
   margin-left: 0;
