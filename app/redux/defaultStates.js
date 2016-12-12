@@ -29,6 +29,9 @@ export default {
     },
     isLoading: false
   },
+  favorites: {
+    contents: []
+  },
   userData: {
     isLoading: false,
     didInvalidate: false,

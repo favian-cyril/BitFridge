@@ -68,6 +68,12 @@ export const updateMissingCookingToday = () => ({
   type: constants.UPDATE_MISSING_COOKING_TODAY
 })
 
+/** FAVORITES **/
+export const toggleFavorite = recipe => ({
+  type: constants.TOGGLE_FAVORITE,
+  recipe
+})
+
 /** User data **/
 export const requestUserData = timestamp => ({
   type: constants.REQUEST_USER_DATA,

@@ -6,8 +6,8 @@ import uiUtils from '../utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
-  let newSearch, newFridge, newRecipes, newCookingToday, newContents,
-    newUserData, newErrorType, newState
+  let newSearch, newFridge, newRecipes, newCookingToday, 
+    newFavorites, newContents, newUserData, newErrorType, newState
   switch (action.type) {
 
     /** SEARCH **/
@@ -111,10 +111,9 @@ function reducer(state = defaults, action) {
         var index = newRecipes.ingredients.findIndex((i) => (i.id === used.id))
         console.log(index)
         if (index >= 0) {
-            newRecipes.ingredients[index].isInFridge = true
+          newRecipes.ingredients[index].isInFridge = true
         }
-        }
-      )
+      })
       newContents = [...state.cookingToday.contents, newRecipes]
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
@@ -149,6 +148,17 @@ function reducer(state = defaults, action) {
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
+    
+    /** FAVORITES **/
+    case constants.TOGGLE_FAVORITE:
+      newFavorites = {
+        ...state.favorites,
+        contents: [ 
+          ...state.favorites.contents,
+          action.recipe
+        ]
+      }
+      return { ...state, favorites: newFavorites }
 
     /** USER DATA **/
     case constants.REQUEST_USER_DATA:
