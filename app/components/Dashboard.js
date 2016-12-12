@@ -46,9 +46,9 @@ const Dashboard = (props, context) => (
           <div className="row">
             <RecipeFavorites
               isLoading={props.recipes.isLoading}
-              addCookToday={props.addCookToday}
+              addCookToday={props.addToCookingToday}
               moreRecipes={props.fetchMoreRecipes}
-              retryRecipes={props.retryRecipes}
+              retryRecipes={props.refreshRecipes}
               errorType={props.errorType.recipes}
               recipes={props.recipes}
             />
