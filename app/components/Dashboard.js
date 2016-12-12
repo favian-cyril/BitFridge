@@ -1,6 +1,6 @@
 import React from 'react'
 import CookingTodayList from './CookingTodayList'
-import Fridge from './Fridge'
+import FridgeShop from './FridgeShop'
 import NavUser from './NavUser'
 import RecipeResults from './RecipeResults'
 import SearchContainer from './Search'
@@ -26,9 +26,9 @@ const Dashboard = (props, context) => (
       <div className="row">
         <div className="col-sm-5 col-lg-4 offset-lg-1">
           <div className="row">
-            <Fridge
-              title="My Fridge"
-              contents={props.fridge.contents}
+            <FridgeShop
+              fridgeContents={props.fridge.contents}
+              shoppingListContents={props.shoppingList.contents}
               updateFridge={props.updateFridge}
               errorType={props.errorType.fridge}
             />
@@ -39,6 +39,7 @@ const Dashboard = (props, context) => (
               cookingToday={props.cookingToday}
               toggleCookingToday={props.toggleCookingToday}
               clearCookToday={props.clearCookingToday}
+              addShoppingList={props.addShoppingList}
             />
           </div>
         </div>
@@ -86,12 +87,16 @@ Dashboard.propTypes = {
 
 // Default props for cloned children
 Dashboard.defaultProps = {
+  fridge: {},
+  cookingToday: {},
+  recipes: {},
   updateFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
   addCookToday: () => {},
   toggleCookingToday: () => {},
   clearCookToday: () => {},
+  addShoppingList: () => {},
   isLoading: false,
   isExpanded: { expand: false, index: 0 },
   user: {}

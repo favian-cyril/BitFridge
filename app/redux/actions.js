@@ -22,7 +22,7 @@ export const toggleFocus = () => ({
   type: constants.TOGGLE_FOCUS
 })
 
-/** FRIDGE **/
+/** FRIDGE - SHOPPING LIST **/
 export const toggleAddDelete = (ingredient, idName) => ({
   type: constants.TOGGLE_ADD_DELETE,
   ingredient,
@@ -68,7 +68,21 @@ export const updateMissingCookingToday = () => ({
   type: constants.UPDATE_MISSING_COOKING_TODAY
 })
 
-/** User data **/
+/** SHOPPING LIST **/
+export const addShoppingList = () => ({
+  type: constants.ADD_SHOPPING_LIST
+})
+
+export const checkShoppingListItem = (ingredient, idName) => ({
+  type: constants.CHECK_SHOPPING_LIST_ITEM,
+  ingredient,
+  idName
+})
+
+export const updateShoppingList = () => ({
+  type: constants.UPDATE_SHOPPING_LIST
+})
+/** USER DATA **/
 export const requestUserData = timestamp => ({
   type: constants.REQUEST_USER_DATA,
   timestamp
@@ -213,13 +227,15 @@ export const initialSetup = pathname => {
 /* TODO: NOTE: Suffering hopefully has ended by the time this method works */
 
 export const mapStateToUserData = (dispatch, getState) => {
-  const { fridge, cookingToday, userData } = getState()
-  const newFridge = fridge.contents.map(f => f)
-  const newCookingToday = cookingToday.contents.map(c => c)
+  const { fridge, cookingToday, shoppingList, userData } = getState()
+  const newFridge = fridge.contents
+  const newCookingToday = cookingToday.contents
+  const newShoppingList = shoppingList.contents
   const newUser = {
     ...userData.user,
     fridge: newFridge,
-    cookingToday: newCookingToday
+    cookingToday: newCookingToday,
+    shoppingList: newShoppingList
   }
   return newUser
 }

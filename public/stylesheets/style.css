@@ -75,7 +75,12 @@ div.card-block {
   background-color: #e7e7e7;
 }
 
-h5.card-title span.bf {
+div.card-block.frg-shp {
+  padding: 10px 10px 0px 10px;
+  border-bottom: none;
+}
+
+h5.card-title span.bf, a.nav-link span.bf {
   margin-right: 10px;
 }
 
@@ -216,6 +221,29 @@ button.btn-remove {
   color: #55595c;
 }
 
+button.btn-check {
+  background-color: transparent;
+  padding: 0 5px;
+}
+
+button.btn-check > i.btn-check-icon {
+  color: #55595c;
+  -webkit-transition: transform 0.5s, color 0.1s;
+  -moz-transition: transform 0.5s, color 0.1s;
+  -o-transition: transform 0.5s, color 0.1s;
+  transition: transform 0.5s, color 0.1s;
+}
+
+/* not added, hover */
+button.btn-check:hover > i.btn-check-icon {
+  color: rgb(105, 187, 15);
+}
+
+/* not added, click */
+button.btn-check:active > i.btn-check-icon {
+  color: rgba(65, 117, 5, 1)
+}
+
 /* SEARCH BAR */
 input#search-input {
   background: #FFFFFF;
@@ -318,6 +346,19 @@ div.panel ul li.list-group-item {
 
 .crossed {
   text-decoration: line-through;
+}
+
+/* SHOPPING LIST */
+input.checkbox {
+  margin-right: 10px;
+}
+
+.frg-shp .nav-link {
+  border: none;
+}
+
+.frg-shp .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* TOOLTIP (INGREDIENTS) */

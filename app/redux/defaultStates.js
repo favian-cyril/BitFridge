@@ -29,6 +29,10 @@ export default {
     },
     isLoading: false
   },
+  shoppingList: {
+    contents: [],
+    isLoading: false
+  },
   userData: {
     isLoading: false,
     didInvalidate: false,

@@ -16,3 +16,7 @@ function showTooltip(target) {
     $(target).tooltip('dispose')
   })
 }
+
+function showTab(target) {
+  $(target).tab('show');
+}

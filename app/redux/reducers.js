@@ -6,8 +6,8 @@ import uiUtils from '../utils/ui'
 import constants from './constants'
 
 function reducer(state = defaults, action) {
-  let newSearch, newFridge, newRecipes, newCookingToday, newContents,
-    newUserData, newErrorType, newState
+  let newSearch, newFridge, newRecipes, newCookingToday, newShoppingList,
+    newContents, newUserData, newErrorType, newState
   switch (action.type) {
 
     /** SEARCH **/
@@ -43,7 +43,7 @@ function reducer(state = defaults, action) {
       newSearch = { ...state.search, isFocused: !state.search.isFocused }
       return { ...state, search: newSearch }
 
-    /** FRIDGE **/
+    /** FRIDGE - SHOPPING LIST **/
     case constants.TOGGLE_ADD_DELETE:
       let message
       switch (action.ingredient.isAdded) {
@@ -106,18 +106,22 @@ function reducer(state = defaults, action) {
     /** COOKING TODAY **/
     case constants.ADD_TO_COOKING_TODAY:
       newRecipes = action.recipe
-      newRecipes.ingredients = _.concat(action.recipe.missedIngredients, action.recipe.usedIngredients)
-      newRecipes.usedIngredients.forEach((used) => {
-        var index = newRecipes.ingredients.findIndex((i) => (i.id === used.id))
-        console.log(index)
-        if (index >= 0) {
-            newRecipes.ingredients[index].isInFridge = true
-        }
-        }
-      )
-      newContents = [...state.cookingToday.contents, newRecipes]
-      newCookingToday = { ...state.cookingToday, contents: newContents }
-      return { ...state, cookingToday: newCookingToday }
+      if (state.cookingToday.contents.findIndex((i) => (i.id === newRecipes.id))) {
+        newRecipes.ingredients = _.concat(action.recipe.missedIngredients, action.recipe.usedIngredients)
+        newRecipes.ingredients.forEach((used, j) => {
+          var index = newRecipes.usedIngredients.findIndex((i) => (i.id === used.id))
+          if (index === -1) {
+              newRecipes.ingredients[j].isInFridge = false
+          } else {
+              newRecipes.ingredients[j].isInFridge = true
+          }
+          }
+        )
+        newContents = [...state.cookingToday.contents, newRecipes]
+        newContents = _.uniqBy(newContents, 'id')
+        newCookingToday = { ...state.cookingToday, contents: newContents }
+        return { ...state, cookingToday: newCookingToday }
+      }
 
     case constants.TOGGLE_COOKING_TODAY:
       const isExpanded = !state.cookingToday.accordion.isExpanded || state.cookingToday.accordion.index !== action.index
@@ -127,7 +131,8 @@ function reducer(state = defaults, action) {
 
     case constants.CLEAR_COOKING_TODAY:
       newCookingToday = { ...state.cookingToday, contents: [] }
-      return { ...state, cookingToday: newCookingToday }
+      newShoppingList = { ...state.shoppingList, contents: [] }
+      return { ...state, cookingToday: newCookingToday, shoppingList: newShoppingList }
 
     case constants.UPDATE_MISSING_COOKING_TODAY:
       const ingredients = state.cookingToday.contents.map(
@@ -149,6 +154,58 @@ function reducer(state = defaults, action) {
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
+
+    /** SHOPPING LIST **/
+    case constants.ADD_SHOPPING_LIST:
+      newContents = state.cookingToday.contents
+        .map(c => c.ingredients)
+        .reduce((pre, cur) => {
+          return pre.concat(cur)
+        }, [])
+        .filter(i => {
+          if (i.isInFridge === false) {
+            return { aisle: i.aisle, id: i.id, name: i.name, image: i.image, isAdded: false }
+          }
+        })
+      newContents = _.uniqBy(newContents, 'id')
+      newShoppingList = {
+        ...state.shoppingList,
+        contents: [ ...newContents ]
+      }
+      return { ...state, shoppingList: newShoppingList}
+
+    case constants.CHECK_SHOPPING_LIST_ITEM:
+      const index = _.findIndex(state.shoppingList.contents,
+        i => i.id === action.ingredient.id)
+      newContents = [
+        ...state.shoppingList.contents.slice(0, index),
+        ...state.shoppingList.contents.slice(index + 1)
+      ]
+      newShoppingList = { ...state.shoppingList, contents: newContents }
+      action.ingredient.isAdded = true
+      newFridge = {
+        ...state.fridge,
+        contents: [
+          ...state.fridge.contents,
+          action.ingredient
+        ]
+      }
+      message = 'Ingredient bought, added to fridge!'
+      uiUtils.tooltips.showTooltip(
+        action.idName,
+        message
+      )
+      return { ...state, fridge: newFridge, shoppingList: newShoppingList }
+
+    case constants.UPDATE_SHOPPING_LIST:
+      const temp = state.shoppingList.contents
+      newContents = _.differenceBy(temp, state.fridge.contents, 'id')
+      newContents = _.uniqBy(newContents, 'id')
+      newShoppingList = {
+        ...state.shoppingList,
+        contents: [ ...newContents ]
+      }
+      return { ...state, shoppingList: newShoppingList}
 
     /** USER DATA **/
     case constants.REQUEST_USER_DATA:
