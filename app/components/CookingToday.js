@@ -40,7 +40,8 @@ CookingToday.propTypes = {
     sourceUrl: React.PropTypes.string.isRequired,
     missedIngredients: React.PropTypes.arrayOf(
       React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired
+        name: React.PropTypes.string.isRequired,
+        image: React.PropTypes.string.isRequired
       }).isRequired
     ).isRequired
   }).isRequired,

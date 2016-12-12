@@ -30,12 +30,17 @@ class Ingredient extends React.Component {
 
   render() {
     const imgBaseURL = 'https://spoonacular.com/cdn/ingredients_100x100/'
-    const imageURL = imgBaseURL + this.props.ingredient.image
     const name = this.props.ingredient.name
     const dataPlacement = this.props.display === 'index' ? 'right' : 'left'
     const buttonClass = this.props.ingredient.isAdded ? 'added' : ''
     const tooltipHTML = '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div>' +
       '<div class="tooltip-inner success"></div></div>'
+
+    let imageURL = this.props.ingredient.image
+    if (imageURL.length < 48) {
+      imageURL = imgBaseURL + this.props.ingredient.image
+    }
+
     return (
       <li
         className="media ingredient"

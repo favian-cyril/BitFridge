@@ -10,7 +10,8 @@ const CookingTodayIngredient = props => {
 CookingTodayIngredient.propTypes = {
   id: React.PropTypes.number.isRequired,
   ingredient: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired
+    name: React.PropTypes.string.isRequired,
+    image: React.PropTypes.string.isRequired
   }).isRequired
 }
 
