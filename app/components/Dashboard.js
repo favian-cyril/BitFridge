@@ -52,6 +52,7 @@ const Dashboard = (props, context) => (
               retryRecipes={props.refreshRecipes}
               errorType={props.errorType.recipes}
               recipes={props.recipes}
+              favorites={props.favorites}
             />
           </div>
         </div>
@@ -83,7 +84,8 @@ Dashboard.propTypes = {
   clearCookToday: React.PropTypes.func.isRequired,
   fridge: React.PropTypes.object.isRequired,
   cookingToday: React.PropTypes.object.isRequired,
-  recipes: React.PropTypes.object.isRequired
+  recipes: React.PropTypes.object.isRequired,
+  favorites: React.PropTypes.object.isRequired
 }
 
 // Default props for cloned children
@@ -91,6 +93,7 @@ Dashboard.defaultProps = {
   fridge: {},
   cookingToday: {},
   recipes: {},
+  favorites: {},
   updateFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},

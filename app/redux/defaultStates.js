@@ -46,6 +46,8 @@ export default {
     fridge: '',
     recipes: '',
     cookingToday: '',
+    shoppingList: '',
+    favorites: '',
     userData: ''
   }
 }

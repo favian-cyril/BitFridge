@@ -24,8 +24,8 @@ class RecipeList extends React.Component {
     this.props.retryRecipes()
   }
 
-  handleToggleFavorite() {
-    this.props.toggleFavorite()
+  handleToggleFavorite(recipe) {
+    this.props.toggleFavorite(recipe)
   }
 
   handleAddToCookingToday(recipe) {
@@ -129,13 +129,12 @@ class RecipeList extends React.Component {
 
 RecipeList.propTypes = {
   isLoading: React.PropTypes.bool.isRequired,
-  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
   errorType: React.PropTypes.string,
   recipes: React.PropTypes.object.isRequired,
-  parent: React.PropTypes.oneOf(['result', 'favorite'])
+  parent: React.PropTypes.string.isRequired
 }
 
 export default RecipeList
