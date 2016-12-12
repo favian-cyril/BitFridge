@@ -9,7 +9,8 @@ var userSchema = new Schema({
   google: { type: Object, default: {} },
   fridge: { type: Array, default: [] },
   cookingToday: { type: Array, default: [] },
-  shoppingCart: { type: Array, default: [] }
+  shoppingList: { type: Array, default: [] },
+  favorites: { type: Array, default: [] }
 })
 
 userSchema.methods.addToFridge = function (ingredient, cb) {

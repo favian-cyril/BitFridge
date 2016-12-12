@@ -82,6 +82,13 @@ export const checkShoppingListItem = (ingredient, idName) => ({
 export const updateShoppingList = () => ({
   type: constants.UPDATE_SHOPPING_LIST
 })
+
+/** FAVORITES **/
+export const toggleFavorite = recipe => ({
+  type: constants.TOGGLE_FAVORITE,
+  recipe
+})
+
 /** USER DATA **/
 export const requestUserData = timestamp => ({
   type: constants.REQUEST_USER_DATA,
@@ -227,15 +234,12 @@ export const initialSetup = pathname => {
 /* TODO: NOTE: Suffering hopefully has ended by the time this method works */
 
 export const mapStateToUserData = (dispatch, getState) => {
-  const { fridge, cookingToday, shoppingList, userData } = getState()
-  const newFridge = fridge.contents
-  const newCookingToday = cookingToday.contents
-  const newShoppingList = shoppingList.contents
-  const newUser = {
+  const { fridge, cookingToday, shoppingList, favorites, userData } = getState()
+  return {
     ...userData.user,
-    fridge: newFridge,
-    cookingToday: newCookingToday,
-    shoppingList: newShoppingList
+    fridge: fridge.contents,
+    cookingToday: cookingToday.contents,
+    shoppingList: shoppingList.contents,
+    favorites: favorites.contents
   }
-  return newUser
 }
