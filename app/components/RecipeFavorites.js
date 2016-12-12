@@ -5,12 +5,6 @@ import RecipeList from '../components/RecipeList'
 class RecipeFavorites extends React.Component {
   constructor(props) {
     super(props)
-    this.handleToggleTab = this.handleToggleTab.bind(this)
-    this.handleToggleTab = throttle(this.handleToggleTab, 500, {leading: true})
-  }
-
-  handleToggleTab(e) {
-    window.showTab(e.target)
   }
 
   render() {
@@ -23,7 +17,6 @@ class RecipeFavorites extends React.Component {
               onMouseDown={e => e.preventDefault()}
             >
               <a
-                onClick={this.handleToggleTab}
                 className="nav-link active"
                 data-toggle="tab"
                 href="#recipe-results"
