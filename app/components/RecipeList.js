@@ -10,6 +10,7 @@ class RecipeList extends React.Component {
     super(props)
     this.handleMoreRecipes = this.handleMoreRecipes.bind(this)
     this.handleRetryRecipes = this.handleRetryRecipes.bind(this)
+    this.handleToggleFavorite = this.handleToggleFavorite.bind(this)
     this.handleAddToCookingToday = this.handleAddToCookingToday.bind(this)
     this.handleMoreRecipes = throttle(this.handleMoreRecipes, 500, { leading: true })
   }
@@ -23,6 +24,10 @@ class RecipeList extends React.Component {
     this.props.retryRecipes()
   }
 
+  handleToggleFavorite() {
+    this.props.toggleFavorite()
+  }
+
   handleAddToCookingToday(recipe) {
     this.props.addCookToday(recipe)
     uiUtils.anims.scrollDown('.cooking-today-content.list-wrapper')
@@ -30,7 +35,12 @@ class RecipeList extends React.Component {
 
   render() {
     let results = this.props.recipes.contents.map((item, i) =>
-      <Recipe key={i} recipe={item} addCookToday={this.handleAddToCookingToday}/>
+      <Recipe
+        key={i}
+        recipe={item}
+        toggleFavorite={this.handleToggleFavorite}
+        addCookToday={this.handleAddToCookingToday}
+      />
     )
     if (this.props.isLoading && this.props.recipes.contents.length === 0) {
       results = <Preloader/>
@@ -119,6 +129,7 @@ class RecipeList extends React.Component {
 
 RecipeList.propTypes = {
   isLoading: React.PropTypes.bool.isRequired,
+  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,

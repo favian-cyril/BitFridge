@@ -46,6 +46,7 @@ const Dashboard = (props, context) => (
           <div className="row">
             <RecipeFavorites
               isLoading={props.recipes.isLoading}
+              toggleFavorite={props.toggleFavorite}
               addCookToday={props.addToCookingToday}
               moreRecipes={props.fetchMoreRecipes}
               retryRecipes={props.refreshRecipes}
@@ -63,6 +64,7 @@ Dashboard.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
+  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
   toggleCookingToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
@@ -92,6 +94,7 @@ Dashboard.defaultProps = {
   updateFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
+  toggleFavorite: () => {},
   addCookToday: () => {},
   toggleCookingToday: () => {},
   clearCookToday: () => {},

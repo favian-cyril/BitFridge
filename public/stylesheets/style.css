@@ -118,7 +118,6 @@ div.card-block.recipe-card .nav-link:hover {
   z-index: 2;
   top: 10px;
   right: 15px;
-  color: white;
 }
 
 span.fa-star { color: yellow; }

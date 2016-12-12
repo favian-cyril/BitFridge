@@ -62,11 +62,12 @@ Recipe.propTypes = {
     ).isRequired
   }).isRequired,
   favorite: React.PropTypes.bool.isRequired,
+  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired
 }
 
 Recipe.defaultProps = {
-  favorite: true
+  favorite: false
 }
 
 export default Recipe
