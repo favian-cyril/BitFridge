@@ -2,7 +2,7 @@ import React from 'react'
 import CookingTodayList from './CookingTodayList'
 import FridgeShop from './FridgeShop'
 import NavUser from './NavUser'
-import RecipeResults from './RecipeResults'
+import RecipeFavorites from './RecipeFavorites'
 import SearchContainer from './Search'
 
 const Dashboard = (props, context) => (
@@ -45,13 +45,15 @@ const Dashboard = (props, context) => (
         </div>
         <div className="col-sm-7 col-lg-6">
           <div className="row">
-            <RecipeResults
+            <RecipeFavorites
               isLoading={props.recipes.isLoading}
+              toggleFavorite={props.toggleFavorite}
               addCookToday={props.addToCookingToday}
               moreRecipes={props.fetchMoreRecipes}
               retryRecipes={props.refreshRecipes}
               errorType={props.errorType.recipes}
               recipes={props.recipes}
+              favorites={props.favorites}
             />
           </div>
         </div>
@@ -64,6 +66,7 @@ Dashboard.propTypes = {
   updateFridge: React.PropTypes.func.isRequired,
   moreRecipes: React.PropTypes.func.isRequired,
   retryRecipes: React.PropTypes.func.isRequired,
+  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired,
   toggleCookingToday: React.PropTypes.func.isRequired,
   isLoading: React.PropTypes.bool.isRequired,
@@ -82,7 +85,8 @@ Dashboard.propTypes = {
   clearCookToday: React.PropTypes.func.isRequired,
   fridge: React.PropTypes.object.isRequired,
   cookingToday: React.PropTypes.object.isRequired,
-  recipes: React.PropTypes.object.isRequired
+  recipes: React.PropTypes.object.isRequired,
+  favorites: React.PropTypes.object.isRequired
 }
 
 // Default props for cloned children
@@ -90,9 +94,11 @@ Dashboard.defaultProps = {
   fridge: {},
   cookingToday: {},
   recipes: {},
+  favorites: {},
   updateFridge: () => {},
   moreRecipes: () => {},
   retryRecipes: () => {},
+  toggleFavorite: () => {},
   addCookToday: () => {},
   toggleCookingToday: () => {},
   clearCookToday: () => {},

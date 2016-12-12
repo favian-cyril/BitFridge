@@ -92,6 +92,12 @@ h5.card-title span.bf, a.nav-link span.bf {
 /* RECIPE CONTAINER */
 div.card-block.recipe-card {
   background-color: #e7e7e7;
+  padding: 10px 10px 0px 10px;
+  border-bottom: none;
+}
+
+div.card-block.recipe-card .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .recipe-list-wrapper {
@@ -101,6 +107,34 @@ div.card-block.recipe-card {
 
 .recipe-list-wrapper > ul {
   height: 100%;
+}
+
+.recipe-list-wrapper .media-left {
+  position: relative;
+}
+
+.recipe-list-wrapper .media-left img {
+  position: relative;
+  z-index: 1;
+}
+
+.recipe-list-wrapper .media-left span.fa {
+  position: absolute;
+  z-index: 2;
+  top: 3vh;
+  right: 5vh;
+}
+
+span.fa-star {
+  color: #ffcc0a;
+}
+
+span.fa-star-o {
+  color: white;
+}
+
+span.fa-star-o:hover {
+  color: #ffcc0a;
 }
 
 .btn-group-vertical > [class*='btn-'] {

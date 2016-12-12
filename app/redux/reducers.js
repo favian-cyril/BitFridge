@@ -7,7 +7,7 @@ import constants from './constants'
 
 function reducer(state = defaults, action) {
   let newSearch, newFridge, newRecipes, newCookingToday, newShoppingList,
-    newContents, newUserData, newErrorType, newState
+    newFavorites, newContents, newUserData, newErrorType, newState
   switch (action.type) {
 
     /** SEARCH **/
@@ -48,7 +48,8 @@ function reducer(state = defaults, action) {
       let message
       switch (action.ingredient.isAdded) {
         case false:
-          newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
+          newContents = [ ...state.fridge.contents, { ...action.ingredient, isAdded: true } ]
+          newContents = _.uniqBy(newContents, 'id')
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Added to fridge!'
           uiUtils.tooltips.showTooltip(
@@ -107,20 +108,17 @@ function reducer(state = defaults, action) {
     case constants.ADD_TO_COOKING_TODAY:
       newRecipes = action.recipe
       if (state.cookingToday.contents.findIndex((i) => (i.id === newRecipes.id))) {
-        newRecipes.ingredients = _.concat(action.recipe.missedIngredients, action.recipe.usedIngredients)
+        newRecipes.ingredients = [ ...action.recipe.missedIngredients, ...action.recipe.usedIngredients ]
         newRecipes.ingredients.forEach((used, j) => {
           var index = newRecipes.usedIngredients.findIndex((i) => (i.id === used.id))
-          if (index === -1) {
-              newRecipes.ingredients[j].isInFridge = false
-          } else {
-              newRecipes.ingredients[j].isInFridge = true
-          }
-          }
-        )
+          newRecipes.ingredients[j].isInFridge = index === -1 ? false : true
+        })
         newContents = [...state.cookingToday.contents, newRecipes]
         newContents = _.uniqBy(newContents, 'id')
         newCookingToday = { ...state.cookingToday, contents: newContents }
         return { ...state, cookingToday: newCookingToday }
+      } else {
+        return state
       }
 
     case constants.TOGGLE_COOKING_TODAY:
@@ -154,6 +152,36 @@ function reducer(state = defaults, action) {
       })
       newCookingToday = { ...state.cookingToday, contents: newContents }
       return { ...state, cookingToday: newCookingToday }
+    
+    /** FAVORITES **/
+    case constants.TOGGLE_FAVORITE:
+      switch (action.recipe.isFavorite) {
+        case false:
+          newContents = [ ...state.favorites.contents, { ...action.recipe, isFavorite: true } ]
+          newContents = _.uniqBy(newContents, 'id')
+          newFavorites = { contents: newContents }
+          return { ...state, favorites: newFavorites }
+        case true:
+          const index = _.findIndex(state.favorites.contents,
+            i => i.id === action.recipe.id)
+          newContents = [
+            ...state.favorites.contents.slice(0, index),
+            ...state.favorites.contents.slice(index + 1)
+          ]
+          newFavorites = { ...state.favorites, contents: newContents }
+          return { ...state, favorites: newFavorites, message }
+        default: return state  // not gonna happen unless errored
+      }
+      
+      
+      newFavorites = {
+        ...state.favorites,
+        contents: [ 
+          ...state.favorites.contents,
+          action.recipe
+        ]
+      }
+      return { ...state, favorites: newFavorites }
 
     /** SHOPPING LIST **/
     case constants.ADD_SHOPPING_LIST:
@@ -218,13 +246,13 @@ function reducer(state = defaults, action) {
 
     case constants.RECEIVE_USER_DATA:
       const userObject = action.user
-      console.log({ userObject })
       newUserData = { ...state.userData, isLoading: false, user: userObject }
       newState = {
         ...state,
         userData: newUserData,
         fridge: { ...state.fridge, contents: userObject.fridge },
-        cookingToday: { ...state.cookingToday, contents: userObject.cookingToday }
+        cookingToday: { ...state.cookingToday, contents: userObject.cookingToday },
+        favorites: { contents: userObject.favorites }
       }
       return newState
 
