@@ -198,10 +198,12 @@ function reducer(state = defaults, action) {
       return { ...state, fridge: newFridge, shoppingList: newShoppingList }
 
     case constants.UPDATE_SHOPPING_LIST:
-      newContents = _.differenceBy(state.shoppingList.contents, state.fridge.contents, 'id')
+      const temp = state.shoppingList.contents
+      newContents = _.differenceBy(temp, state.fridge.contents, 'id')
+      newContents = _.uniqBy(newContents, 'id')
       newShoppingList = {
         ...state.shoppingList,
-        contents: newContents
+        contents: [ ...newContents ]
       }
       return { ...state, shoppingList: newShoppingList}
 

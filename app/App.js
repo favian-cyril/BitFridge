@@ -44,7 +44,8 @@ class App extends React.Component {
      */
     const {
       transitionDisplay, refreshRecipes,
-      updateMissingCookingToday, syncUserData
+      updateMissingCookingToday, updateShoppingList,
+      syncUserData
     } = this.props
 
     if (this.hasChanged(this.props.fridge, nextProps.fridge)) {
