@@ -54,7 +54,7 @@ class App extends React.Component {
         this.props.display === 'index' && nextFridgeLength > currentFridgeLength) {
         transitionDisplay(this.props.pathname)
       }
-      Promise.all([refreshRecipes(), updateMissingCookingToday()]).then(syncUserData)
+      Promise.all([refreshRecipes(), updateMissingCookingToday(), updateShoppingList()]).then(syncUserData)
     }
     if (this.hasChanged(this.props.cookingToday, nextProps.cookingToday)) {
       syncUserData()

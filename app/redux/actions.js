@@ -79,6 +79,9 @@ export const checkShoppingListItem = (ingredient, idName) => ({
   idName
 })
 
+export const updateShoppingList = () => ({
+  type: constants.UPDATE_SHOPPING_LIST
+})
 /** USER DATA **/
 export const requestUserData = timestamp => ({
   type: constants.REQUEST_USER_DATA,
