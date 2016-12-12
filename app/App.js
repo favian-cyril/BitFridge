@@ -59,6 +59,9 @@ class App extends React.Component {
     if (this.hasChanged(this.props.cookingToday, nextProps.cookingToday)) {
       syncUserData()
     }
+    if (this.hasChanged(this.props.favorites, nextProps.favorites)) {
+      syncUserData()
+    }
   }
 
   hasChanged(obj, nextObj) {

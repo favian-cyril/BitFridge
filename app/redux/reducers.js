@@ -48,7 +48,7 @@ function reducer(state = defaults, action) {
       let message
       switch (action.ingredient.isAdded) {
         case false:
-          newContents = [...state.fridge.contents, { ...action.ingredient, isAdded: true }]
+          newContents = [ ...state.fridge.contents, { ...action.ingredient, isAdded: true } ]
           newContents = _.uniqBy(newContents, 'id')
           newFridge = { ...state.fridge, contents: newContents }
           message = 'Added to fridge!'
@@ -110,7 +110,6 @@ function reducer(state = defaults, action) {
       newRecipes.ingredients = _.concat(action.recipe.missedIngredients, action.recipe.usedIngredients)
       newRecipes.usedIngredients.forEach((used) => {
         var index = newRecipes.ingredients.findIndex((i) => (i.id === used.id))
-        console.log(index)
         if (index >= 0) {
           newRecipes.ingredients[index].isInFridge = true
         }
@@ -152,6 +151,25 @@ function reducer(state = defaults, action) {
     
     /** FAVORITES **/
     case constants.TOGGLE_FAVORITE:
+      switch (action.recipe.isFavorite) {
+        case false:
+          newContents = [ ...state.favorites.contents, { ...action.recipe, isFavorite: true } ]
+          newContents = _.uniqBy(newContents, 'id')
+          newFavorites = { contents: newContents }
+          return { ...state, favorites: newFavorites }
+        case true:
+          const index = _.findIndex(state.favorites.contents,
+            i => i.id === action.recipe.id)
+          newContents = [
+            ...state.favorites.contents.slice(0, index),
+            ...state.favorites.contents.slice(index + 1)
+          ]
+          newFavorites = { ...state.favorites, contents: newContents }
+          return { ...state, favorites: newFavorites, message }
+        default: return state  // not gonna happen unless errored
+      }
+      
+      
       newFavorites = {
         ...state.favorites,
         contents: [ 
@@ -172,13 +190,13 @@ function reducer(state = defaults, action) {
 
     case constants.RECEIVE_USER_DATA:
       const userObject = action.user
-      console.log({ userObject })
       newUserData = { ...state.userData, isLoading: false, user: userObject }
       newState = {
         ...state,
         userData: newUserData,
         fridge: { ...state.fridge, contents: userObject.fridge },
-        cookingToday: { ...state.cookingToday, contents: userObject.cookingToday }
+        cookingToday: { ...state.cookingToday, contents: userObject.cookingToday },
+        favorites: { contents: userObject.favorites }
       }
       return newState
 

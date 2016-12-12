@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Recipe = props => {
-  const isFavorite = props.favorite ? '' : '-o'
+  const isFavorite = props.recipe.isFavorite ? '' : '-o'
   const missing = props.recipe.missedIngredients.map(item => item.name)
   let missingStr
   if (missing) {
@@ -61,13 +61,8 @@ Recipe.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
-  favorite: React.PropTypes.bool.isRequired,
   toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired
-}
-
-Recipe.defaultProps = {
-  favorite: false
 }
 
 export default Recipe

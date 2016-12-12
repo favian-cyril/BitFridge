@@ -45,6 +45,7 @@ const RecipeFavorites = props => (
           toggleFavorite={props.toggleFavorite}
           errorType={props.errorType.recipes}
           recipes={props.recipes}
+          favorites={props.favorites}
           parent="result"
         />
       </div>

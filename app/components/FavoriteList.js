@@ -22,14 +22,16 @@ class FavoriteList extends React.Component {
   }
 
   render() {
-    const results = this.props.recipes.contents.map((item, i) =>
-      <Recipe
-        key={i}
-        recipe={item}
-        toggleFavorite={this.handleToggleFavorite}
-        addCookToday={this.handleAddToCookingToday}
-      />
-    )
+    const results = this.props.recipes.contents.map((item, i) => {
+      return (
+        <Recipe
+          key={i}
+          recipe={item}
+          toggleFavorite={this.handleToggleFavorite}
+          addCookToday={this.handleAddToCookingToday}
+        />
+      )
+    })
     return (
       <div>
         <div className="recipe-list-wrapper">

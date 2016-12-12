@@ -34,14 +34,18 @@ class RecipeList extends React.Component {
   }
 
   render() {
-    let results = this.props.recipes.contents.map((item, i) =>
-      <Recipe
-        key={i}
-        recipe={item}
-        toggleFavorite={this.handleToggleFavorite}
-        addCookToday={this.handleAddToCookingToday}
-      />
-    )
+    let results = this.props.recipes.contents.map((item, i) => {
+      const favoriteList = this.props.favorites.contents.map(r => r.id)
+      item.isFavorite = favoriteList.includes(item.id) ? true : false
+      return (
+        <Recipe
+          key={i}
+          recipe={item}
+          toggleFavorite={this.handleToggleFavorite}
+          addCookToday={this.handleAddToCookingToday}
+        />
+      )
+    })
     if (this.props.isLoading && this.props.recipes.contents.length === 0) {
       results = <Preloader/>
     } else if (this.props.isLoading && this.props.recipes.contents.length > 0) {
@@ -134,6 +138,7 @@ RecipeList.propTypes = {
   retryRecipes: React.PropTypes.func.isRequired,
   errorType: React.PropTypes.string,
   recipes: React.PropTypes.object.isRequired,
+  favorites: React.PropTypes.object.isRequired,
   parent: React.PropTypes.string.isRequired
 }
 

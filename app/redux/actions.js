@@ -219,13 +219,11 @@ export const initialSetup = pathname => {
 /* TODO: NOTE: Suffering hopefully has ended by the time this method works */
 
 export const mapStateToUserData = (dispatch, getState) => {
-  const { fridge, cookingToday, userData } = getState()
-  const newFridge = fridge.contents.map(f => f)
-  const newCookingToday = cookingToday.contents.map(c => c)
-  const newUser = {
+  const { fridge, cookingToday, favorites, userData } = getState()
+  return {
     ...userData.user,
-    fridge: newFridge,
-    cookingToday: newCookingToday
+    fridge: fridge.contents,
+    cookingToday: cookingToday.contents,
+    favorites: favorites.contents
   }
-  return newUser
 }

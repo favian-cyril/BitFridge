@@ -120,9 +120,17 @@ div.card-block.recipe-card .nav-link:hover {
   right: 5vh;
 }
 
-span.fa-star { color: yellow; }
+span.fa-star {
+  color: #ffcc0a;
+}
 
-span.fa-star-o { color: white; }
+span.fa-star-o {
+  color: white;
+}
+
+span.fa-star-o:hover {
+  color: #ffcc0a;
+}
 
 .btn-group-vertical > [class*='btn-'] {
   width: 100%;
