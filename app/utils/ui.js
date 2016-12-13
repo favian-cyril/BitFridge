@@ -2,7 +2,6 @@ import $ from 'jquery'
 
 const scrollDown = classSelector => {
   const element = $(classSelector)
-  console.log(element[0])
   if (element[0]) {
     element.animate(
       { scrollTop: element[0].scrollHeight },
@@ -12,7 +11,6 @@ const scrollDown = classSelector => {
 }
 
 const showTooltip = (idName, message) => {
-  console.log(idName)
   window.showTooltip($(`#${idName}`))
   $('.tooltip-inner').last().html(message)
 }

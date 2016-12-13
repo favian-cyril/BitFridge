@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Recipe = props => {
+  const isFavorite = props.recipe.isFavorite ? '' : '-o'
   const missing = props.recipe.missedIngredients.map(item => item.name)
   let missingStr
   if (missing) {
@@ -10,6 +11,7 @@ const Recipe = props => {
       missingStr = `${missingStr} +${number} more`
     }
   }
+
   return (
     <li className="media ingredient">
       <div className="media-left media-middle">
@@ -20,6 +22,10 @@ const Recipe = props => {
           width="90"
           height="90"
         />
+        <span
+          onClick={() => { props.toggleFavorite(props.recipe) }}
+          className={`fa fa-lg fa-star${isFavorite}`}
+        ></span>
       </div>
       <div className="media-body">
         <h5 className="media-heading">{props.recipe.title}</h5>
@@ -55,6 +61,7 @@ Recipe.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
+  toggleFavorite: React.PropTypes.func.isRequired,
   addCookToday: React.PropTypes.func.isRequired
 }
 

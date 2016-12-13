@@ -33,6 +33,9 @@ export default {
     contents: [],
     isLoading: false
   },
+  favorites: {
+    contents: []
+  },
   userData: {
     isLoading: false,
     didInvalidate: false,
@@ -47,6 +50,8 @@ export default {
     fridge: '',
     recipes: '',
     cookingToday: '',
+    shoppingList: '',
+    favorites: '',
     userData: ''
   }
 }
