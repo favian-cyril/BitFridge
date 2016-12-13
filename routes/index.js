@@ -16,12 +16,14 @@ router.get('/', function (req, res, next) {
     newUser.save(function (err, product, numAffected) {
       if (!err) {
         console.log(`Successfully added user ${newUser.name}.`)
+        res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
       } else {
         next(err)
       }
     })
+  } else {
+    res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
   }
-  res.render('index', { title: 'BitFridge', _csrfToken: req.csrfToken(), baseurl: baseurl })
 })
 
 router.get('/dash', function (req, res, next) {
