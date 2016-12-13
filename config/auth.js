@@ -35,7 +35,7 @@ function logIn (req, profile, accountType, cb) {
   const email = profile.emails[0].value
   User.findOne({ [accountEmail]: email }, function (err, user) {
     if (err) {
-      cb(err)
+      next(err)
     } else if (!user) {
       cb(new Error(`User with email ${email} not found.`))
     } else {
