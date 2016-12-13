@@ -19,8 +19,6 @@ const NavUser = props => {
   const popoverLogout = (
     <Popover id="popover-logout" style={{ marginTop : 4 }}>
       <div className="list-group">
-        <a className="list-group-item list-group-item-action" href="#">History</a>
-        <a className="list-group-item list-group-item-action" href="#">My Recipes</a>
         <a className="list-group-item list-group-item-action active" href="/logout">Log Out</a>
       </div>
     </Popover>
