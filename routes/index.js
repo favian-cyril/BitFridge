@@ -5,7 +5,7 @@ var router = express.Router()
 var User = require('../models').user
 
 const baseurl = process.env.NODE_ENV === 'production'
-  ? 'http://188.166.247.122/api/'
+  ? 'http://188.166.247.122:3000/api/'
   : 'http://localhost:3000/api/'
 
 /* GET home page. */
