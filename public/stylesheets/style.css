@@ -121,8 +121,8 @@ div.card-block.recipe-card .nav-link:hover {
 .recipe-list-wrapper .media-left span.fa {
   position: absolute;
   z-index: 2;
-  top: 3vh;
-  right: 5vh;
+  top: 2vh;
+  right: 3vh;
 }
 
 span.fa-star {
