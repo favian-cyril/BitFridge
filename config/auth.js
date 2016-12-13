@@ -2,6 +2,7 @@ var FacebookStrategy = require('passport-facebook').Strategy
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 var User = require('../models').user
 
+const baseUrl = process.env.NODE_ENV === 'production' ? '188.166.247.122' : 'localhost'
 
 function signUp (req, profile, accountType, cb) {
   User.findOne({ id: req.session.user.id }, function (err, user) {
@@ -75,14 +76,14 @@ module.exports = {
   facebookStrategy: new FacebookStrategy({
     clientID: process.env.FB_APP_ID,
     clientSecret: process.env.FB_APP_SECRET,
-    callbackURL: 'http://localhost:3000/login/facebook/return',
+    callbackURL: `http://${baseUrl}:3000/login/facebook/return`,
     profileFields: ['name', 'email', 'picture'],
     passReqToCallback: true
   }, verificationCallback('facebook')),
   googleStrategy: new GoogleStrategy({
     clientID: process.env.GOOGLE_APP_ID,
     clientSecret: process.env.GOOGLE_APP_SECRET,
-    callbackURL: 'http://localhost:3000/login/google/return',
+    callbackURL: `http://${baseUrl}:3000/login/google/return`,
     passReqToCallback: true
   }, verificationCallback('google'))
 }
